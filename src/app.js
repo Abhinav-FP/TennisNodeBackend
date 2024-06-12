@@ -7,7 +7,12 @@ const corsOptions = {
 }; 
 
 const app = express();
-
+app.get("/", (req, res) => {
+  res.json({
+    msg:'Okay',
+    status:200
+  })
+});
 // Apply CORS middleware
 app.use(cors(corsOptions));
 
