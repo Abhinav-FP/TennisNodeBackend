@@ -1,0 +1,434 @@
+2024-06-04T04:51:43.878Z [INFO]: Server listening at http://localhost:3000
+2024-06-04T04:57:03.505Z [INFO]: Received request to process PDF from URL: https://aitatennis.com/management/upload/ranking/2024-05-06_BU-16.pdf
+2024-06-04T04:57:06.700Z [INFO]: Finished processing PDF
+2024-06-04T04:57:16.644Z [INFO]: Received request to process PDF from URL: https://aitatennis.com/management/upload/ranking/2024-05-20_BU-14.pdf
+2024-06-04T04:57:18.820Z [INFO]: Finished processing PDF
+2024-06-04T05:04:11.462Z [INFO]: Received request to process PDF from URL: https://aitatennis.com/management/upload/ranking/2024-05-20_BU-16.pdf
+2024-06-04T05:04:13.946Z [INFO]: Finished processing PDF
+2024-06-04T05:09:15.328Z [INFO]: Received request to process PDF from URL: https://aitatennis.com/management/upload/ranking/2021-06-14_WS 50 .pdf
+2024-06-04T05:09:15.557Z [ERROR]: Invalid URL: https://aitatennis.com/management/upload/ranking/2021-06-14_WS 50 .pdf
+2024-06-04T05:09:15.558Z [ERROR]: Request failed: Invalid URL
+2024-06-04T05:09:40.181Z [INFO]: Received request to process PDF from URL: https://aitatennis.com/management/upload/ranking/2021-06-14_WS 50 .pdf
+2024-06-04T05:09:40.427Z [ERROR]: Invalid URL: https://aitatennis.com/management/upload/ranking/2021-06-14_WS 50 .pdf
+2024-06-04T05:09:40.428Z [ERROR]: Request failed: Invalid URL
+2024-06-04T05:10:16.582Z [INFO]: Received request to process PDF from URL: https://aitatennis.com/management/upload/ranking/2021-06-14_WD 35 .pdf
+2024-06-04T05:10:16.844Z [ERROR]: Invalid URL: https://aitatennis.com/management/upload/ranking/2021-06-14_WD 35 .pdf
+2024-06-04T05:10:16.845Z [ERROR]: Request failed: Invalid URL
+2024-06-04T05:10:47.555Z [INFO]: Received request to process PDF from URL: https://aitatennis.com/management/upload/ranking/2024-05-20_WD.pdf
+2024-06-04T05:10:48.447Z [INFO]: Finished processing PDF
+2024-06-04T05:31:10.367Z [INFO]: Received request to process PDF from URL: https://aitatennis.com/management/upload/ranking/2024-05-20_BU-16.pdf
+2024-06-04T05:31:12.622Z [INFO]: Finished processing PDF
+2024-06-04T05:31:16.842Z [INFO]: Received request to process PDF from URL: https://aitatennis.com/management/upload/ranking/2024-05-20_BU-16.pdf
+2024-06-04T05:31:18.754Z [INFO]: Finished processing PDF
+2024-06-04T05:31:30.200Z [INFO]: Server listening at http://localhost:3000
+2024-06-04T05:32:01.515Z [INFO]: Received request to process PDF from URL: https://aitatennis.com/management/upload/ranking/2024-05-20_BU-16.pdf
+2024-06-04T05:32:04.174Z [INFO]: Finished processing PDF
+2024-06-04T05:39:03.579Z [INFO]: Received request to process PDF from URL: https://aitatennis.com/management/upload/ranking/2021-06-14_WS 35 .pdf
+2024-06-04T05:39:03.822Z [ERROR]: Invalid URL: https://aitatennis.com/management/upload/ranking/2021-06-14_WS 35 .pdf
+2024-06-04T05:39:03.823Z [ERROR]: Request failed: Invalid URL
+2024-06-04T05:41:50.944Z [INFO]: Received request to process PDF from URL: https://aitatennis.com/management/upload/ranking/2021-06-07_50 SINGLES.pdf
+2024-06-04T05:41:51.265Z [ERROR]: Invalid URL: https://aitatennis.com/management/upload/ranking/2021-06-07_50 SINGLES.pdf
+2024-06-04T05:41:51.266Z [ERROR]: Request failed: Invalid URL
+2024-06-04T05:42:01.241Z [INFO]: Received request to process PDF from URL: https://aitatennis.com/management/upload/ranking/2021-06-07_50 SINGLES.pdf
+2024-06-04T05:42:01.471Z [ERROR]: Invalid URL: https://aitatennis.com/management/upload/ranking/2021-06-07_50 SINGLES.pdf
+2024-06-04T05:42:01.472Z [ERROR]: Request failed: Invalid URL
+2024-06-04T05:42:40.056Z [INFO]: Received request to process PDF from URL: https://aitatennis.com/management/upload/ranking/2024-05-20_MD.pdf
+2024-06-04T05:42:41.779Z [INFO]: Finished processing PDF
+2024-06-04T06:04:06.819Z [INFO]: Received request to process PDF from URL: https://www.w3.org/WAI/WCAG21/working-examples/pdf-table/table.pdf
+2024-06-04T06:04:09.822Z [INFO]: Finished processing PDF
+2024-06-04T06:08:04.531Z [INFO]: Received request to process PDF from URL: https://aitatennis.com/management/upload/ranking/2021-06-07_65 SINGLES.pdf
+2024-06-04T06:08:04.767Z [ERROR]: Invalid URL: https://aitatennis.com/management/upload/ranking/2021-06-07_65 SINGLES.pdf
+2024-06-04T06:08:04.768Z [ERROR]: Request failed: Invalid URL
+2024-06-04T06:08:33.294Z [INFO]: Received request to process PDF from URL: https://aitatennis.com/management/upload/ranking/2024-05-20_WHEELCHAIR MD.pdf
+2024-06-04T06:08:33.813Z [INFO]: Finished processing PDF
+2024-06-04T06:10:12.265Z [INFO]: Server listening at http://localhost:3000
+2024-06-04T06:10:19.250Z [INFO]: Received request to process PDF from URL: https://aitatennis.com/management/upload/ranking/2024-05-20_WHEELCHAIR MD.pdf
+2024-06-04T06:10:20.721Z [INFO]: Finished processing PDF
+2024-06-04T06:10:34.538Z [INFO]: Received request to process PDF from URL: https://aitatennis.com/management/upload/ranking/2021-06-07_65 SINGLES.pdf
+2024-06-04T06:10:34.797Z [ERROR]: Invalid URL: https://aitatennis.com/management/upload/ranking/2021-06-07_65 SINGLES.pdf
+2024-06-04T06:10:34.798Z [ERROR]: Request failed: Invalid URL
+2024-06-04T06:10:35.432Z [INFO]: Received request to process PDF from URL: https://aitatennis.com/management/upload/ranking/2021-06-07_65 SINGLES.pdf
+2024-06-04T06:10:35.639Z [ERROR]: Invalid URL: https://aitatennis.com/management/upload/ranking/2021-06-07_65 SINGLES.pdf
+2024-06-04T06:10:35.640Z [ERROR]: Request failed: Invalid URL
+2024-06-04T06:10:36.296Z [INFO]: Received request to process PDF from URL: https://aitatennis.com/management/upload/ranking/2021-06-07_65 SINGLES.pdf
+2024-06-04T06:10:36.526Z [ERROR]: Invalid URL: https://aitatennis.com/management/upload/ranking/2021-06-07_65 SINGLES.pdf
+2024-06-04T06:10:36.527Z [ERROR]: Request failed: Invalid URL
+2024-06-04T06:11:03.944Z [INFO]: Received request to process PDF from URL: https://aitatennis.com/management/upload/ranking/2024-05-20_WS.pdf
+2024-06-04T06:11:05.311Z [INFO]: Finished processing PDF
+2024-06-04T06:11:16.732Z [INFO]: Server listening at http://localhost:3000
+2024-06-04T06:11:19.230Z [INFO]: Received request to process PDF from URL: https://aitatennis.com/management/upload/ranking/2024-05-20_WS.pdf
+2024-06-04T06:11:20.810Z [INFO]: Finished processing PDF
+2024-06-04T06:12:13.067Z [INFO]: Received request to process PDF from URL: https://aitatennis.com/management/upload/ranking/2021-06-07_35 SINGLES.pdf
+2024-06-04T06:12:13.341Z [ERROR]: Invalid URL: https://aitatennis.com/management/upload/ranking/2021-06-07_35 SINGLES.pdf
+2024-06-04T06:12:13.342Z [ERROR]: Request failed: Invalid URL
+2024-06-04T06:13:26.180Z [INFO]: Server listening at http://localhost:3000
+2024-06-04T06:13:30.662Z [INFO]: Received request to process PDF from URL: https://aitatennis.com/management/upload/ranking/2024-05-20_WS.pdf
+2024-06-04T06:13:32.051Z [INFO]: Finished processing PDF
+2024-06-04T06:13:34.180Z [INFO]: Received request to process PDF from URL: https://aitatennis.com/management/upload/ranking/2024-05-20_WS.pdf
+2024-06-04T06:13:34.906Z [INFO]: Finished processing PDF
+2024-06-04T06:13:36.857Z [INFO]: Received request to process PDF from URL: https://aitatennis.com/management/upload/ranking/2021-06-07_65 SINGLES.pdf
+2024-06-04T06:14:11.504Z [INFO]: Server listening at http://localhost:3000
+2024-06-04T06:14:46.067Z [INFO]: Received request to process PDF from URL: https://aitatennis.com/management/upload/ranking/2024-05-20_WS.pdf
+2024-06-04T06:14:47.769Z [INFO]: Finished processing PDF
+2024-06-04T06:18:58.131Z [INFO]: Received request to process PDF from URL: https://aitatennis.com/management/upload/ranking/2021-06-07_35 SINGLES.pdf
+2024-06-04T06:18:58.457Z [ERROR]: Invalid URL: https://aitatennis.com/management/upload/ranking/2021-06-07_35 SINGLES.pdf
+2024-06-04T06:18:58.458Z [ERROR]: Request failed: Invalid URL
+2024-06-04T06:20:20.783Z [INFO]: Server listening at http://localhost:3000
+2024-06-04T06:20:22.587Z [INFO]: Received request to process PDF from URL: https://aitatennis.com/management/upload/ranking/2021-06-07_35 SINGLES.pdf
+2024-06-04T06:20:22.978Z [ERROR]: Invalid URL: https://aitatennis.com/management/upload/ranking/2021-06-07_35 SINGLES.pdf
+2024-06-04T06:20:22.978Z [ERROR]: Request failed: Invalid URL
+2024-06-04T06:21:24.891Z [INFO]: Server listening at http://localhost:3000
+2024-06-04T06:21:26.032Z [INFO]: Received request to process PDF from URL: https://aitatennis.com/management/upload/ranking/2021-06-07_35 SINGLES.pdf
+2024-06-04T06:21:26.391Z [ERROR]: Invalid URL: https://aitatennis.com/management/upload/ranking/2021-06-07_35 SINGLES.pdf
+2024-06-04T06:21:26.392Z [ERROR]: Request failed: Invalid URL
+2024-06-04T06:22:27.319Z [INFO]: Server listening at http://localhost:3000
+2024-06-04T06:22:28.046Z [INFO]: Received request to process PDF from URL: https://aitatennis.com/management/upload/ranking/2021-06-07_35 SINGLES.pdf
+2024-06-04T06:22:28.351Z [ERROR]: Invalid URL: https://aitatennis.com/management/upload/ranking/2021-06-07_35 SINGLES.pdf
+2024-06-04T06:22:28.352Z [ERROR]: Request failed: Invalid URL
+2024-06-04T06:22:54.555Z [INFO]: Server listening at http://localhost:3000
+2024-06-04T06:22:55.774Z [INFO]: Received request to process PDF from URL: https://aitatennis.com/management/upload/ranking/2021-06-07_35 SINGLES.pdf
+2024-06-04T06:22:56.129Z [ERROR]: Invalid URL: https://aitatennis.com/management/upload/ranking/2021-06-07_35 SINGLES.pdf
+2024-06-04T06:22:56.129Z [ERROR]: Request failed: Invalid URL
+2024-06-04T06:24:35.456Z [INFO]: Server listening at http://localhost:3000
+2024-06-04T06:24:37.270Z [INFO]: Received request to process PDF from URL: https://aitatennis.com/management/upload/ranking/2021-06-07_35+SINGLES.pdf
+2024-06-04T06:24:38.093Z [INFO]: Finished processing PDF
+2024-06-04T06:35:18.539Z [INFO]: Server listening at http://localhost:3000
+2024-06-04T06:35:22.183Z [INFO]: Server listening at http://localhost:3000
+2024-06-04T06:36:00.366Z [INFO]: Server listening at http://localhost:3000
+2024-06-04T06:40:26.735Z [INFO]: Received request to process PDF from URL: https://aitatennis.com/management/upload/ranking/2024-05-20_WS.pdf
+2024-06-04T06:40:28.866Z [INFO]: Finished processing PDF
+2024-06-04T06:41:57.830Z [INFO]: Server listening at http://localhost:3000
+2024-06-04T06:42:33.634Z [INFO]: Received request to process PDF from URL: https://aitatennis.com/management/upload/ranking/2021-06-07_35+SINGLES.pdf
+2024-06-04T06:42:34.538Z [INFO]: Finished processing PDF
+2024-06-04T06:44:32.271Z [INFO]: Server listening at http://localhost:3000
+2024-06-04T06:47:50.887Z [INFO]: Received request to process PDF from URL: https://aitatennis.com/management/upload/ranking/2024-05-20_WS.pdf
+2024-06-04T06:47:52.644Z [INFO]: Finished processing PDF
+2024-06-04T06:48:51.770Z [INFO]: Received request to process PDF from URL: https://aitatennis.com/management/upload/ranking/2024-05-20_MS.pdf
+2024-06-04T06:48:53.461Z [INFO]: Finished processing PDF
+2024-06-04T06:49:00.925Z [INFO]: Server listening at http://localhost:3000
+2024-06-04T07:20:20.603Z [INFO]: Server listening at http://localhost:3000
+2024-06-04T07:20:22.786Z [INFO]: Received request to process PDF from URL: https://aitatennis.com/management/upload/ranking/2024-05-20_MS.pdf
+2024-06-04T07:20:25.090Z [INFO]: Finished processing PDF
+2024-06-04T07:21:20.576Z [INFO]: Server listening at http://localhost:3000
+2024-06-04T07:21:25.329Z [INFO]: Received request to process PDF from URL: https://aitatennis.com/management/upload/ranking/2024-05-20_MS.pdf
+2024-06-04T07:21:27.561Z [INFO]: Finished processing PDF
+2024-06-04T07:21:40.653Z [INFO]: Received request to process PDF from URL: https://aitatennis.com/management/upload/ranking/2024-05-20_MS.pdf
+2024-06-04T07:21:41.947Z [INFO]: Finished processing PDF
+2024-06-04T07:23:32.599Z [INFO]: Server listening at http://localhost:3000
+2024-06-04T07:23:36.763Z [INFO]: Received request to process PDF from URL: https://aitatennis.com/management/upload/ranking/2024-05-20_MS.pdf
+2024-06-04T07:23:38.749Z [INFO]: Finished processing PDF
+2024-06-04T07:24:23.025Z [INFO]: Server listening at http://localhost:3000
+2024-06-04T07:24:25.046Z [INFO]: Received request to process PDF from URL: https://aitatennis.com/management/upload/ranking/2024-05-20_MS.pdf
+2024-06-04T07:24:27.170Z [INFO]: Finished processing PDF
+2024-06-04T07:25:16.022Z [INFO]: Server listening at http://localhost:3000
+2024-06-04T07:25:19.671Z [INFO]: Received request to process PDF from URL: https://aitatennis.com/management/upload/ranking/2024-05-20_MS.pdf
+2024-06-04T07:25:21.912Z [INFO]: Finished processing PDF
+2024-06-04T07:27:12.420Z [INFO]: Server listening at http://localhost:3000
+2024-06-04T07:27:17.299Z [INFO]: Received request to process PDF from URL: https://aitatennis.com/management/upload/ranking/2024-05-20_MS.pdf
+2024-06-04T07:27:19.277Z [INFO]: Finished processing PDF
+2024-06-04T07:28:22.442Z [INFO]: Server listening at http://localhost:3000
+2024-06-04T07:29:31.186Z [INFO]: Server listening at http://localhost:3000
+2024-06-04T07:29:35.921Z [INFO]: Received request to process PDF from URL: https://aitatennis.com/management/upload/ranking/2024-05-20_MS.pdf
+2024-06-04T07:29:38.824Z [INFO]: Finished processing PDF
+2024-06-04T07:33:52.048Z [INFO]: Server listening at http://localhost:3000
+2024-06-04T07:33:55.064Z [INFO]: Received request to process PDF from URL: https://aitatennis.com/management/upload/ranking/2024-05-20_MS.pdf
+2024-06-04T07:33:57.173Z [INFO]: Finished processing PDF
+2024-06-04T07:57:56.645Z [INFO]: Server listening at http://localhost:3000
+2024-06-04T07:58:31.937Z [INFO]: Received request to process PDF from URL: https://aitatennis.com/management/upload/ranking/2024-03-04_BU-18.pdf
+2024-06-04T07:58:34.847Z [INFO]: Finished processing PDF
+2024-06-07T06:40:02.017Z [INFO]: Server listening at http://localhost:3000
+2024-06-07T06:41:01.775Z [INFO]: Server listening at http://localhost:3000
+2024-06-07T06:44:20.165Z [INFO]: Server listening at http://localhost:3000
+2024-06-07T06:44:22.400Z [INFO]: Server listening at http://localhost:3000
+2024-06-07T06:44:57.966Z [INFO]: Server listening at http://localhost:3000
+2024-06-07T06:45:13.464Z [INFO]: Server listening at http://localhost:3000
+2024-06-07T06:45:31.272Z [INFO]: Server listening at http://localhost:3000
+2024-06-07T06:56:13.811Z [INFO]: Server listening at http://localhost:3000
+2024-06-07T06:57:08.822Z [INFO]: Server listening at http://localhost:3000
+2024-06-07T06:57:10.174Z [INFO]: Server listening at http://localhost:3000
+2024-06-07T06:58:54.379Z [INFO]: Server listening at http://localhost:3000
+2024-06-07T06:59:41.388Z [INFO]: Server listening at http://localhost:3000
+2024-06-07T07:04:13.368Z [INFO]: Server listening at http://localhost:3000
+2024-06-07T07:26:43.999Z [INFO]: Server listening at http://localhost:5000
+2024-06-07T07:26:59.462Z [INFO]: Server listening at http://localhost:5000
+2024-06-07T07:28:32.092Z [ERROR]: Request failed: Cannot destructure property 'username' of 'req.body.link' as it is undefined.
+2024-06-07T07:30:12.285Z [INFO]: Server listening at http://localhost:5000
+2024-06-07T07:30:15.696Z [ERROR]: Request failed: Cannot destructure property 'username' of 'req.body.link' as it is undefined.
+2024-06-07T07:30:29.891Z [INFO]: Server listening at http://localhost:5000
+2024-06-07T07:30:33.412Z [INFO]: Server listening at http://localhost:5000
+2024-06-07T07:30:35.946Z [ERROR]: Request failed: Cannot destructure property 'username' of 'req.body.link' as it is undefined.
+2024-06-07T07:30:46.321Z [INFO]: Server listening at http://localhost:5000
+2024-06-07T07:30:51.199Z [ERROR]: Request failed: Cannot destructure property 'username' of 'req.body.link' as it is undefined.
+2024-06-07T07:32:12.165Z [ERROR]: Request failed: Cannot destructure property 'username' of 'req.body.link' as it is undefined.
+2024-06-07T07:32:33.729Z [INFO]: Server listening at http://localhost:5000
+2024-06-07T07:37:13.122Z [INFO]: Server listening at http://localhost:5000
+2024-06-07T07:38:01.075Z [INFO]: Server listening at http://localhost:5000
+2024-06-07T07:39:14.912Z [ERROR]: Request failed: Request failed with status code 422
+2024-06-07T07:39:42.321Z [INFO]: Server listening at http://localhost:5000
+2024-06-07T07:54:19.383Z [INFO]: Server listening at http://localhost:5000
+2024-06-07T07:55:21.693Z [INFO]: Server listening at http://localhost:5000
+2024-06-07T07:57:57.833Z [INFO]: Server listening at http://localhost:5000
+2024-06-07T07:59:06.334Z [INFO]: Server listening at http://localhost:5000
+2024-06-07T08:50:58.308Z [INFO]: Server listening at http://localhost:5000
+2024-06-07T08:52:25.851Z [INFO]: Server listening at http://localhost:5000
+2024-06-07T08:53:18.804Z [INFO]: Server listening at http://localhost:5000
+2024-06-07T08:53:21.508Z [INFO]: Server listening at http://localhost:5000
+2024-06-07T08:53:41.912Z [INFO]: Server listening at http://localhost:5000
+2024-06-07T08:56:29.071Z [INFO]: Server listening at http://localhost:5000
+2024-06-07T08:56:51.766Z [INFO]: Server listening at http://localhost:5000
+2024-06-07T08:58:17.656Z [INFO]: Server listening at http://localhost:5000
+2024-06-07T08:58:19.966Z [ERROR]: Request failed: Cannot read properties of null (reading 'data')
+2024-06-07T08:58:41.033Z [INFO]: Server listening at http://localhost:5000
+2024-06-07T08:58:58.701Z [INFO]: Server listening at http://localhost:5000
+2024-06-07T09:24:01.993Z [INFO]: Server listening at http://localhost:5000
+2024-06-07T09:24:05.722Z [INFO]: Received request to process PDF from URL: [object Object]
+2024-06-07T09:24:05.750Z [ERROR]: Invalid URL: [object Object]
+2024-06-07T09:24:05.751Z [ERROR]: Request failed: Invalid URL
+2024-06-07T09:24:21.183Z [INFO]: Received request to process PDF from URL: [object Object]
+2024-06-07T09:24:21.189Z [ERROR]: Invalid URL: [object Object]
+2024-06-07T09:24:21.189Z [ERROR]: Request failed: Invalid URL
+2024-06-07T09:24:28.832Z [INFO]: Received request to process PDF from URL: [object Object]
+2024-06-07T09:24:28.835Z [ERROR]: Invalid URL: [object Object]
+2024-06-07T09:24:28.836Z [ERROR]: Request failed: Invalid URL
+2024-06-07T09:24:53.875Z [INFO]: Received request to process PDF from URL: [object Object]
+2024-06-07T09:24:53.878Z [ERROR]: Invalid URL: [object Object]
+2024-06-07T09:24:53.879Z [ERROR]: Request failed: Invalid URL
+2024-06-07T09:26:22.488Z [INFO]: Received request to process PDF from URL: [object Object]
+2024-06-07T09:26:22.491Z [ERROR]: Invalid URL: [object Object]
+2024-06-07T09:26:22.492Z [ERROR]: Request failed: Invalid URL
+2024-06-07T09:27:50.755Z [INFO]: Server listening at http://localhost:5000
+2024-06-07T09:27:54.457Z [INFO]: Received request to process PDF from URL: [object Object]
+2024-06-07T09:27:54.485Z [ERROR]: Invalid URL: [object Object]
+2024-06-07T09:27:54.486Z [ERROR]: Request failed: Invalid URL
+2024-06-07T09:28:54.683Z [INFO]: Received request to process PDF from URL: [object Object]
+2024-06-07T09:28:54.688Z [ERROR]: Invalid URL: [object Object]
+2024-06-07T09:28:54.689Z [ERROR]: Request failed: Invalid URL
+2024-06-07T09:29:20.692Z [INFO]: Received request to process PDF from URL: [object Object]
+2024-06-07T09:29:20.696Z [ERROR]: Invalid URL: [object Object]
+2024-06-07T09:29:20.696Z [ERROR]: Request failed: Invalid URL
+2024-06-07T09:31:46.645Z [INFO]: Received request to process PDF from URL: [object Object]
+2024-06-07T09:31:46.648Z [ERROR]: Invalid URL: [object Object]
+2024-06-07T09:31:46.649Z [ERROR]: Request failed: Invalid URL
+2024-06-07T09:33:40.472Z [ERROR]: Error: Unexpected token " in JSON at position 0
+2024-06-07T09:34:56.921Z [ERROR]: Error: Unexpected token " in JSON at position 0
+2024-06-07T09:36:36.498Z [INFO]: Received request to process PDF from URL: [object Object]
+2024-06-07T09:36:36.501Z [ERROR]: Invalid URL: [object Object]
+2024-06-07T09:36:36.502Z [ERROR]: Request failed: Invalid URL
+2024-06-07T09:37:38.363Z [INFO]: Received request to process PDF from URL: [object Object]
+2024-06-07T09:37:38.367Z [ERROR]: Invalid URL: [object Object]
+2024-06-07T09:37:38.367Z [ERROR]: Request failed: Invalid URL
+2024-06-07T09:37:54.319Z [INFO]: Received request to process PDF from URL: [object Object]
+2024-06-07T09:37:54.321Z [ERROR]: Invalid URL: [object Object]
+2024-06-07T09:37:54.322Z [ERROR]: Request failed: Invalid URL
+2024-06-07T09:39:38.830Z [INFO]: Server listening at http://localhost:5000
+2024-06-07T09:39:41.532Z [INFO]: Received request to process PDF from URL: [object Object]
+2024-06-07T09:39:41.566Z [ERROR]: Invalid URL: [object Object]
+2024-06-07T09:39:41.567Z [ERROR]: Request failed: Invalid URL
+2024-06-07T09:40:28.945Z [INFO]: Server listening at http://localhost:5000
+2024-06-07T09:40:32.153Z [INFO]: Received request to process PDF from URL: [object Object]
+2024-06-07T09:40:32.178Z [ERROR]: Invalid URL: [object Object]
+2024-06-07T09:40:32.180Z [ERROR]: Request failed: Invalid URL
+2024-06-07T09:41:28.114Z [INFO]: Server listening at http://localhost:5000
+2024-06-07T09:41:31.650Z [INFO]: Received request to process PDF from URL: [object Object]
+2024-06-07T09:41:31.679Z [ERROR]: Invalid URL: [object Object]
+2024-06-07T09:41:31.680Z [ERROR]: Request failed: Invalid URL
+2024-06-07T09:41:54.130Z [INFO]: Server listening at http://localhost:5000
+2024-06-07T09:41:59.795Z [INFO]: Received request to process PDF from URL: [object Object]
+2024-06-07T09:41:59.848Z [ERROR]: Invalid URL: [object Object]
+2024-06-07T09:41:59.849Z [ERROR]: Request failed: Invalid URL
+2024-06-07T09:44:59.931Z [INFO]: Server listening at http://localhost:5000
+2024-06-07T09:45:02.761Z [INFO]: Received request to process PDF from URL: [object Object]
+2024-06-07T09:45:02.791Z [ERROR]: Invalid URL: [object Object]
+2024-06-07T09:45:02.792Z [ERROR]: Request failed: Invalid URL
+2024-06-07T09:45:15.431Z [INFO]: Server listening at http://localhost:5000
+2024-06-07T09:45:28.781Z [INFO]: Received request to process PDF from URL: [object Object]
+2024-06-07T09:45:28.847Z [ERROR]: Invalid URL: [object Object]
+2024-06-07T09:45:28.847Z [ERROR]: Request failed: Invalid URL
+2024-06-07T09:46:35.880Z [INFO]: Server listening at http://localhost:5000
+2024-06-07T09:46:36.591Z [INFO]: Server listening at http://localhost:5000
+2024-06-07T09:46:40.464Z [INFO]: Received request to process PDF from URL: [object Object]
+2024-06-07T09:46:40.511Z [ERROR]: Invalid URL: [object Object]
+2024-06-07T09:46:40.511Z [ERROR]: Request failed: Invalid URL
+2024-06-07T09:48:44.002Z [INFO]: Server listening at http://localhost:5000
+2024-06-07T09:48:47.493Z [INFO]: Received request to process PDF from URL: [object Object]
+2024-06-07T09:48:47.540Z [ERROR]: Invalid URL: [object Object]
+2024-06-07T09:48:47.541Z [ERROR]: Request failed: Invalid URL
+2024-06-07T09:51:03.937Z [INFO]: Received request to process PDF from URL: [object Object]
+2024-06-07T09:51:03.958Z [ERROR]: Invalid URL: [object Object]
+2024-06-07T09:51:03.958Z [ERROR]: Request failed: Invalid URL
+2024-06-07T09:51:35.104Z [INFO]: Server listening at http://localhost:5000
+2024-06-07T09:51:38.416Z [INFO]: Received request to process PDF from URL: [object Object]
+2024-06-07T09:51:38.445Z [ERROR]: Invalid URL: [object Object]
+2024-06-07T09:51:38.445Z [ERROR]: Request failed: Invalid URL
+2024-06-07T09:51:48.122Z [INFO]: Received request to process PDF from URL: [object Object]
+2024-06-07T09:51:48.127Z [ERROR]: Invalid URL: [object Object]
+2024-06-07T09:51:48.128Z [ERROR]: Request failed: Invalid URL
+2024-06-07T09:53:57.813Z [INFO]: Server listening at http://localhost:5000
+2024-06-07T09:54:02.179Z [INFO]: Received request to process PDF from URL: https://aitatennis.com/management/upload/ranking/2024-05-27_BU-16.pdf
+2024-06-07T09:54:06.675Z [INFO]: Finished processing PDF
+2024-06-07T09:56:19.325Z [INFO]: Received request to process PDF from URL: https://aitatennis.com/management/upload/ranking/2024-05-27_MD.pdf
+2024-06-07T09:56:20.854Z [INFO]: Finished processing PDF
+2024-06-07T10:03:53.915Z [INFO]: Received request to process PDF from URL: https://aitatennis.com/management/upload/ranking/2024-05-27_BU-16.pdfs
+2024-06-07T10:03:54.187Z [ERROR]: Invalid URL: https://aitatennis.com/management/upload/ranking/2024-05-27_BU-16.pdfs
+2024-06-07T10:03:54.188Z [ERROR]: Request failed: Invalid URL
+2024-06-07T10:04:11.850Z [INFO]: Server listening at http://localhost:5000
+2024-06-07T10:04:20.473Z [INFO]: Received request to process PDF from URL: https://aitatennis.com/management/upload/ranking/2024-05-27_BU-16.pdfs
+2024-06-07T10:04:20.767Z [ERROR]: Invalid URL: https://aitatennis.com/management/upload/ranking/2024-05-27_BU-16.pdfs
+2024-06-07T10:04:20.768Z [ERROR]: Request failed: Invalid URL
+2024-06-07T10:04:24.886Z [INFO]: Received request to process PDF from URL: https://aitatennis.com/management/upload/ranking/2024-05-27_BU-16.pdf
+2024-06-07T10:04:27.506Z [INFO]: Finished processing PDF
+2024-06-07T10:07:23.781Z [INFO]: Received request to process PDF from URL: https://aitatennis.com/management/upload/ranking/2024-05-27_BU-14.pdf
+2024-06-07T10:07:26.435Z [INFO]: Finished processing PDF
+2024-06-07T10:20:22.662Z [INFO]: Received request to process PDF from URL: https://aitatennis.com/management/upload/ranking/2024-05-27_BU-16.pdfs
+2024-06-07T10:20:22.956Z [ERROR]: Invalid URL: https://aitatennis.com/management/upload/ranking/2024-05-27_BU-16.pdfs
+2024-06-07T10:20:22.957Z [ERROR]: Request failed: Invalid URL
+2024-06-07T10:20:52.907Z [INFO]: Received request to process PDF from URL: https://aitatennis.com/management/upload/ranking/2024-05-27_BU-16.pdf
+2024-06-07T10:20:55.605Z [INFO]: Finished processing PDF
+2024-06-07T10:35:12.171Z [INFO]: Received request to process PDF from URL: https://aitatennis.com/management/upload/ranking/2024-06-14_BU-12.pdf
+2024-06-07T10:35:12.415Z [ERROR]: Invalid URL: https://aitatennis.com/management/upload/ranking/2024-06-14_BU-12.pdf
+2024-06-07T10:35:12.416Z [ERROR]: Request failed: Invalid URL
+2024-06-07T10:35:33.536Z [ERROR]: Request failed: Request failed with status code 422
+2024-06-07T10:46:25.700Z [INFO]: Received request to process PDF from URL: https://aitatennis.com/management/upload/ranking/2024-05-27_BU-12.pdf
+2024-06-07T10:46:27.575Z [INFO]: Finished processing PDF
+2024-06-07T11:02:04.932Z [INFO]: Received request to process PDF from URL: https://aitatennis.com/management/upload/ranking/2024-05-27_BU-14.pdf
+2024-06-07T11:02:08.035Z [INFO]: Finished processing PDF
+2024-06-07T11:08:51.710Z [INFO]: Received request to process PDF from URL: https://aitatennis.com/management/upload/ranking/2024-05-27_BU-12.pdf
+2024-06-07T11:08:53.547Z [INFO]: Finished processing PDF
+2024-06-07T11:09:26.854Z [INFO]: Received request to process PDF from URL: https://aitatennis.com/management/upload/ranking/2024-05-27_BU-12.pdf
+2024-06-07T11:09:28.784Z [INFO]: Finished processing PDF
+2024-06-07T11:11:01.313Z [INFO]: Received request to process PDF from URL: https://aitatennis.com/management/upload/ranking/2024-05-27_BU-12.pdf
+2024-06-07T11:11:02.849Z [INFO]: Finished processing PDF
+2024-06-07T11:11:25.322Z [INFO]: Received request to process PDF from URL: https://aitatennis.com/management/upload/ranking/2024-05-27_BU-12.pdf
+2024-06-07T11:11:26.874Z [INFO]: Finished processing PDF
+2024-06-07T11:13:37.422Z [INFO]: Received request to process PDF from URL: https://aitatennis.com/management/upload/ranking/2024-05-27_GU-12.pdf
+2024-06-07T11:13:38.966Z [INFO]: Finished processing PDF
+2024-06-07T11:17:05.254Z [INFO]: Received request to process PDF from URL: https://aitatennis.com/management/upload/ranking/2024-05-27_BU-12.pdf
+2024-06-07T11:17:06.923Z [INFO]: Finished processing PDF
+2024-06-07T11:26:48.590Z [INFO]: Server listening at http://localhost:5000
+2024-06-07T11:26:52.027Z [INFO]: Server listening at http://localhost:5000
+2024-06-07T11:30:14.975Z [INFO]: Received request to process PDF from URL: https://aitatennis.com/management/upload/ranking/2024-05-27_GU-14.pdf
+2024-06-07T11:30:17.445Z [INFO]: Finished processing PDF
+2024-06-07T11:30:17.479Z [ERROR]: Error: request entity too large
+2024-06-07T11:36:14.241Z [INFO]: Received request to process PDF from URL: https://aitatennis.com/management/upload/ranking/2024-05-27_GU-14.pdf
+2024-06-07T11:36:16.324Z [INFO]: Finished processing PDF
+2024-06-07T11:36:16.377Z [ERROR]: Request failed: username is not defined
+2024-06-07T11:37:04.486Z [INFO]: Server listening at http://localhost:5000
+2024-06-07T11:37:30.567Z [INFO]: Received request to process PDF from URL: https://aitatennis.com/management/upload/ranking/2024-05-27_GU-14.pdf
+2024-06-07T11:37:32.896Z [INFO]: Finished processing PDF
+2024-06-07T11:37:33.144Z [ERROR]: Request failed: Request failed with status code 401
+2024-06-07T11:39:17.868Z [INFO]: Server listening at http://localhost:5000
+2024-06-07T11:40:52.655Z [INFO]: Received request to process PDF from URL: https://aitatennis.com/management/upload/ranking/2024-05-27_BU-16.pdf
+2024-06-07T11:40:55.594Z [INFO]: Finished processing PDF
+2024-06-07T11:40:55.819Z [ERROR]: Request failed: Request failed with status code 401
+2024-06-07T11:48:26.148Z [INFO]: Server listening at http://localhost:5000
+2024-06-07T11:49:45.712Z [INFO]: Received request to process PDF from URL: https://aitatennis.com/management/upload/ranking/2024-05-27_BU-16.pdf
+2024-06-07T11:49:48.793Z [INFO]: Finished processing PDF
+2024-06-07T11:53:10.702Z [INFO]: Server listening at http://localhost:5000
+2024-06-07T11:53:22.458Z [INFO]: Server listening at http://localhost:5000
+2024-06-07T11:53:23.022Z [INFO]: Server listening at http://localhost:5000
+2024-06-07T11:53:24.966Z [INFO]: Server listening at http://localhost:5000
+2024-06-07T11:53:43.876Z [INFO]: Received request to process PDF from URL: https://aitatennis.com/management/upload/ranking/2024-05-27_BU-18.pdf
+2024-06-07T11:53:46.503Z [INFO]: Finished processing PDF
+2024-06-07T11:53:46.758Z [ERROR]: Request failed: Request failed with status code 401
+2024-06-07T11:56:04.307Z [INFO]: Server listening at http://localhost:5000
+2024-06-07T11:56:07.280Z [INFO]: Server listening at http://localhost:5000
+2024-06-07T11:56:32.339Z [INFO]: Received request to process PDF from URL: https://aitatennis.com/management/upload/ranking/2024-05-27_GU-18.pdf
+2024-06-07T11:56:34.585Z [INFO]: Finished processing PDF
+2024-06-07T11:56:34.824Z [ERROR]: Request failed: Request failed with status code 422
+2024-06-07T12:02:37.973Z [INFO]: Server listening at http://localhost:5000
+2024-06-07T12:16:57.906Z [INFO]: Server listening at http://localhost:5000
+2024-06-07T12:17:00.569Z [INFO]: Server listening at http://localhost:5000
+2024-06-07T12:17:32.963Z [INFO]: Received request to process PDF from URL: https://aitatennis.com/management/upload/ranking/2024-05-27_BU-18.pdf
+2024-06-07T12:17:35.556Z [INFO]: Finished processing PDF
+2024-06-07T12:17:35.589Z [ERROR]: Request failed: Assignment to constant variable.
+2024-06-07T12:18:48.959Z [INFO]: Server listening at http://localhost:5000
+2024-06-07T12:19:08.791Z [INFO]: Received request to process PDF from URL: https://aitatennis.com/management/upload/ranking/2024-05-27_BU-16.pdf
+2024-06-07T12:19:11.780Z [INFO]: Finished processing PDF
+2024-06-07T12:19:12.164Z [ERROR]: Request failed: Request failed with status code 500
+2024-06-07T12:26:56.103Z [INFO]: Server listening at http://localhost:5000
+2024-06-07T12:27:13.437Z [INFO]: Server listening at http://localhost:5000
+2024-06-07T12:27:21.727Z [INFO]: Server listening at http://localhost:5000
+2024-06-07T12:27:48.308Z [INFO]: Received request to process PDF from URL: https://aitatennis.com/management/upload/ranking/2024-05-27_BU-16.pdf
+2024-06-07T12:27:51.479Z [INFO]: Finished processing PDF
+2024-06-07T12:53:44.663Z [INFO]: Received request to process PDF from URL: https://aitatennis.com/management/upload/ranking/2024-05-27_BU-16.pdf
+2024-06-07T12:53:47.098Z [INFO]: Finished processing PDF
+2024-06-11T09:52:23.069Z [INFO]: Server listening at http://localhost:5000
+2024-06-11T09:53:15.252Z [INFO]: Received request to process PDF from URL: https://aitatennis.com/management/upload/ranking/2024-05-27_BU-12.pdf
+2024-06-11T09:53:18.270Z [INFO]: Finished processing PDF
+2024-06-11T09:53:18.297Z [ERROR]: Request failed: Unexpected token u in JSON at position 0
+2024-06-11T09:55:17.241Z [INFO]: Received request to process PDF from URL: https://aitatennis.com/management/upload/ranking/2024-05-27_GU-12.pdf
+2024-06-11T09:55:18.628Z [INFO]: Finished processing PDF
+2024-06-11T09:56:14.939Z [INFO]: Received request to process PDF from URL: https://aitatennis.com/management/upload/ranking/2024-05-27_BU-12.pdf
+2024-06-11T09:56:16.563Z [INFO]: Finished processing PDF
+2024-06-11T09:56:49.916Z [INFO]: Received request to process PDF from URL: https://aitatennis.com/management/upload/ranking/2024-05-27_GU-12.pdf
+2024-06-11T09:56:51.333Z [INFO]: Finished processing PDF
+2024-06-11T09:56:51.355Z [ERROR]: Error: request entity too large
+2024-06-11T09:57:39.690Z [INFO]: Server listening at http://localhost:5000
+2024-06-11T09:57:56.572Z [INFO]: Received request to process PDF from URL: https://aitatennis.com/management/upload/ranking/2024-05-27_GU-14.pdf
+2024-06-11T09:57:59.108Z [INFO]: Finished processing PDF
+2024-06-11T09:57:59.141Z [ERROR]: Error: request entity too large
+2024-06-11T09:58:28.425Z [INFO]: Server listening at http://localhost:5000
+2024-06-11T10:00:14.948Z [INFO]: Received request to process PDF from URL: https://aitatennis.com/management/upload/ranking/2024-05-27_BU-12.pdf
+2024-06-11T10:00:17.038Z [INFO]: Finished processing PDF
+2024-06-11T10:00:17.062Z [ERROR]: Error: request entity too large
+2024-06-11T10:18:28.806Z [INFO]: Server listening at http://localhost:5000
+2024-06-11T10:20:59.751Z [INFO]: Server listening at http://localhost:5000
+2024-06-11T10:21:07.967Z [INFO]: Server listening at http://localhost:5000
+2024-06-11T10:21:21.343Z [INFO]: Received request to process PDF from URL: https://aitatennis.com/management/upload/ranking/2024-05-27_BU-12.pdf
+2024-06-11T10:21:23.445Z [INFO]: Finished processing PDF
+2024-06-11T10:21:23.477Z [ERROR]: Request failed: conmsole is not defined
+2024-06-11T10:22:16.211Z [INFO]: Server listening at http://localhost:5000
+2024-06-11T10:22:41.246Z [INFO]: Received request to process PDF from URL: https://aitatennis.com/management/upload/ranking/2024-05-27_GU-14.pdf
+2024-06-11T10:22:43.817Z [INFO]: Finished processing PDF
+2024-06-11T10:31:25.790Z [INFO]: Received request to process PDF from URL: https://aitatennis.com/management/upload/ranking/2024-05-27_BU-12.pdf
+2024-06-11T10:31:27.499Z [INFO]: Finished processing PDF
+2024-06-12T10:23:37.476Z [INFO]: Server listening at http://localhost:5000
+2024-06-12T10:23:44.593Z [INFO]: Server listening at http://localhost:5000
+2024-06-12T10:28:39.215Z [INFO]: Received request to process PDF from URL: https://aitatennis.com/management/upload/ranking/2024-05-27_BU-14.pdf
+2024-06-12T10:28:44.423Z [INFO]: Finished processing PDF
+2024-06-12T10:30:01.184Z [INFO]: Received request to process PDF from URL: https://aitatennis.com/management/upload/ranking/_BU-16.pdf
+2024-06-12T10:30:01.555Z [ERROR]: Invalid URL: https://aitatennis.com/management/upload/ranking/_BU-16.pdf
+2024-06-12T10:30:01.557Z [ERROR]: Request failed: Invalid URL
+2024-06-12T10:31:47.684Z [INFO]: Received request to process PDF from URL: https://aitatennis.com/management/upload/ranking/2024-05-27_BU-16.pdf
+2024-06-12T10:31:50.179Z [INFO]: Finished processing PDF
+2024-06-12T10:32:26.508Z [INFO]: Received request to process PDF from URL: https://aitatennis.com/management/upload/ranking/2024-05-27_BU-18.pdf
+2024-06-12T10:32:28.462Z [INFO]: Finished processing PDF
+2024-06-12T10:32:29.016Z [ERROR]: Request failed: Request failed with status code 500
+2024-06-12T10:35:35.549Z [INFO]: Server listening at http://localhost:5000
+2024-06-12T10:35:57.432Z [INFO]: Received request to process PDF from URL: https://aitatennis.com/management/upload/ranking/2024-05-27_BU-18.pdf
+2024-06-12T10:35:59.868Z [INFO]: Finished processing PDF
+2024-06-12T10:36:00.392Z [ERROR]: Request failed: Request failed with status code 500
+2024-06-12T10:37:18.306Z [INFO]: Server listening at http://localhost:5000
+2024-06-12T10:37:26.841Z [INFO]: Received request to process PDF from URL: https://aitatennis.com/management/upload/ranking/2024-05-27_BU-18.pdf
+2024-06-12T10:37:29.510Z [INFO]: Finished processing PDF
+2024-06-12T10:37:30.190Z [ERROR]: Request failed: Request failed with status code 500
+2024-06-12T10:40:06.155Z [INFO]: Received request to process PDF from URL: https://aitatennis.com/management/upload/ranking/2024-05-27_GU-12.pdf
+2024-06-12T10:40:07.592Z [INFO]: Finished processing PDF
+2024-06-12T10:40:24.750Z [INFO]: Received request to process PDF from URL: https://aitatennis.com/management/upload/ranking/_GU-16.pdf
+2024-06-12T10:40:25.013Z [ERROR]: Invalid URL: https://aitatennis.com/management/upload/ranking/_GU-16.pdf
+2024-06-12T10:40:25.014Z [ERROR]: Request failed: Invalid URL
+2024-06-12T10:41:15.969Z [INFO]: Received request to process PDF from URL: https://aitatennis.com/management/upload/ranking/2024-05-27_GU-16.pdf
+2024-06-12T10:41:17.864Z [INFO]: Finished processing PDF
+2024-06-12T10:43:51.527Z [INFO]: Received request to process PDF from URL: https://aitatennis.com/management/upload/ranking/2024-05-27_GU-18.pdf
+2024-06-12T10:43:53.352Z [INFO]: Finished processing PDF
+2024-06-12T10:43:54.005Z [ERROR]: Request failed: Request failed with status code 500
+2024-06-12T10:45:26.740Z [INFO]: Received request to process PDF from URL: https://aitatennis.com/management/upload/ranking/2024-05-27_MS.pdf
+2024-06-12T10:45:28.147Z [INFO]: Finished processing PDF
+2024-06-12T10:45:29.030Z [ERROR]: Request failed: Request failed with status code 500
+2024-06-12T10:46:45.768Z [INFO]: Server listening at http://localhost:5000
+2024-06-12T10:47:19.803Z [INFO]: Server listening at http://localhost:5000
+2024-06-12T10:47:35.937Z [INFO]: Received request to process PDF from URL: https://aitatennis.com/management/upload/ranking/2024-05-27_MS.pdf
+2024-06-12T10:47:37.829Z [INFO]: Finished processing PDF
+2024-06-12T10:47:38.619Z [ERROR]: Request failed: Request failed with status code 401
+2024-06-12T10:49:24.834Z [INFO]: Received request to process PDF from URL: https://aitatennis.com/management/upload/ranking/2024-05-27_MS.pdf
+2024-06-12T10:49:26.328Z [INFO]: Finished processing PDF
+2024-06-12T10:49:26.824Z [ERROR]: Request failed: Request failed with status code 500
+2024-06-12T10:51:09.939Z [INFO]: Server listening at http://localhost:5000
+2024-06-12T10:51:21.200Z [INFO]: Received request to process PDF from URL: https://aitatennis.com/management/upload/ranking/2024-05-27_MS.pdf
+2024-06-12T10:51:22.917Z [INFO]: Finished processing PDF
+2024-06-12T10:51:23.396Z [ERROR]: Request failed: Request failed with status code 500
+2024-06-12T10:58:13.543Z [INFO]: Server listening at http://localhost:5000
+2024-06-12T10:58:20.936Z [INFO]: Received request to process PDF from URL: https://aitatennis.com/management/upload/ranking/2024-05-27_MS.pdf
+2024-06-12T10:58:22.816Z [INFO]: Finished processing PDF
+2024-06-12T10:58:23.565Z [ERROR]: Request failed: Request failed with status code 500
+2024-06-12T10:58:41.300Z [INFO]: Server listening at http://localhost:5000
