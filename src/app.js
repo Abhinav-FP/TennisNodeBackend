@@ -1,4 +1,7 @@
 const express = require("express");
+const pdfRoutes = require("./routes/pdfRoutes");
+const { errorHandler } = require("./utils/errorHandler");
+
 const cors = require("cors");
 const corsOptions = {
   origin: '*',
@@ -18,11 +21,10 @@ app.use(cors(corsOptions));
 
 app.use(express.json({ limit: '50mb' }));
 
-const pdfRoutes = require("./routes/pdfRoutes");
+// const pdfRoutes = require("./routes/pdfRoutes");
 
 app.use("/api/extract", pdfRoutes);
 
-const { errorHandler } = require("./utils/errorHandler");
 app.use(errorHandler);
 
 module.exports = app;
