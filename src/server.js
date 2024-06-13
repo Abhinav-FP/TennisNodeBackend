@@ -23,7 +23,7 @@ const port = process.env.PORT || 5000;
 
 app.get("/", (req, res) => {
   res.json({
-    msg:'"hello ',
+    msg:'hello ',
     status:200
   })
 });
