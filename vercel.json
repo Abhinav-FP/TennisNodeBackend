@@ -1,6 +1,6 @@
 {
     "version": 2,
-    "name": "Tennis Khelo Backend",
+    "name": "Tennis Khelo Backend 2",
     "builds": [
       { 
         "src": "./server.js", 
