@@ -21,12 +21,10 @@ const port = process.env.PORT || 5000;
 // }
 // checkApiAuth();
 
-app.get("/", (req, res) => {
-  res.json({
-    msg:'hello ',
-    status:200
-  })
+app.get('/', (req, res) => {
+  res.send('Hello World!');
 });
+
 app.listen(port, () => {
   logger.info(`Server listening at http://localhost:${port}`);
 });
