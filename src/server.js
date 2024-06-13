@@ -8,7 +8,7 @@ const port = process.env.PORT || 5000;
 app.use(express.json()); // Middleware to parse JSON
 
 app.get('/', (req, res) => {
-  res.send('Hello World!');
+  res.json('Hello World!');
 });
 
 // app.post('/auth-verify', async (req, res) => {
