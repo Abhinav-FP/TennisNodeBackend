@@ -1,21 +1,18 @@
 {
     "version": 2,
-    "name": "Tennis-backend",
+    "name": "Tennis Khelo Backend",
     "builds": [
-      {
-        "src": "server.js",
-        "use": "@vercel/node"
+      { 
+        "src": "./server.js", 
+        "use": "@vercel/node",
+        "config": {
+          "maxDuration": 30,
+          "memory": 3009
+        }
       }
     ],
     "routes": [
-      {
-        "src": "/api/(.*)",
-        "dest": "/api/$1"
-      },
-      {
-        "src": "/(.*)",
-        "dest": "/"
-      }
+      { "src": "/(.*)", "dest": "/" }
     ]
+   
   }
-  
