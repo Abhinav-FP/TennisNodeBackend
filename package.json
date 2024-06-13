@@ -2,7 +2,7 @@
   "name": "task-pdf-to-json",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
     "start": "node src/server.js",
     "dev": "nodemon src/server.js"
