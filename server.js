@@ -1,6 +1,6 @@
 const express = require('express');
 const axios = require('axios');
-const logger = require('./utils/logger');
+const logger = require('./src/utils/logger');
 
 const app = express();
 const port = process.env.PORT || 5000;
