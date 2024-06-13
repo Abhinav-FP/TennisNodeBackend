@@ -20,6 +20,13 @@ const port = process.env.PORT || 5000;
 //       });
 // }
 // checkApiAuth();
+
+app.get("/", (req, res) => {
+  res.json({
+    msg:'"hello ',
+    status:200
+  })
+});
 app.listen(port, () => {
   logger.info(`Server listening at http://localhost:${port}`);
 });
