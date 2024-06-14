@@ -116,7 +116,7 @@ exports.processPdf = (url, sub_category) => {
     // console.log("Inside pdf Services",url)
     const valid = await isValidUrl(url);
     if (!valid) {
-      logger.error(`Invalid URL: ${url}`);
+      console.log(`Invalid URL: ${url}`);
       return reject(new Error("Invalid URL"));
     }
 
@@ -124,7 +124,7 @@ exports.processPdf = (url, sub_category) => {
     try {
       reader = new PdfDataReader({ url });
     } catch (error) {
-      logger.error(`Failed to initialize PDF reader for URL: ${url}`);
+      console.log(`Failed to initialize PDF reader for URL: ${url}`);
       return reject(new Error("Failed to initialize PDF reader"));
     }
 
@@ -175,7 +175,7 @@ exports.processPdf = (url, sub_category) => {
     });
 
     reader.on("error", (err) => {
-      logger.error(`Error processing PDF: ${err.message}`);
+      console.log(`Error processing PDF: ${err.message}`);
       reject(new Error("Error processing PDF"));
     });
   });
