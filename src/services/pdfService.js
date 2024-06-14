@@ -3,13 +3,67 @@ const logger = require("../utils/logger");
 const axios = require("axios");
 
 const keyMappings = {
-  "Name of the Player": "NAME OF PLAYER",
-  "Given Name Family Name": "NAME OF PLAYER",
-  "D.O.B": "DOB",
-  "REG.NO": "REG NO.",
-  // "PTS.": "Final",
-  // "NAME OF PLAYER": "PlayerName",
+  RANK: "rank",
+  "NAME OF PLAYER": "name",
+  "Name of the Player": "name",
+  "Given Name Family Name": "name",
+  "REG.NO": "reg_no",
+  "REG NO.": "reg_no",
+  "D.O.B": "dob",
+  DOB: "dob",
+  STATE: "state",
+  "PTS.": "points",
+  "LATE WL": "late_wl",
+  Final: "final",
 };
+
+const keyMappings_U_18 = {
+  RANK: "rank",
+  "NAME OF PLAYER": "name",
+  "Name of the Player": "name",
+  "Given Name Family Name": "name",
+  "REG.NO": "reg_no",
+  "REG NO.": "reg_no",
+  "D.O.B": "dob",
+  DOB: "dob",
+  STATE: "state",
+  "PTS.": "final",
+  "LATE WL": "late_wl",
+  Final: "final",
+};
+
+const keyMappings_Singles = {
+  RANK: "rank",
+  "NAME OF PLAYER": "name",
+  "Name of the Player": "name",
+  "Given Name Family Name": "name",
+  "REG.NO": "reg_no",
+  "REG NO.": "reg_no",
+  "REG.NO":"reg_no",
+  "D.O.B": "dob",
+  DOB: "dob",
+  STATE: "state",
+  "PTS.": "final",
+  "LATE WL": "late_wl",
+  Final: "final",
+
+};
+
+const keyMappings_Doubles = {
+  RANK: "rank",
+  "NAME OF PLAYER": "name",
+  "Name of the Player": "name",
+  "Given Name Family Name": "name",
+  "REG NO.": "reg_no",
+  "REG.NO":"reg_no",
+  "D.O.B": "dob",
+  DOB: "dob",
+  STATE: "state",
+  "PTS.": "final",
+  "LATE WL": "late_wl",
+  Final: "final",
+};
+
 
 const standardizeKeys = (row, headerRow) => {
   const obj = {};
@@ -19,7 +73,34 @@ const standardizeKeys = (row, headerRow) => {
   });
   return obj;
 };
-//  const link="https://www.google.co.in/";
+
+const standardizeKeys_U_18 = (row, headerRow) => {
+  const obj = {};
+  headerRow.forEach((header, index) => {
+    const standardizedKey = keyMappings_U_18[header] || header;
+    obj[standardizedKey] = row[index];
+  });
+  return obj;
+};
+
+const standardizeKeys_Singles = (row, headerRow) => {
+  const obj = {};
+  headerRow.forEach((header, index) => {
+    const standardizedKey = keyMappings_Singles[header] || header;
+    obj[standardizedKey] = row[index];
+  });
+  return obj;
+};
+
+const standardizeKeys_Doubles = (row, headerRow) => {
+  const obj = {};
+  headerRow.forEach((header, index) => {
+    const standardizedKey = keyMappings_Doubles[header] || header;
+    obj[standardizedKey] = row[index];
+  });
+  return obj;
+};
+
 const isValidUrl = async (url) => {
   try {
     const response = await axios.head(url);
@@ -30,7 +111,7 @@ const isValidUrl = async (url) => {
   }
 };
 
-exports.processPdf = (url) => {
+exports.processPdf = (url, sub_category) => {
   return new Promise(async (resolve, reject) => {
     // console.log("Inside pdf Services",url)
     const valid = await isValidUrl(url);
@@ -63,9 +144,25 @@ exports.processPdf = (url) => {
 
       const filteredRows = rows.filter((row) => row.length >= 9);
 
-      const rowsWithObj = filteredRows
-        .slice(1)
-        .map((row) => standardizeKeys(row, filteredRows[0]));
+      // Logic for dealing with different pdfs
+      let rowsWithObj;
+      if (sub_category == "u_18") {
+        rowsWithObj = filteredRows
+          .slice(1)
+          .map((row) => standardizeKeys_U_18(row, filteredRows[0]));
+      } else if (sub_category == "s") {
+        rowsWithObj = filteredRows
+          .slice(1)
+          .map((row) => standardizeKeys_Singles(row, filteredRows[0]));
+      } else if (sub_category == "d") {
+        rowsWithObj = filteredRows
+          .slice(1)
+          .map((row) => standardizeKeys_Doubles(row, filteredRows[0]));
+      } else {
+        rowsWithObj = filteredRows
+          .slice(1)
+          .map((row) => standardizeKeys(row, filteredRows[0]));
+      }
 
       const title = rows[0][0];
       const date = rows[1][0];
