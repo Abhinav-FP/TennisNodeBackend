@@ -17,7 +17,7 @@ app.get("/", (req, res) => {
   })
 });
 // Apply CORS middleware
-app.use(cors(corsOptions));
+app.use(cors(corsOptions)); 
 
 app.use(express.json({ limit: '50mb' }));
 
