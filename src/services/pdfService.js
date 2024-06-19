@@ -121,21 +121,46 @@ exports.processPdf = (url, sub_category) => {
     }
 
     let reader;
+
+
     try {
       reader = new PdfDataReader({ url });
+      console.log("reader",reader);
     } catch (error) {
       console.log(`Failed to initialize PDF reader for URL: ${url}`);
       return reject(new Error("Failed to initialize PDF reader"));
     }
 
-    let rows = [];
 
+
+    let rows = [];
     reader.on("data", (row) => {
-      logger.debug(`Row data: ${JSON.stringify(row)}`);
-      rows.push(row);
+      function mergeNames(inputArray) {
+        // Check if the array has at least 3 elements and the first two are alphabetic strings
+        if (inputArray.length >= 3 && isAlphabetic(inputArray[1]) && isAlphabetic(inputArray[2])) {
+          // Merge the first and second elements into a single element
+          const mergedName = `${inputArray[1]} ${inputArray[2]}`;
+          // Construct a new array with the merged name and the rest of the elements
+          return [inputArray[0], mergedName, ...inputArray.slice(3)];
+        } else {
+          // If no merging is needed, return the original array
+          return inputArray;
+        }
+      }
+      
+      function isAlphabetic(str) {
+        return /^[A-Za-z\s]+$/.test(str);
+      }
+      const value1 = mergeNames(row);
+      logger.info(value1)
+      const value = mergeNames(value1);
+      logger.info("=>>>>>>"+value)
+      rows.push(value);
+
     });
 
     reader.on("end", () => {
+
       logger.info("Finished processing PDF");
 
       if (rows.length === 0) {
@@ -143,6 +168,8 @@ exports.processPdf = (url, sub_category) => {
       }
 
       const filteredRows = rows.filter((row) => row.length >= 9);
+      // cleaned_array = [elem.strip()
+
 
       // Logic for dealing with different pdfs
       let rowsWithObj;
