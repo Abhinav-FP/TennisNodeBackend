@@ -5,6 +5,7 @@ const { errorHandler } = require("./utils/errorHandler");
 const cors = require("cors");
 
 const port = process.env.PORT || 5000;
+const hostName='0.0.0.0';
 const app = express();
 const router = express.Router();
 
@@ -30,7 +31,7 @@ app.use("/.netlify/functions/app", router);
 app.use(errorHandler);
 
 app.listen(port, () => {
-  console.log(`Server listening at http://localhost:${port}`);
+  console.log(`Server listening at http://${hostName}:${port}`);
 });
 
 module.exports = app;
