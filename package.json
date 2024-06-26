@@ -4,8 +4,8 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js",
-    "dev": "nodemon server.js",
+    "start": "node app.js",
+    "dev": "nodemon app.js",
     "build": "netlify deploy --prod",
     "buildLocal": "netlify deploy",
     "setup":"netlify build"

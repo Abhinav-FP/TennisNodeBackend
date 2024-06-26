@@ -4,6 +4,7 @@ const pdfRoutes = require("./routes/pdfRoutes");
 const { errorHandler } = require("./utils/errorHandler");
 const cors = require("cors");
 
+const port = process.env.PORT || 5000;
 const app = express();
 const router = express.Router();
 
@@ -28,5 +29,8 @@ app.use("/api/extract", pdfRoutes);
 app.use("/.netlify/functions/app", router);
 app.use(errorHandler);
 
+app.listen(port, () => {
+  console.log(`Server listening at http://localhost:${port}`);
+});
 module.exports = app;
 module.exports.handler = serverless(app);
