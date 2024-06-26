@@ -40,7 +40,7 @@ module.exports.handler = serverless(app);
 import('pdfjs-dist').then(pdfjsLib => {
   // Ensure pdfjsLib is correctly loaded before setting workerSrc
   if (pdfjsLib.GlobalWorkerOptions) {
-    pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.11.338/pdf.worker.min.js';
+    pdfjsLib.GlobalWorkerOptions.workerSrc = "./pdf.worker.min.js";
   } else {
     console.error('pdfjsLib.GlobalWorkerOptions is not available.');
   }
