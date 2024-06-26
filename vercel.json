@@ -3,7 +3,7 @@
     "name": "Tennis Khelo Backend 2",
     "builds": [
       { 
-        "src": "server.js", 
+        "src": "app.js", 
         "use": "@vercel/node",
         "config": {
           "maxDuration": 30,
@@ -12,7 +12,7 @@
       }
     ],
     "routes": [
-      { "src": "/(.*)", "dest": "/server.js" }
+      { "src": "/(.*)", "dest": "/app.js" }
     ]
   }
   
