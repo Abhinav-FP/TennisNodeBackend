@@ -16,14 +16,14 @@ const corsOptions = {
 app.use(cors(corsOptions)); 
 app.use(express.json({ limit: '50mb' }));
 
-router.get("/", (req, res) => {
+app.get("/", (req, res) => {
   res.json({
     msg: 'hello',
     status: 200,
   });
 });
 
-router.use("/api/extract", pdfRoutes);
+app.use("/api/extract", pdfRoutes);
 
 app.use("/.netlify/functions/app", router);
 app.use(errorHandler);
