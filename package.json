@@ -8,7 +8,7 @@
     "dev": "nodemon app.js",
     "build": "netlify deploy --prod",
     "buildLocal": "netlify deploy",
-    "setup":"netlify build"
+    "setup": "netlify build"
   },
   "keywords": [],
   "author": "",
