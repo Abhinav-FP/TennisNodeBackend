@@ -1,7 +1,7 @@
 [build]
-  functions = "netlify/functions"
+  publish = "public"
+  functions = "functions"
 
-[[redirects]]
-  from = "/*"
-  to = "/.netlify/functions/app"
-  status = 200
+[functions]
+  directory = "functions"
+  node_bundler = "esbuild"

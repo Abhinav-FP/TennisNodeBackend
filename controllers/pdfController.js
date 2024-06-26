@@ -65,6 +65,45 @@ exports.login = async (req, res) => {
   }
 };
 
+exports.logout = async (req, res) => {
+  try {
+    // console.log("req.body.link", req.body);
+    const { token } = req.body;
+    console.log("token",token);
+    const Api = axios.create({
+      baseURL: "https://dev-control.tenniskhelo.com/api",
+      headers: {
+        Accept: "application/json",
+        "Access-Control-Allow-Origin": "*",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    console.log("Hello");
+    const response = await Api.post("/logout");
+    console.log("resp-data", response.data);
+    if (response.data.success) {
+      // token=response.data.token;
+      // console.log("token",token);
+      res.status(200).json({
+        status: "true",
+        data: response.data,
+      });
+    } else {
+      res.status(401).json({
+        status: "false",
+        data: response.data,
+      });
+    }
+  } catch (err) {
+    console.log("auth-error", err);
+    logger.error(`Request failed: ${err.message}`);
+    res.status(400).json({
+      status: "false",
+      message: err.message,
+    });
+  }
+};
+
 exports.rankingData = async (req, res) => {
   try {
     console.log("Hello");
