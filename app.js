@@ -31,7 +31,7 @@ app.use("/.netlify/functions/app", router);
 app.use(errorHandler);
 
 app.listen(port, () => {
-  console.log(`Server listening at http://${hostName}:${port}`);
+  console.log(`Server listening at http://localhost:${port}`);
 });
 
 module.exports = app;
