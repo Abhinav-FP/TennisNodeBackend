@@ -78,7 +78,6 @@ exports.logout = async (req, res) => {
         Authorization: `Bearer ${token}`,
       },
     });
-    console.log("Hello");
     const response = await Api.post("/logout");
     console.log("resp-data", response.data);
     if (response.data.success) {
@@ -95,7 +94,7 @@ exports.logout = async (req, res) => {
       });
     }
   } catch (err) {
-    console.log("auth-error", err);
+    // console.log("auth-error", err);
     logger.error(`Request failed: ${err.message}`);
     res.status(400).json({
       status: "false",
