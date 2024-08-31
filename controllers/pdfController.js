@@ -1,6 +1,7 @@
 const { default: axios } = require("axios");
 const pdfService = require("../services/pdfService");
 const logger = require("../utils/logger");
+const fs = require("fs").promises;
 
 exports.extractPdfToJson = async (req, res) => {
   try {
@@ -11,11 +12,8 @@ exports.extractPdfToJson = async (req, res) => {
         .status(400)
         .json({ status: "fail", message: "URL parameter is required" });
     }
-
     logger.info(`Received request to process PDF from URL: ${url}`);
-
     const result = await pdfService.processPdf(url, sub_category);
-
     res.status(200).json({
       status: "true",
       data: result,
@@ -105,8 +103,7 @@ exports.logout = async (req, res) => {
 
 exports.rankingData = async (req, res) => {
   try {
-    console.log("Hello");
-    // console.log("req.body", req.body);
+    console.log("req.body", req.body);
     const { date, category, sub_category, rank, token } = req.body;
     const Api = axios.create({
       baseURL: " https://control.tenniskhelo.com/api",
@@ -125,6 +122,8 @@ exports.rankingData = async (req, res) => {
       ranks,
     });
     console.log("resp-data", response.data);
+    let jsonData = { date: `${date}` };
+    await fs.writeFile("./controllers/date.json", JSON.stringify(jsonData, null, 2), 'utf8');
     if (response.data.success) {
       res.status(200).json({
         status: "true",

@@ -1,8 +1,11 @@
 const express = require("express");
 const serverless = require("serverless-http");
+const cron = require("node-cron");
 const pdfRoutes = require("./routes/pdfRoutes");
+require('dotenv').config();
 const { errorHandler } = require("./utils/errorHandler");
 const cors = require("cors");
+const {cronerFunction}=require("./controllers/croner")
 
 const port = process.env.PORT || 5000;
 const hostName='0.0.0.0';
@@ -29,6 +32,9 @@ app.use("/api/extract", pdfRoutes);
 
 app.use("/.netlify/functions/app", router);
 app.use(errorHandler);
+// cron.schedule('*/10 * * * * *', () => {
+//   cronerFunction();
+//   });
 
 app.listen(port, () => {
   console.log(`Server listening at http://localhost:${port}`);
