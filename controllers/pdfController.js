@@ -32,7 +32,7 @@ exports.login = async (req, res) => {
     // console.log("req.body.link", req.body);
     const { username, password } = req.body;
     const Api = axios.create({
-      baseURL: " https://control.tenniskhelo.com/api",
+      baseURL: `${process.env.Backend_Base_Url}`,
       headers: {
         Accept: "application/json",
         "Access-Control-Allow-Origin": "*",
@@ -69,7 +69,7 @@ exports.logout = async (req, res) => {
     const { token } = req.body;
     console.log("token",token);
     const Api = axios.create({
-      baseURL: " https://control.tenniskhelo.com/api",
+      baseURL: `${process.env.Backend_Base_Url}`,
       headers: {
         Accept: "application/json",
         "Access-Control-Allow-Origin": "*",
@@ -106,7 +106,7 @@ exports.rankingData = async (req, res) => {
     console.log("req.body", req.body);
     const { date, category, sub_category, rank, token } = req.body;
     const Api = axios.create({
-      baseURL: " https://control.tenniskhelo.com/api",
+      baseURL: `${process.env.Backend_Base_Url}`,
       headers: {
         Accept: "application/json",
         "Access-Control-Allow-Origin": "*",
