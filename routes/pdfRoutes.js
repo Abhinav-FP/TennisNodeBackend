@@ -8,8 +8,6 @@ router.post("/pdf-to-json", pdfController.extractPdfToJson);
 router.post("/login", pdfController.login);
 router.post("/logout", pdfController.logout);
 router.post("/ranking-data-post", pdfController.rankingData);
+router.get("/latest-ranking-date", pdfController.getRankingDate);
 
-// cron.schedule('* * * * *', () => {
-//     console.log("Hello World 2");
-//     });
 module.exports = router;

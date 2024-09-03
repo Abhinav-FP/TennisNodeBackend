@@ -122,8 +122,8 @@ exports.rankingData = async (req, res) => {
       ranks,
     });
     console.log("resp-data", response.data);
-    let jsonData = { date: `${date}` };
-    await fs.writeFile("./controllers/date.json", JSON.stringify(jsonData, null, 2), 'utf8');
+    // let jsonData = { date: `${date}` };
+    // await fs.writeFile("./controllers/date.json", JSON.stringify(jsonData, null, 2), 'utf8');
     if (response.data.success) {
       res.status(200).json({
         status: "true",
@@ -143,4 +143,17 @@ exports.rankingData = async (req, res) => {
       message: err.message,
     });
   }
+};
+
+exports.getRankingDate = async (req, res) => {
+  console.log("req.query", req.query);
+  let type=`${req.query.category}${req.query.group}`;
+  console.log("type",type);
+  const data = await fs.readFile('./controllers/date.json', 'utf-8');
+  const jsonObject = JSON.parse(data);
+const result = jsonObject[type];
+  res.status(200).json({
+    status: "true",
+    message: `For the selected combination the ranks were last updated on ${result}`,
+  });
 };
