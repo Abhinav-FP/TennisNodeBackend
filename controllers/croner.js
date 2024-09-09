@@ -42,6 +42,7 @@ const isValidUrl = async (url) => {
 
 exports.cronerFunction = async () => {
   try {
+    console.log("Croner job started");
     const data = await fs.readFile("./controllers/date.json", "utf8");
     const jsonData = JSON.parse(data);
     let startDate = jsonData.date;
@@ -60,40 +61,44 @@ exports.cronerFunction = async () => {
       if (valid) {
         const mailOptions = {
           from: process.env.USER, // sender address
-          to: "a.mathur@futureprofilez.com, naveen@internetbusinesssolutionsindia.com", // list of receivers
+          // to: "a.mathur@futureprofilez.com, naveen@internetbusinesssolutionsindia.com", // list of receivers
+          to: "a.mathur@futureprofilez.com",
           subject: "New data has arrived on aita", // Subject line
           html: `
-            <html>
-              <body style="text-align: center; margin: 0; padding: 10px; background-color: #000000; color: #ffffff;" align="center">
-                <!-- Start container for logo -->
-                <table align="center" style="width: 600px; max-width: 600px; background-color: #000000;" width="600">
-                  <tbody>
-                    <tr>
-                      <td style="padding: 15px;" width="596">
-                        <!-- Your logo is here -->
-                        <img style="text-align: center;" alt="Logo" src="https://tenniskhelo.com/build/assets/logo-BtfN3LnB.svg" align="center">
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-                <table align="center" style="width: 600px; max-width: 600px; background-color: #000000;" width="600">
-                  <tbody>
-                    <tr>
-                      <td style="padding: 30px;" width="596">
-                        <h1 style="font-size: 20px; line-height: 24px; font-family: 'Helvetica', Arial, sans-serif; font-weight: 600; color: #ffffff;">Update Ranking Data</h1>
-                        <p style="font-size: 15px; line-height: 24px; font-family: 'Helvetica', Arial, sans-serif; font-weight: 400; color: #ffffff;">This is a system-generated email to inform you that new data has arrived on the AITA website for date-${year}-${month}-${day}. Please update it.</p>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </body>
-            </html>`,
+  <html>
+    <body style="text-align: center; margin: 0; padding: 10px; background-color: #000000; color: #ffffff;" align="center">
+      <!-- Start container for logo -->
+      <table align="center" style="width: 600px; max-width: 600px; background-color: #000000;" width="600">
+        <tbody>
+          <tr>
+            <td style="padding: 15px;" width="596">
+              <!-- Your logo is here -->
+              <div style="text-align: center;">
+                <img alt="Logo" src="https://cdn.tenniskhelo.com/main-tenniskhelo-logo.svg" width="200" height="auto" style="display: block; margin: 0 auto;">
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <table align="center" style="width: 600px; max-width: 600px; background-color: #000000;" width="600">
+        <tbody>
+          <tr>
+            <td style="padding: 30px;" width="596">
+              <h1 style="font-size: 20px; line-height: 24px; font-family: 'Helvetica', Arial, sans-serif; font-weight: 600; color: #ffffff;">Update Ranking Data</h1>
+              <p style="font-size: 15px; line-height: 24px; font-family: 'Helvetica', Arial, sans-serif; font-weight: 400; color: #ffffff;">This is a system-generated email to inform you that new data has arrived on the AITA website for date-${year}-${month}-${day}. Please update it.</p>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </body>
+  </html>
+`
         };
         // Send email
         try {
           const sendMailResponse = await sendMail(mailOptions);
           if (!sendMailResponse) {
-            throw new Error('Failed to send email');
+            throw new Error("Failed to send email");
           }
           console.log("Email sent successfully");
         } catch (error) {

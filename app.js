@@ -32,9 +32,13 @@ app.use("/api/extract", pdfRoutes);
 
 app.use("/.netlify/functions/app", router);
 app.use(errorHandler);
-cron.schedule('0 9,18 * * 1-5', () => {
+// cron.schedule('0 9,18 * * 1-5', () => {
+//   cronerFunction();
+// });
+cron.schedule('0 * * * *', () => {
   cronerFunction();
 });
+
 
 app.listen(port, () => {
   console.log(`Server listening at http://localhost:${port}`);
