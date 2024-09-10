@@ -111,7 +111,8 @@ const isValidUrl = async (url) => {
   }
 };
 
-exports.processPdf = (url, sub_category) => {
+exports.processPdf = (url, sub_category, category) => {
+  let girlsValue=[];
   return new Promise(async (resolve, reject) => {
     // console.log("Inside pdf Services",url)
     const valid = await isValidUrl(url);
@@ -152,11 +153,11 @@ exports.processPdf = (url, sub_category) => {
         return /^[A-Za-z\s]+$/.test(str);
       }
       const value1 = mergeNames(row);
-      logger.info(value1)
       const value = mergeNames(value1);
-      logger.info("=>>>>>>"+value)
+      // console.log(value);
+      const lastValue = value[value.length - 1];
+      girlsValue.push(lastValue);
       rows.push(value);
-
     });
 
     reader.on("end", () => {
@@ -174,6 +175,7 @@ exports.processPdf = (url, sub_category) => {
       // Logic for dealing with different pdfs
       let rowsWithObj;
       if (sub_category == "u_18") {
+        // logger.info(filteredRows);
         rowsWithObj = filteredRows
           .slice(1)
           .map((row) => standardizeKeys_U_18(row, filteredRows[0]));
@@ -193,6 +195,14 @@ exports.processPdf = (url, sub_category) => {
 
       const title = rows[0][0];
       const date = rows[1][0];
+      console.log(rowsWithObj);
+      girlsValue.splice(0, 7);
+      if(category=="G" && sub_category=="u_18"){
+        rowsWithObj.forEach((item, index) => {
+          item.final = girlsValue[index];
+        });
+        // console.log("rowsWithObj",rowsWithObj)
+      }
 
       resolve({
         title,

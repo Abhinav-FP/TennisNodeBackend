@@ -5,7 +5,7 @@ const fs = require("fs").promises;
 
 exports.extractPdfToJson = async (req, res) => {
   try {
-    const { url, sub_category } = req.body;
+    const { url, sub_category, category } = req.body;
     // console.log("req.body", req.body);
     if (!url) {
       return res
@@ -13,7 +13,7 @@ exports.extractPdfToJson = async (req, res) => {
         .json({ status: "fail", message: "URL parameter is required" });
     }
     logger.info(`Received request to process PDF from URL: ${url}`);
-    const result = await pdfService.processPdf(url, sub_category);
+    const result = await pdfService.processPdf(url, sub_category, category);
     res.status(200).json({
       status: "true",
       data: result,
