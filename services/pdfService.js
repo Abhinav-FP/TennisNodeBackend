@@ -196,8 +196,15 @@ exports.processPdf = (url, sub_category, category) => {
       const title = rows[0][0];
       const date = rows[1][0];
       console.log(rowsWithObj);
-      girlsValue.splice(0, 7);
-      if(category=="G" && sub_category=="u_18"){
+      if(category=="G" && sub_category=="u_18")
+        {
+          girlsValue.splice(0, 7);
+        }
+        else if(category=="B" && sub_category=="u_14")
+        {
+          girlsValue.splice(0, 6);
+        }
+      if((category=="G" && sub_category=="u_18") || (category=="B" && sub_category=="u_14")){
         rowsWithObj.forEach((item, index) => {
           item.final = girlsValue[index];
         });
