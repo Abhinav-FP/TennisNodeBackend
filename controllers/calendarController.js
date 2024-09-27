@@ -1,82 +1,47 @@
 const axios = require("axios"); // Remove the duplicate import
 const cheerio = require("cheerio");
 const logger = require("../utils/logger"); // Assuming you have a logger utility
+const moment = require('moment');
 
-// Function to fetch the HTML from the given URL
+
 function mergeWeeks(data) {
   const mergedData = {};
 
-  // Helper function to convert "dd mmm" to "dd-mm-yyyy"
-  function convertWeekFormat(weekStr) {
-    const [day, month] = weekStr.split(",");
-    const monthNames = [
-      "Jan",
-      "Feb",
-      "Mar",
-      "Apr",
-      "May",
-      "Jun",
-      "Jul",
-      "Aug",
-      "Sep",
-      "Oct",
-      "Nov",
-      "Dec",
-    ];
-    const monthIndex = monthNames.indexOf(month.trim()) + 1;
-    const year = "2024"; // Assuming all are from 2024 as per the example.
-    return `${day.padStart(2, "0")}-${monthIndex
-      .toString()
-      .padStart(2, "0")}-${year}`;
-  }
-
-  // Helper function to convert keys with spaces to underscores
-  function replaceSpacesWithUnderscores(obj) {
-    const newObj = {};
-    Object.keys(obj).forEach((key) => {
-      const newKey = key.replace(/ /g, "_"); // Replace spaces with underscores
-      newObj[newKey] = obj[key];
-    });
-    return newObj;
-  }
-
   data.forEach((entry) => {
-    const week = convertWeekFormat(entry.WEEK);
+    // Convert "dd MMM" format to "mm-dd-yyyy" format
+    const weekDate = moment(entry.WEEK, "DD,MMM").format("MM-DD-YYYY");
 
-    if (!mergedData[week]) {
-      mergedData[week] = replaceSpacesWithUnderscores(
-        JSON.parse(JSON.stringify(entry))
-      ); // Deep copy and replace spaces in keys
-      mergedData[week].WEEK = week; // Update WEEK to the new format
-    } else {
-      const categories = Object.keys(entry);
-      categories.forEach((category) => {
-        if (category !== "WEEK") {
-          const newCategory = category.replace(/ /g, "_"); // Replace spaces with underscores
-          if (entry[category].text && entry[category].text !== "") {
-            if (mergedData[week][newCategory].text) {
-              mergedData[week][newCategory].text += `, ${entry[category].text}`;
-            } else {
-              mergedData[week][newCategory].text = entry[category].text;
-            }
+    if (!mergedData[weekDate]) {
+      mergedData[weekDate] = {};
+    }
 
-            // Only merge links if both the existing and new entry have non-empty text
-            if (mergedData[week][newCategory].text && entry[category].text) {
-              if (mergedData[week][newCategory].link) {
-                mergedData[week][
-                  newCategory
-                ].link += `, ${entry[category].link}`;
-              } else {
-                mergedData[week][newCategory].link = entry[category].link;
-              }
-            }
+    Object.keys(entry).forEach((key) => {
+      if (key !== 'WEEK') {
+        const modifiedKey = key.replace(/ /g, '_'); // Replace spaces with underscores
+
+        if (!mergedData[weekDate][modifiedKey]) {
+          mergedData[weekDate][modifiedKey] = {
+            text: entry[key].text,
+            link: entry[key].text ? entry[key].link : '' // Include link only if text is not empty
+          };
+        } else {
+          // Merge text and link only if both entries have text
+          if (entry[key].text) {
+            mergedData[weekDate][modifiedKey].text += mergedData[weekDate][modifiedKey].text
+              ? `,${entry[key].text}`
+              : entry[key].text;
+              
+            // Merge the links only if both have non-empty text
+            mergedData[weekDate][modifiedKey].link += mergedData[weekDate][modifiedKey].text
+              ? `,${entry[key].link}`
+              : entry[key].link;
           }
         }
-      });
-    }
+      }
+    });
   });
 
-  return Object.values(mergedData);
+  return mergedData;
 }
 
 async function fetchHTML(url) {
