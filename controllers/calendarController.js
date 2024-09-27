@@ -6,30 +6,70 @@ const logger = require("../utils/logger"); // Assuming you have a logger utility
 function mergeWeeks(data) {
   const mergedData = {};
 
+  // Helper function to convert "dd mmm" to "dd-mm-yyyy"
+  function convertWeekFormat(weekStr) {
+    const [day, month] = weekStr.split(",");
+    const monthNames = [
+      "Jan",
+      "Feb",
+      "Mar",
+      "Apr",
+      "May",
+      "Jun",
+      "Jul",
+      "Aug",
+      "Sep",
+      "Oct",
+      "Nov",
+      "Dec",
+    ];
+    const monthIndex = monthNames.indexOf(month.trim()) + 1;
+    const year = "2024"; // Assuming all are from 2024 as per the example.
+    return `${day.padStart(2, "0")}-${monthIndex
+      .toString()
+      .padStart(2, "0")}-${year}`;
+  }
+
+  // Helper function to convert keys with spaces to underscores
+  function replaceSpacesWithUnderscores(obj) {
+    const newObj = {};
+    Object.keys(obj).forEach((key) => {
+      const newKey = key.replace(/ /g, "_"); // Replace spaces with underscores
+      newObj[newKey] = obj[key];
+    });
+    return newObj;
+  }
+
   data.forEach((entry) => {
-    const week = entry.WEEK;
+    const week = convertWeekFormat(entry.WEEK);
 
     if (!mergedData[week]) {
-      mergedData[week] = JSON.parse(JSON.stringify(entry)); // Create a deep copy
+      mergedData[week] = replaceSpacesWithUnderscores(
+        JSON.parse(JSON.stringify(entry))
+      ); // Deep copy and replace spaces in keys
+      mergedData[week].WEEK = week; // Update WEEK to the new format
     } else {
       const categories = Object.keys(entry);
       categories.forEach((category) => {
         if (category !== "WEEK") {
-          // Check if there's any text and concatenate it with existing text
+          const newCategory = category.replace(/ /g, "_"); // Replace spaces with underscores
           if (entry[category].text && entry[category].text !== "") {
-            if (mergedData[week][category].text) {
-              mergedData[week][category].text += `, ${entry[category].text}`;
+            if (mergedData[week][newCategory].text) {
+              mergedData[week][newCategory].text += `, ${entry[category].text}`;
             } else {
-              mergedData[week][category].text = entry[category].text;
+              mergedData[week][newCategory].text = entry[category].text;
             }
-          }
 
-          // Ignore link if the text is empty, but copy link if there's text
-          if (
-            mergedData[week][category].text &&
-            mergedData[week][category].text !== ""
-          ) {
-            mergedData[week][category].link = entry[category].link;
+            // Only merge links if both the existing and new entry have non-empty text
+            if (mergedData[week][newCategory].text && entry[category].text) {
+              if (mergedData[week][newCategory].link) {
+                mergedData[week][
+                  newCategory
+                ].link += `, ${entry[category].link}`;
+              } else {
+                mergedData[week][newCategory].link = entry[category].link;
+              }
+            }
           }
         }
       });
