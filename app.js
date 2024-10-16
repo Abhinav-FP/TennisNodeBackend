@@ -3,6 +3,7 @@ const serverless = require("serverless-http");
 const cron = require("node-cron");
 const pdfRoutes = require("./routes/pdfRoutes");
 const calendarRoutes = require("./routes/calendarRoutes");
+const multer = require("multer"); 
 require('dotenv').config();
 const { errorHandler } = require("./utils/errorHandler");
 const cors = require("cors");
@@ -28,6 +29,8 @@ app.get("/", (req, res) => {
     status: 200,
   });
 });
+upload = multer();
+app.use(upload.none()); 
 
 app.use("/api/extract", pdfRoutes);
 app.use("/api/calendar", calendarRoutes);
