@@ -5,7 +5,7 @@ const calendarController = require("../controllers/calendarController");
 const router = express.Router();
 
 router.get("/get", calendarController.getData);
-router.post("/detailget", calendarController.FactSheetLink);
-// router.post("/pdf/data", calendarController.extractcalendarData);
+router.post("/getlink", calendarController.FactSheetLink);
+router.post("/pdf/data", calendarController.extractcalendarData);
 
 module.exports = router;

@@ -90,7 +90,6 @@ async function fetchHTML(url) {
   }
 }
 
-// Function to strip everything above the 'tableFixHead' div and return the table HTML
 function extractTableHTML(html) {
   const $ = cheerio.load(html);
   // Extract the content of the div with class "tableFixHead"
@@ -98,7 +97,6 @@ function extractTableHTML(html) {
   return tableDiv;
 }
 
-// Function to convert the table to JSON
 function tableToJSON(tableHTML) {
   const $ = cheerio.load(tableHTML);
   const headers = [];
@@ -125,7 +123,6 @@ function tableToJSON(tableHTML) {
   return rows;
 }
 
-// Main function to get and process the calendar data
 async function getCalendarData() {
   const url = "https://aitatennis.com/management/calendar.php?year=2024";
 
@@ -148,7 +145,6 @@ async function getCalendarData() {
   }
 }
 
-// Controller function to handle the request
 exports.getData = async (req, res) => {
   try {
     // Get the calendar data
@@ -177,11 +173,10 @@ exports.FactSheetLink = async (req, res) => {
     const html = await fetchHTML(url);
     const regex = /<a\s+[^>]*href="([^"]*storage\/data\/factsheet[^"]*)"/i;
     const match = html.match(regex);
-    const data= await extractcalendarData(match[1]);
     res.status(200).json({
       status: true,
       message: "Link extracted successfully!",
-      data: data,
+      link: match[1],
     });
   } catch (err) {
     // Log the error and send the error response
@@ -193,8 +188,10 @@ exports.FactSheetLink = async (req, res) => {
   }
 };
 
-const extractcalendarData = async (url) => {
+exports.extractcalendarData = async (req, res) => {
   try {
+    const { url } = req.body;
+    console.log("req.body", req.body);
     if (!url) {
       return res
         .status(400)
@@ -202,9 +199,15 @@ const extractcalendarData = async (url) => {
     }
     logger.info(`Received request to process PDF from URL: ${url}`);
     const result = await calendarPdfService.processPdf(url);
-    return result;
+    res.status(200).json({
+      status: "true",
+      data: result,
+    });
   } catch (err) {
     logger.error(`Request failed: ${err.message}`);
-    return err;
+    res.status(400).json({
+      status: "false",
+      message: err.message,
+    });
   }
 };

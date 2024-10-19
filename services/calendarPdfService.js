@@ -152,7 +152,7 @@ exports.processPdf = (url) => {
       //  Third table Tour Info on the page
       let TourInfo;
       [TourInfo, remainingInfo] = splitArrayBySingleValue(remainingInfo);
-      console.log("remainingInfo",remainingInfo);
+      // console.log("remainingInfo",remainingInfo);
       let Tour = {};
       TourInfo.forEach((innerArray, index) => {
         const key = innerArray[0].replaceAll(" ","-");
