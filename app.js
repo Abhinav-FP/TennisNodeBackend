@@ -40,9 +40,9 @@ app.use(errorHandler);
 // cron.schedule('0 9,18 * * 1-5', () => {
 //   cronerFunction();
 // });
-cron.schedule('0 * * * *', () => {
-  cronerFunction();
-});
+// cron.schedule('0 * * * *', () => {
+//   cronerFunction();
+// });
 
 
 app.listen(port, () => {

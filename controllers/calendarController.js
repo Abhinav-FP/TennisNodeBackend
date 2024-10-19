@@ -1,7 +1,7 @@
 const axios = require("axios"); // Remove the duplicate import
 const cheerio = require("cheerio");
 const logger = require("../utils/logger"); // Assuming you have a logger utility
-const moment = require("moment");
+const calendarPdfService = require("../services/calendarPdfService");
 
 function mergeWeeks(data) {
   const mergedData = {};
@@ -177,10 +177,11 @@ exports.FactSheetLink = async (req, res) => {
     const html = await fetchHTML(url);
     const regex = /<a\s+[^>]*href="([^"]*storage\/data\/factsheet[^"]*)"/i;
     const match = html.match(regex);
+    const data= await extractcalendarData(match[1]);
     res.status(200).json({
       status: true,
       message: "Link extracted successfully!",
-      link: match[1],
+      data: data,
     });
   } catch (err) {
     // Log the error and send the error response
@@ -189,5 +190,21 @@ exports.FactSheetLink = async (req, res) => {
       status: false,
       message: err.message,
     });
+  }
+};
+
+const extractcalendarData = async (url) => {
+  try {
+    if (!url) {
+      return res
+        .status(400)
+        .json({ status: "fail", message: "URL parameter is required" });
+    }
+    logger.info(`Received request to process PDF from URL: ${url}`);
+    const result = await calendarPdfService.processPdf(url);
+    return result;
+  } catch (err) {
+    logger.error(`Request failed: ${err.message}`);
+    return err;
   }
 };
