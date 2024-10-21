@@ -130,7 +130,7 @@ exports.processPdf = (url) => {
       }
       let basic = {};
       basicInfo.forEach((innerArray) => {
-        const key = innerArray[0].replaceAll(" ","-");
+        const key = innerArray[0].replaceAll(" ","_");
         const value = innerArray.slice(1).join(" ");
         basic[key] = value;
       });
@@ -155,7 +155,7 @@ exports.processPdf = (url) => {
       // console.log("remainingInfo",remainingInfo);
       let Tour = {};
       TourInfo.forEach((innerArray, index) => {
-        const key = innerArray[0].replaceAll(" ","-");
+        const key = innerArray[0].replaceAll(" ","_");
         const value = innerArray.slice(1).join(" ");
         if (index === 0) {
           Tour[`heading`] = key;
