@@ -2,6 +2,17 @@ const { PdfDataReader } = require("pdf-data-parser");
 const logger = require("../utils/logger");
 const axios = require("axios");
 
+function extractArrayBetweenValues(array, lowerValue, higherValue) {
+  const lowerIndex = array.findIndex((row) => row.includes(lowerValue));
+  const higherIndex = array.findIndex((row) => row.includes(higherValue));
+
+  if (lowerIndex !== -1 && higherIndex !== -1 && lowerIndex < higherIndex) {
+    return array.slice(lowerIndex, higherIndex);
+  } else {
+    return []; // Return an empty array if the values are not found or invalid range
+  }
+}
+
 function splitArrayByKeyword(arr, keyword) {
   const index = arr.findIndex((subArr) => subArr.includes(keyword));
 
@@ -18,12 +29,60 @@ function splitArrayByKeyword(arr, keyword) {
 }
 function mergeSingleValueRows(rows) {
   return rows.reduce((acc, row, index) => {
-    // Remove empty strings from the row
+    // Filter out any empty string values in the row
     const nonEmptyValues = row.filter((value) => value !== "");
 
-    // If the row contains only 1 non-empty value, merge it with the previous row
-    if (nonEmptyValues.length === 1 && acc.length > 0) {
-      acc[acc.length - 1].push(nonEmptyValues[0]);
+    // Check if the row contains only one non-empty value
+    if (nonEmptyValues.length === 1) {
+      const singleValue = nonEmptyValues[0];
+
+      // Check if the value is "HON. SECRETARY OF" or "HONY. SECRETARY OF"
+      // If true, merge it with the next row's first value by concatenating
+      if (
+        singleValue === "HON. SECRETARY OF" ||
+        singleValue === "HONY. SECRETARY OF" ||
+        singleValue === "COURT" ||
+        singleValue === "NO. OF MATCH"
+      ) {
+        if (index < rows.length - 1) {
+          const nextRow = rows[index + 1];
+          // Concatenate the single value with the first value of the next row
+          nextRow[0] = `${singleValue} ${nextRow[0]}`;
+        }
+
+        // Check if the single value matches specific association or contact details
+        // If true, it does nothing (these values are ignored for merging purposes)
+      } else if (
+        singleValue === "NAME OF THE STATE ASSOCIATION" ||
+        singleValue === "ADDRESS OF THE ASSOCIATION" ||
+        singleValue === "TELEPHONE NO." ||
+        singleValue === "EMAIL ID" ||
+        singleValue === "TOURNAMENT FACTSHEET – 2024"
+      ) {
+        // Do nothing for these cases
+        // Check if the single value needs to be inserted at the second position
+        // in the next row, if the next row starts with "ADDRESS OF THE ASSOCIATION"
+      } else if (
+        index < rows.length - 1 &&
+        rows[index + 1][0] === "ADDRESS OF THE ASSOCIATION"
+      ) {
+        const nextRow = rows[index + 1];
+        // Insert the single value at the second position in the next row
+        nextRow.splice(1, 0, singleValue);
+
+        // For all other cases, the single value gets added to the last row in 'acc'
+        // If no rows exist in 'acc', it starts a new row with the current one
+      } else {
+        if (acc.length > 0) {
+          // Append the single value to the previous row
+          acc[acc.length - 1].push(singleValue);
+        } else {
+          // Add the current row as a new row
+          acc.push(row);
+        }
+      }
+
+      // If the row contains more than one value, push it directly into the accumulator
     } else {
       acc.push(row);
     }
@@ -71,7 +130,6 @@ function splitArrayBySingleValue(arr) {
   return [firstPart, secondPart];
 }
 
-
 const isValidUrl = async (url) => {
   try {
     const response = await axios.head(url);
@@ -111,7 +169,6 @@ exports.processPdf = (url) => {
       }
       let filteredRows = rows;
       filteredRows.shift();
-      // console.log("filteredRows", filteredRows);
       let [basicInfo, remainingInfo] = splitArrayByKeyword(
         filteredRows,
         "ONLINE ENTRY SYSTEM"
@@ -130,7 +187,10 @@ exports.processPdf = (url) => {
       }
       let basic = {};
       basicInfo.forEach((innerArray) => {
-        const key = innerArray[0].replaceAll(" ","_");
+        let key = innerArray[0].replaceAll(" ", "_");
+        if (key === "HON._SECRETARY_OF_ASSOCIATION") {
+          key = "HONY._SECRETARY_OF_ASSOCIATION";
+        }
         const value = innerArray.slice(1).join(" ");
         basic[key] = value;
       });
@@ -155,7 +215,7 @@ exports.processPdf = (url) => {
       // console.log("remainingInfo",remainingInfo);
       let Tour = {};
       TourInfo.forEach((innerArray, index) => {
-        const key = innerArray[0].replaceAll(" ","_");
+        const key = innerArray[0].replaceAll(" ", "_");
         const value = innerArray.slice(1).join(" ");
         if (index === 0) {
           Tour[`heading`] = key;
@@ -163,12 +223,50 @@ exports.processPdf = (url) => {
           Tour[key] = value;
         }
       });
-      // console.log("Tour", Tour);
+      // Venue Details table
+      let VenueInfo = extractArrayBetweenValues(
+        remainingInfo,
+        "VENUE DETAILS",
+        "TOURNAMENT OFFICIALS"
+      );
+      console.log("VenueInfoBefore", VenueInfo);
+      VenueInfo = mergeSingleValueRows(VenueInfo);
+      console.log("VenueInfo", VenueInfo);
+      let Venue = {};
+      VenueInfo.forEach((innerArray, index) => {
+        let key = innerArray[0].replaceAll(" ", "_");
+        if (key === "BALLS") {
+          key = "BALL";
+        }
+        if (index === VenueInfo.length - 1) {
+          let key1 = innerArray[0].replaceAll(" ", "_"); 
+          const value1 = innerArray[1]; 
+          let key2 = innerArray[2].replaceAll(" ", "_"); 
+          const value2 = innerArray[3]; 
+          if (key1 === "FLOODLIGHTS") {
+            key1 = "FLOODLIT";
+          }
+          else if (key2 === "FLOODLIGHTS") {
+            key2 = "FLOODLIT";
+          } 
+          Venue[key1] = value1; 
+          Venue[key2] = value2;
+        }
+        else{
+          const value = innerArray.slice(1).join(" ");
+          if (index === 0) {
+            Venue[`heading`] = key;
+          } else {
+            Venue[key] = value;
+          }
+        }
+      });
 
       resolve({
         basic: basic,
         onlineEntry: OnlineEntry,
-        tour:Tour,
+        tour: Tour,
+        venue:Venue,
       });
     });
     reader.on("error", (err) => {

@@ -191,13 +191,13 @@ exports.FactSheetLink = async (req, res) => {
 exports.extractcalendarData = async (req, res) => {
   try {
     const { url } = req.body;
-    console.log("req.body", req.body);
+    // console.log("req.body", req.body);
     if (!url) {
       return res
         .status(400)
         .json({ status: "fail", message: "URL parameter is required" });
     }
-    logger.info(`Received request to process PDF from URL: ${url}`);
+    // logger.info(`Received request to process PDF from URL: ${url}`);
     const result = await calendarPdfService.processPdf(url);
     res.status(200).json({
       status: "true",
