@@ -2,6 +2,15 @@ const { PdfDataReader } = require("pdf-data-parser");
 const logger = require("../utils/logger");
 const axios = require("axios");
 
+const keyMappings = {
+  "HON._SECRETARY_OF_ASSOCIATION": "HONY._SECRETARY_OF_ASSOCIATION",
+  FLOODLIGHTS: "FLOODLIT",
+  BALLS: "BALL",
+  "ADDRESS_OF_VENUE":"ADDRESS_OF_THE_VENUE",
+  "TELEPHONE_NO.":"TELEPHONE_NO",
+  "TELEPHONE":"TELEPHONE_NO"
+};
+
 function extractArrayBetweenValues(array, lowerValue, higherValue) {
   const lowerIndex = array.findIndex((row) => row.includes(lowerValue));
   const higherIndex = array.findIndex((row) => row.includes(higherValue));
@@ -229,30 +238,39 @@ exports.processPdf = (url) => {
         "VENUE DETAILS",
         "TOURNAMENT OFFICIALS"
       );
-      console.log("VenueInfoBefore", VenueInfo);
+      // console.log("VenueInfoBefore", VenueInfo);
       VenueInfo = mergeSingleValueRows(VenueInfo);
-      console.log("VenueInfo", VenueInfo);
+      // console.log("VenueInfo", VenueInfo);
       let Venue = {};
       VenueInfo.forEach((innerArray, index) => {
         let key = innerArray[0].replaceAll(" ", "_");
         if (key === "BALLS") {
           key = "BALL";
         }
+        else if (key === "ADDRESS_OF_VENUE") {
+          key = "ADDRESS_OF_THE_VENUE";
+        }
+        else if (key === "TELEPHONE" || key === "TELEPHONE_NO.") {
+          key = "TELEPHONE_NO";
+        }
         if (index === VenueInfo.length - 1) {
-          let key1 = innerArray[0].replaceAll(" ", "_"); 
-          const value1 = innerArray[1]; 
-          let key2 = innerArray[2].replaceAll(" ", "_"); 
-          const value2 = innerArray[3]; 
+          let key1 = innerArray[0].replaceAll(" ", "_");
+          const value1 = innerArray[1];
+          let key2 = innerArray[2].replaceAll(" ", "_");
+          const value2 = innerArray[3];
           if (key1 === "FLOODLIGHTS") {
             key1 = "FLOODLIT";
-          }
-          else if (key2 === "FLOODLIGHTS") {
+          } else if (key2 === "FLOODLIGHTS") {
             key2 = "FLOODLIT";
-          } 
-          Venue[key1] = value1; 
+          }
+          if (key1 === "NO._OF_COURTS") {
+            key1 = "NO._OF_MATCH_COURTS";
+          } else if (key2 === "NO._OF_COURTS") {
+            key2 = "NO._OF_MATCH_COURTS";
+          }
+          Venue[key1] = value1;
           Venue[key2] = value2;
-        }
-        else{
+        } else {
           const value = innerArray.slice(1).join(" ");
           if (index === 0) {
             Venue[`heading`] = key;
@@ -266,7 +284,7 @@ exports.processPdf = (url) => {
         basic: basic,
         onlineEntry: OnlineEntry,
         tour: Tour,
-        venue:Venue,
+        venue: Venue,
       });
     });
     reader.on("error", (err) => {
