@@ -157,3 +157,29 @@ const result = jsonObject[type];
     message: `For the selected combination the ranks were last updated on ${result}`,
   });
 };
+
+exports.automaticPdfExtraction = async (req, res) => {
+  try {
+    console.log("req.body",req.body);
+    const { date, sub_category, category } = req.body;
+    const link_sub_category=sub_category.toUpperCase().replace("_","-");
+    if (!date || !sub_category || !category) {
+      return res
+        .status(400)
+        .json({ status: "false", message: "All fields are required!" });
+    }
+    const url = `https://aitatennis.com/management/upload/ranking/${date}_${category}${link_sub_category}.pdf`;
+    logger.info(`Received request to process PDF from URL: ${url}`);
+    const result = await pdfService.processPdf(url, sub_category, category);
+    res.status(200).json({
+      status: "true",
+      data: result,
+    });
+  } catch (err) {
+    logger.error(`Request failed: ${err.message}`);
+    res.status(400).json({
+      status: "false",
+      message: err.message,
+    });
+  }
+};

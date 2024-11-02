@@ -9,5 +9,6 @@ router.post("/login", pdfController.login);
 router.post("/logout", pdfController.logout);
 router.post("/ranking-data-post", pdfController.rankingData);
 router.get("/latest-ranking-date", pdfController.getRankingDate);
+router.post("/pdf-extraction", pdfController.automaticPdfExtraction);
 
 module.exports = router;

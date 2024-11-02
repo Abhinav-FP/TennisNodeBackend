@@ -126,7 +126,7 @@ exports.processPdf = (url, sub_category, category) => {
 
     try {
       reader = new PdfDataReader({ url });
-      console.log("reader",reader);
+      // console.log("reader",reader);
     } catch (error) {
       console.log(`Failed to initialize PDF reader for URL: ${url}`);
       return reject(new Error("Failed to initialize PDF reader"));
@@ -195,7 +195,7 @@ exports.processPdf = (url, sub_category, category) => {
 
       const title = rows[0][0];
       const date = rows[1][0];
-      console.log(rowsWithObj);
+      // console.log(rowsWithObj);
       if(category=="G" && sub_category=="u_18")
         {
           girlsValue.splice(0, 7);
