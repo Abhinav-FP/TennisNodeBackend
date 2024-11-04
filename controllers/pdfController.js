@@ -160,15 +160,23 @@ const result = jsonObject[type];
 
 exports.automaticPdfExtraction = async (req, res) => {
   try {
+    console.log("API Key:", req.headers["tk-api-key"]);
+    const key= req.headers["tk-api-key"];
+    if(key!="fca918ef-6572-4f5b-9d8f-cd59d73bedaa")
+      {
+        return res
+      .status(403)
+      .json({ status: "false", message: "Invalid key!" });
+      }
     console.log("req.body",req.body);
     const { date, sub_category, category } = req.body;
-    const link_sub_category=sub_category.toUpperCase().replace("_","-");
     if (!date || !sub_category || !category) {
       return res
-        .status(400)
-        .json({ status: "false", message: "All fields are required!" });
+      .status(400)
+      .json({ status: "false", message: "All fields are required!" });
     }
-    const url = `https://aitatennis.com/management/upload/ranking/${date}_${category}${link_sub_category}.pdf`;
+    const link_category=category.toUpperCase().replace("_","-");
+    const url = `https://aitatennis.com/management/upload/ranking/${date}_${sub_category}${link_category}.pdf`;
     logger.info(`Received request to process PDF from URL: ${url}`);
     const result = await pdfService.processPdf(url, sub_category, category);
     res.status(200).json({
