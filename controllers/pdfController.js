@@ -2,6 +2,7 @@ const { default: axios } = require("axios");
 const pdfService = require("../services/pdfService");
 const logger = require("../utils/logger");
 const fs = require("fs").promises;
+const Key = require("../db/key");
 
 exports.extractPdfToJson = async (req, res) => {
   try {
@@ -161,8 +162,9 @@ const result = jsonObject[type];
 exports.automaticPdfExtraction = async (req, res) => {
   try {
     console.log("API Key:", req.headers["tk-api-key"]);
-    const key= req.headers["tk-api-key"];
-    if(key!="fca918ef-6572-4f5b-9d8f-cd59d73bedaa")
+    const apikey= req.headers["tk-api-key"];
+    const data=await Key.findOne({});
+    if(apikey!=data?.value)
       {
         return res
       .status(403)

@@ -118,7 +118,7 @@ exports.processPdf = (url, sub_category, category) => {
     const valid = await isValidUrl(url);
     if (!valid) {
       console.log(`Invalid URL: ${url}`);
-      return reject(new Error("Invalid URL"));
+      return reject(new Error("Ranks not Available"));
     }
 
     let reader;

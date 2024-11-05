@@ -3,11 +3,13 @@ const serverless = require("serverless-http");
 const cron = require("node-cron");
 const pdfRoutes = require("./routes/pdfRoutes");
 const calendarRoutes = require("./routes/calendarRoutes");
+const keyRoutes = require("./routes/keyRoutes");
 const multer = require("multer"); 
 require('dotenv').config();
 const { errorHandler } = require("./utils/errorHandler");
 const cors = require("cors");
 const {cronerFunction}=require("./controllers/croner")
+require("./mongoconfig");
 
 const port = process.env.PORT || 5000;
 const hostName='0.0.0.0';
@@ -34,6 +36,7 @@ app.use(upload.none());
 
 app.use("/api/extract", pdfRoutes);
 app.use("/api/calendar", calendarRoutes);
+app.use("/key", keyRoutes);
 
 app.use("/.netlify/functions/app", router);
 app.use(errorHandler);
