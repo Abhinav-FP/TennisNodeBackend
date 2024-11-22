@@ -177,8 +177,8 @@ exports.automaticPdfExtraction = async (req, res) => {
       .status(400)
       .json({ status: "false", message: "All fields are required!" });
     }
-    const link_category=category.toUpperCase().replace("_","-");
-    const url = `https://aitatennis.com/management/upload/ranking/${date}_${sub_category}${link_category}.pdf`;
+    const link_subcategory=sub_category.toUpperCase().replace("_","-");
+    const url = `https://aitatennis.com/management/upload/ranking/${date}_${category}${link_subcategory}.pdf`;
     logger.info(`Received request to process PDF from URL: ${url}`);
     const result = await pdfService.processPdf(url, sub_category, category);
     res.status(200).json({
