@@ -80,6 +80,34 @@ function mergeWeeks(data) {
   return Object.values(mergedData);
 }
 
+function addDataField(data) {
+  return data.map((weekEntry) => {
+    const updatedWeekEntry = { ...weekEntry }; // Create a shallow copy of the week entry
+
+    Object.keys(weekEntry).forEach((key) => {
+      if (key !== "WEEK") {
+        const { text, link } = weekEntry[key];
+
+        if (text && link) {
+          const textArray = text.split(", ").map((t) => t.trim());
+          const linkArray = link.split(", ").map((l) => l.trim());
+
+          // Ensure lengths are equal before creating the data array
+          const length = Math.min(textArray.length, linkArray.length);
+          const dataArray = Array.from({ length }, (_, i) => ({
+            link: linkArray[i],
+            text: textArray[i],
+          }));
+
+          updatedWeekEntry[key] = { ...weekEntry[key], data: dataArray };
+        }
+      }
+    });
+
+    return updatedWeekEntry;
+  });
+}
+
 function processTournamentData(data) {
   return data.map(entry => {
     const processedEntry = { WEEK: entry.WEEK }; // Keep the week information intact.
@@ -175,9 +203,10 @@ async function getCalendarData() {
     const jsonData = tableToJSON(tableHTML);
     const mergedData = mergeWeeks(jsonData);
     const updatedData=processTournamentData(mergedData);
+    const data=addDataField(updatedData)
 
     // Return the JSON data
-    return updatedData;
+    return data;
   } catch (error) {
     console.error("Error processing calendar data:", error);
     throw error;
