@@ -1,6 +1,6 @@
-const axios = require("axios"); // Remove the duplicate import
+const axios = require("axios");
 const cheerio = require("cheerio");
-const logger = require("../utils/logger"); // Assuming you have a logger utility
+const logger = require("../utils/logger");
 const calendarPdfService = require("../services/calendarPdfService");
 
 function mergeWeeks(data) {
@@ -80,6 +80,47 @@ function mergeWeeks(data) {
   return Object.values(mergedData);
 }
 
+function processTournamentData(data) {
+  return data.map(entry => {
+    const processedEntry = { WEEK: entry.WEEK }; // Keep the week information intact.
+
+    Object.keys(entry).forEach(category => {
+      if (category === "WEEK") return; // Skip the WEEK field.
+
+      const { text, link } = entry[category];
+      
+      if (text && text.trim() !== "") { // Process only if text is non-empty.
+        const textArray = text.split(",").map(item => item.trim());
+        const linkArray = link
+          .split(",")
+          .map(item => item.trim().replace("tournament-content?id=", "")); // Remove the prefix.
+
+        // If text and link lengths are not equal, trim the extra links.
+        if (textArray.length !== linkArray.length) {
+          const excessLinks = linkArray.length - textArray.length;
+          linkArray.splice(0, excessLinks); // Remove links from the beginning.
+        }
+        
+        // Add the processed category back to the result.
+        processedEntry[category] = {
+          text: textArray.join(", "), // Rejoin the array into a string.
+          link: linkArray.join(", ") // Rejoin the processed links into a string.
+        };
+      } else {
+        // Preserve categories with empty text as they are.
+        processedEntry[category] = {
+          text: text,
+          link: link
+            ? link.split(",").map(item => item.trim().replace("tournament-content?id=", "")).join(",") // Remove the prefix.
+            : ""
+        };
+      }
+    });
+
+    return processedEntry; // Return the processed entry.
+  });
+}
+
 async function fetchHTML(url) {
   try {
     const { data } = await axios.get(url);
@@ -127,18 +168,16 @@ async function getCalendarData() {
   const url = "https://aitatennis.com/management/calendar.php?year=2024";
 
   try {
-    // Fetch the HTML from the website
     const html = await fetchHTML(url);
 
-    // Extract the table HTML
     const tableHTML = extractTableHTML(html);
 
-    // Convert the table to JSON
     const jsonData = tableToJSON(tableHTML);
     const mergedData = mergeWeeks(jsonData);
+    const updatedData=processTournamentData(mergedData);
 
     // Return the JSON data
-    return mergedData;
+    return updatedData;
   } catch (error) {
     console.error("Error processing calendar data:", error);
     throw error;

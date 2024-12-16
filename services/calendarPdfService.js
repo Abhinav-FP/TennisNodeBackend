@@ -36,6 +36,15 @@ function splitArrayByKeyword(arr, keyword) {
 
   return [beforeKeyword, afterKeyword];
 }
+
+function removeAfterDotCom(inputString) {
+  const index = inputString.indexOf(".com");
+  if (index !== -1) {
+    return inputString.slice(0, index + 4); // Include ".com"
+  }
+  return inputString; // Return the original string if ".com" is not found
+}
+
 function mergeSingleValueRows(rows) {
   return rows.reduce((acc, row, index) => {
     // Filter out any empty string values in the row
@@ -232,6 +241,8 @@ exports.processPdf = (url) => {
           Tour[key] = value;
         }
       });
+
+
       // Venue Details table
       let VenueInfo = extractArrayBetweenValues(
         remainingInfo,
@@ -244,6 +255,7 @@ exports.processPdf = (url) => {
       let Venue = {};
       VenueInfo.forEach((innerArray, index) => {
         let key = innerArray[0].replaceAll(" ", "_");
+        // console.log("key",key)
         if (key === "BALLS") {
           key = "BALL";
         }
@@ -252,6 +264,12 @@ exports.processPdf = (url) => {
         }
         else if (key === "TELEPHONE" || key === "TELEPHONE_NO.") {
           key = "TELEPHONE_NO";
+        }
+        else if (key === "EMAIL" || key === "EMAIL_ID") {
+          key = "EMAIL_ID";
+          const value = removeAfterDotCom(innerArray[1]); 
+          Venue[key] = value;    
+          return;     
         }
         if (index === VenueInfo.length - 1) {
           let key1 = innerArray[0].replaceAll(" ", "_");
