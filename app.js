@@ -11,17 +11,23 @@ const cors = require("cors");
 const {cronerFunction}=require("./controllers/croner")
 require("./mongoconfig");
 
-const port = process.env.PORT || 5000;
+const port = process.env.PORT || 8080;
 const hostName='0.0.0.0';
 const app = express();
 const router = express.Router();
 
+// const corsOptions = {
+//   origin: '*',
+//   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+//   credentials: true,
+// }; 
 const corsOptions = {
-  origin: '*',
+  origin: "*", // Allowed origins
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+  allowedHeaders: '*', // Allow all headers
   credentials: true,
-}; 
-
+  optionsSuccessStatus: 200, // for legacy browsers
+}
 app.use(cors(corsOptions)); 
 app.use(express.json({ limit: '50mb' }));
 
