@@ -191,6 +191,12 @@ exports.processPdf = (url) => {
         filteredRows,
         "ONLINE ENTRY SYSTEM"
       );
+      if(remainingInfo.length===0){
+        [basicInfo, remainingInfo] = splitArrayByKeyword(
+          filteredRows,
+          "ENTRY SYSTEM (ONLINE ONLY)"
+        );
+      }
 
       // First table on the page
       basicInfo = mergeSingleValueRows(basicInfo);
@@ -233,15 +239,18 @@ exports.processPdf = (url) => {
       // console.log("remainingInfo",remainingInfo);
       let Tour = {};
       TourInfo.forEach((innerArray, index) => {
-        const key = innerArray[0].replaceAll(" ", "_");
+        let key = innerArray[0].replaceAll(" ", "_");
+        if (key === "TOURNAMENT_CATREGORY") {
+          key = "TOURNAMENT_CATEGORY";
+        }
         const value = innerArray.slice(1).join(" ");
         if (index === 0) {
           Tour[`heading`] = key;
-        } else {
+        }
+         else {
           Tour[key] = value;
         }
       });
-
 
       // Venue Details table
       let VenueInfo = extractArrayBetweenValues(
