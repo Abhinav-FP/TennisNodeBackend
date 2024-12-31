@@ -24,7 +24,7 @@ function mergeWeeks(data) {
       "Dec",
     ];
     const monthIndex = monthNames.indexOf(month.trim()) + 1;
-    const year = "2024"; // Assuming all are from 2024 as per the example.
+    const year = "2025"; // Assuming all are from 2024 as per the example.
     return `${monthIndex.toString().padStart(2, "0")}-${day.padStart(
       2,
       "0"
@@ -119,16 +119,16 @@ function processTournamentData(data) {
       
       if (text && text.trim() !== "") { // Process only if text is non-empty.
         const textArray = text.split(",").map(item => item.trim());
-        const linkArray = link
-          .split(",")
-          .map(item => item.trim().replace("tournament-content?id=", "")); // Remove the prefix.
+        const linkArray = typeof link === "string" // Check if link is a string
+          ? link.split(",").map(item => item.trim().replace("tournament-content?id=", ""))
+          : [];
 
         // If text and link lengths are not equal, trim the extra links.
         if (textArray.length !== linkArray.length) {
           const excessLinks = linkArray.length - textArray.length;
           linkArray.splice(0, excessLinks); // Remove links from the beginning.
         }
-        
+
         // Add the processed category back to the result.
         processedEntry[category] = {
           text: textArray.join(", "), // Rejoin the array into a string.
@@ -138,9 +138,9 @@ function processTournamentData(data) {
         // Preserve categories with empty text as they are.
         processedEntry[category] = {
           text: text,
-          link: link
+          link: typeof link === "string"
             ? link.split(",").map(item => item.trim().replace("tournament-content?id=", "")).join(",") // Remove the prefix.
-            : ""
+            : "" // Handle non-string links.
         };
       }
     });
@@ -193,7 +193,7 @@ function tableToJSON(tableHTML) {
 }
 
 async function getCalendarData() {
-  const url = "https://aitatennis.com/management/calendar.php?year=2024";
+  const url = "https://aitatennis.com/management/calendar.php?year=2025";
 
   try {
     const html = await fetchHTML(url);

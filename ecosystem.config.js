@@ -1,7 +1,7 @@
 module.exports = {
     apps: [
       {
-        name: "TennisKheloAITA",
+        name: "AITA",
         script: "app.js",
         watch: true
       }
