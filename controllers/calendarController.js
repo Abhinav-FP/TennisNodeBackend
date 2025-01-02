@@ -2,6 +2,7 @@ const axios = require("axios");
 const cheerio = require("cheerio");
 const logger = require("../utils/logger");
 const calendarPdfService = require("../services/calendarPdfService");
+const { JSDOM } = require("jsdom");
 
 function mergeWeeks(data) {
   const mergedData = {};
@@ -236,20 +237,76 @@ exports.getData = async (req, res) => {
 
 exports.FactSheetLink = async (req, res) => {
   try {
+    // Validate the request body
     const { id } = req.body;
+    if (!id || typeof id !== "string") {
+      return res.status(400).json({
+        status: false,
+        message: "The 'id' field is required and must be a string.",
+      });
+    }
+
+    // Fetch HTML content from the provided URL
     const url = `https://aitatennis.com/tournament-content/?id=${id}`;
     const html = await fetchHTML(url);
-    const regex = /<a\s+[^>]*href="([^"]*storage\/data\/factsheet[^"]*)"/i;
-    const match = html.match(regex);
-    res.status(200).json({
-      status: true,
-      message: "Link extracted successfully!",
-      link: match[1],
+
+    // Existing regex patterns
+    const regex1 = /<a\s+[^>]*href="([^"]*storage\/data\/factsheet[^"]*)"/i;
+    const regex2 = /<h4[^>]*>\s*Download\s*-\s*<a[^>]*href="([^"]+)"[^>]*>Fact\s*Sheet\s*<\/a>\s*<\/h4>/i;
+
+    // Match using the existing regex patterns
+    const match1 = html.match(regex1);
+    const match2 = html.match(regex2);
+
+    // Updated regex pattern for new link type with name
+    const regex3 = /<a\s+[^>]*href="(https:\/\/aitatennis\.com\/acceptancelist\?[^"]+)"[^>]*>([^<]+)<\/a>/gi;
+
+    // Find all matches for the new link pattern
+    const list_link = [];
+    let match;
+    while ((match = regex3.exec(html)) !== null) {
+      list_link.push({
+        link: match[1],
+        name: match[2].trim(), // Extract and trim the link name
+      });
+    }
+
+     if (match1) {
+      return res.status(200).json({
+        status: true,
+        message: "Links extracted successfully!",
+        link: match1?.[1] || match2?.[1], // Single link from the old patterns
+        list_link: list_link, // Additional links from the new pattern
+      });
+    }
+
+    if (match2) {
+      return res.status(200).json({
+        status: false,
+        message: "Links extracted successfully!",
+        link: match1?.[1] || match2?.[1], // Single link from the old patterns
+        list_link: list_link, // Additional links from the new pattern
+      });
+    }
+
+    // If no links are found using the old patterns but found using the new pattern
+    if (list_link.length > 0) {
+      return res.status(200).json({
+        status: true,
+        message: "Links extracted successfully!",
+        link: null,
+        list_link: list_link,
+      });
+    }
+
+    return res.status(404).json({
+      status: false,
+      message: "No links found.",
     });
   } catch (err) {
-    // Log the error and send the error response
-    logger.error(`Request failed: ${err.message}`);
-    res.status(400).json({
+    // Log the error and send an error response
+    console.error(`Error occurred: ${err.message}`);
+    return res.status(400).json({
       status: false,
       message: err.message,
     });
@@ -275,6 +332,71 @@ exports.extractcalendarData = async (req, res) => {
     logger.error(`Request failed: ${err.message}`);
     res.status(400).json({
       status: "false",
+      message: err.message,
+    });
+  }
+};
+
+exports.getAcceptanceList = async (req, res) => {
+  try {
+    const {link} = req.body;
+    const htmlContent = await fetchHTML(link);
+    const dom = new JSDOM(htmlContent);
+    const document = dom.window.document;
+  
+    // Find all tables with id "customers1"
+    const tables = document.querySelectorAll('table#customers1');
+    const result = {};
+  
+    tables.forEach((table, index) => {
+      let tableName = `Table_${index + 1}`; // Default table name
+  
+      // Try to get the first `<th>` value as the table name
+      const firstHeader = table.querySelector("thead th");
+      if (firstHeader && firstHeader.textContent.trim()) {
+        tableName = firstHeader.textContent.trim();
+      }
+  
+      const headers = [];
+      const tableData = [];
+  
+      // Extract headers from the table
+      const headerRows = table.querySelectorAll("thead tr");
+      headerRows.forEach((row) => {
+        const thElements = row.querySelectorAll("th");
+        thElements.forEach((th) => {
+          if (th.textContent.trim() && th.colSpan === 1) { // Ignore merged headers
+            headers.push(th.textContent.trim());
+          }
+        });
+      });
+  
+      // Extract rows from the table body
+      const bodyRows = table.querySelectorAll("tbody tr");
+      bodyRows.forEach((row) => {
+        const rowData = {};
+        const cells = row.querySelectorAll("td");
+        cells.forEach((cell, index) => {
+          if (index < headers.length) {
+            rowData[headers[index]] = cell.textContent.trim();
+          }
+        });
+        tableData.push(rowData);
+      });
+  
+      // Add the parsed table to the result using table name as key
+      result[tableName] = tableData;
+    });
+    return  res.status(200).json({
+      status: true,
+      message: "Extracting data success!",
+      data: result, // Include the extracted data in the response
+    });
+  } catch (err) {
+    // Log the error and send the error response
+    logger.error(`Request failed: ${err.message}`);
+    res.status(400).json({
+      status: false,
       message: err.message,
     });
   }
