@@ -214,6 +214,37 @@ async function getCalendarData() {
   }
 }
 
+function extractTextEntries(data) {
+  let textEntries = [];
+
+  data.forEach(weekData => {
+      for (const category in weekData) {
+          const categoryData = weekData[category];
+          if (categoryData && categoryData.text) {
+              // Split the text by commas if there are multiple values
+              const texts = categoryData.text.split(',').map(text => text.trim());
+              textEntries.push(...texts);
+          } else if (categoryData && categoryData.data) {
+              categoryData.data.forEach(item => {
+                  if (item.text) {
+                      textEntries.push(item.text);
+                  }
+              });
+          }
+      }
+  });
+
+  return textEntries;
+}
+
+// Function to count occurrences of each unique text across the entire dataset
+function countTextOccurrences(textEntries) {
+  return textEntries.reduce((acc, text) => {
+      acc[text] = (acc[text] || 0) + 1;
+      return acc;
+  }, {});
+}
+
 exports.getData = async (req, res) => {
   try {
     // Get the calendar data
@@ -234,6 +265,27 @@ exports.getData = async (req, res) => {
     });
   }
 };
+
+exports.getCounts = async (req, res) => {
+  try {
+    const data = await getCalendarData();
+    const textEntries = extractTextEntries(data);
+    const textCounts = countTextOccurrences(textEntries);
+    res.status(200).json({
+      status: true,
+      message: "Extracting data success!",
+      data: textCounts, 
+    });
+  } catch (err) {
+    // Log the error and send the error response
+    logger.error(`Request failed: ${err.message}`);
+    res.status(400).json({
+      status: false,
+      message: err.message,
+    });
+  }
+};
+
 
 exports.FactSheetLink = async (req, res) => {
   try {
