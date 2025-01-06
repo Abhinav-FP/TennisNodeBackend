@@ -25,7 +25,7 @@ function mergeWeeks(data) {
       "Dec",
     ];
     const monthIndex = monthNames.indexOf(month.trim()) + 1;
-    const year = "2025"; // Assuming all are from 2024 as per the example.
+    const year = "2025"; // Assuming all are from 2025 as per the example.
     return `${monthIndex.toString().padStart(2, "0")}-${day.padStart(
       2,
       "0"
@@ -44,6 +44,7 @@ function mergeWeeks(data) {
 
   data.forEach((entry) => {
     const week = convertWeekFormat(entry.WEEK);
+    // console.log("week",week);
 
     if (!mergedData[week]) {
       mergedData[week] = replaceSpacesWithUnderscores(
@@ -150,6 +151,42 @@ function processTournamentData(data) {
   });
 }
 
+async function normalizeData(data) {
+  return data.map(entry => {
+      // Iterate over each key in the entry
+      const normalizedEntry = {};
+      for (const key in entry) {
+          if (key === "WEEK") {
+              // Copy the WEEK field as is
+              normalizedEntry[key] = entry[key];
+          } else {
+              // Normalize the other fields
+              const value = entry[key];
+              if (typeof value === "object" && value !== null) {
+                  // If it's already an object, ensure it has text and link
+                  normalizedEntry[key] = {
+                      text: value.text || "",
+                      link: value.link || ""
+                  };
+              } else if (typeof value === "string") {
+                  // If it's a string, treat it as the text
+                  normalizedEntry[key] = {
+                      text: value,
+                      link: ""
+                  };
+              } else {
+                  // If it's empty or undefined, create an empty object
+                  normalizedEntry[key] = {
+                      text: "",
+                      link: ""
+                  };
+              }
+          }
+      }
+      return normalizedEntry;
+  });
+}
+
 async function fetchHTML(url) {
   try {
     const { data } = await axios.get(url);
@@ -202,7 +239,10 @@ async function getCalendarData() {
     const tableHTML = extractTableHTML(html);
 
     const jsonData = tableToJSON(tableHTML);
-    const mergedData = mergeWeeks(jsonData);
+    // return jsonData;
+    const normalisedData = await normalizeData(jsonData);
+    const mergedData = mergeWeeks(normalisedData);
+    // return mergedData;
     const updatedData=processTournamentData(mergedData);
     const data=addDataField(updatedData)
 
@@ -214,6 +254,7 @@ async function getCalendarData() {
   }
 }
 
+// Count function for counting academies
 function extractTextEntries(data) {
   let textEntries = [];
 
