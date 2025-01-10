@@ -230,8 +230,8 @@ function tableToJSON(tableHTML) {
   return rows;
 }
 
-async function getCalendarData() {
-  const url = "https://aitatennis.com/management/calendar.php?year=2025";
+async function getCalendarData(currentYear) {
+  const url = `https://aitatennis.com/management/calendar.php?year=${currentYear}`;
 
   try {
     const html = await fetchHTML(url);
@@ -289,12 +289,14 @@ function countTextOccurrences(textEntries) {
 exports.getData = async (req, res) => {
   try {
     // Get the calendar data
-    const data = await getCalendarData();
+    const currentYear = new Date()?.getFullYear();
+    const data = await getCalendarData(currentYear);
 
     // Send the response with the extracted data
     res.status(200).json({
       status: true,
       message: "Extracting data success!",
+      year:currentYear,
       data: data, // Include the extracted data in the response
     });
   } catch (err) {
