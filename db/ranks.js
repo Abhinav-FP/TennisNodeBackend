@@ -8,28 +8,28 @@ const rankSchema = new mongoose.Schema({
   },
   playerFamilyName: {
     type: String,
-    required: true,
+    required: [true, "Player Family Name is required"],
   },
   playerGivenName: {
     type: String,
-    required: true,
+    required: [true, "Player Given Name is required"],
   },
   playerNationalityCode: {
     type: String,
-    required: true,
+    required: [true, "Player Nationality Code is required"],
   },
   playerNationality: {
     type: String,
-    required: true,
+    required: [true, "Player Nationality is required"],
   },
   profileLink: {
     type: String,
-    required: true,
+    required: [true, "Profile Link is required"],
   },
   gender: {
     type: String,
     enum: ["M", "F"],
-    required: true,
+    required: [true, "Gender is required"],
   },
   hiddenPlayer: {
     type: Boolean,
@@ -37,7 +37,11 @@ const rankSchema = new mongoose.Schema({
   },
   birthYear: {
     type: Number,
-    required: true,
+    required: [true, "Birth Year is required"],
+  },
+  category:{
+    type: String,
+    required: [true, "Category is required"],
   },
   rankMovement: {
     type: Number,
@@ -45,7 +49,7 @@ const rankSchema = new mongoose.Schema({
   },
   rank: {
     type: Number,
-    required: true,
+    required: [true, "Rank is required"],
     index: true, // Creates an index for faster retrieval
   },
   rankEqualFlag: {
@@ -54,11 +58,11 @@ const rankSchema = new mongoose.Schema({
   },
   tournamentsPlayed: {
     type: Number,
-    required: true,
+    required: [true, "Tournaments Played is required"],
   },
   points: {
     type: Number,
-    required: true,
+    required: [true, "Points are required"],
   },
   profileImage: {
     type: String,
@@ -84,6 +88,10 @@ const rankSchema = new mongoose.Schema({
     type: Number,
     default: null,
   },
+  date:{
+    type:Date,
+    required:[true, "Please send a valid date"]
+  }
 });
 
 const Ranks = mongoose.model("Ranks", rankSchema);
