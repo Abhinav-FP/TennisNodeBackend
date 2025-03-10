@@ -2,6 +2,7 @@ const express = require("express");
 const pdfRoutes = require("./routes/pdfRoutes");
 const calendarRoutes = require("./routes/calendarRoutes");
 const keyRoutes = require("./routes/keyRoutes");
+const ITFRoutes = require("./routes/ITFRoutes");
 const multer = require("multer"); 
 require('dotenv').config();
 const axios = require("axios");
@@ -31,6 +32,7 @@ app.use(upload.none());
 app.use("/api/extract", pdfRoutes);
 app.use("/api/calendar", calendarRoutes);
 app.use("/key", keyRoutes);
+app.use("/ITF", ITFRoutes);
 
 app.use(errorHandler);
 
