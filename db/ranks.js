@@ -4,7 +4,6 @@ const rankSchema = new mongoose.Schema({
   playerId: {
     type: Number,
     required: [true, "Player ID is required"],
-    unique: true,
   },
   playerFamilyName: {
     type: String,
@@ -39,9 +38,10 @@ const rankSchema = new mongoose.Schema({
     type: Number,
     required: [true, "Birth Year is required"],
   },
-  category:{
+  category: {
     type: String,
     required: [true, "Category is required"],
+    index: true,
   },
   rankMovement: {
     type: Number,
@@ -50,7 +50,7 @@ const rankSchema = new mongoose.Schema({
   rank: {
     type: Number,
     required: [true, "Rank is required"],
-    index: true, // Creates an index for faster retrieval
+    index: true,
   },
   rankEqualFlag: {
     type: String,
@@ -88,11 +88,14 @@ const rankSchema = new mongoose.Schema({
     type: Number,
     default: null,
   },
-  date:{
-    type:Date,
-    required:[true, "Please send a valid date"]
-  }
+  date: {
+    type: Date,
+    required: [true, "Please send a valid date"],
+  },
 });
+
+// ✅ Add the unique compound index here
+rankSchema.index({ playerId: 1, category: 1, date: 1 }, { unique: true });
 
 const Ranks = mongoose.model("Ranks", rankSchema);
 
