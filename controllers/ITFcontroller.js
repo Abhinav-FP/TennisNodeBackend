@@ -20,36 +20,46 @@ exports.ITFRanksSave = catchAsync(async (req, res, next) => {
         message: "Invalid category",
       });
     }
+    
     const browser = await puppeteer.launch({ headless: "new" });
     const page = await browser.newPage();
     const category = keyMappings[circuit];
 
+    let url = "";
+    let JuniorsGender = null, JuniorsTournament = null, BeachGender=null;
+
     if (category === "MT" || category === "WT") {
-      await page.goto(
-        `https://www.itftennis.com/tennis/api/PlayerRankApi/GetPlayerRankings?circuitCode=${keyMappings[circuit]}&matchTypeCode=S&ageCategoryCode=&take=6000&isOrderAscending=true`,
-        { waitUntil: "networkidle2", timeout: 60000 }
-      );
+      // Men and woman category data
+      url = `https://www.itftennis.com/tennis/api/PlayerRankApi/GetPlayerRankings?circuitCode=${category}&matchTypeCode=S&ageCategoryCode=&take=6000&isOrderAscending=true`;
     } else if (category === "VT") {
-      await page.goto(
-        `https://www.itftennis.com/tennis/api/PlayerRankApi/GetPlayerRankings?circuitCode=${keyMappings[circuit]}&playerTypeCode=M&matchTypeCode=S&ageCategoryCode=V30&seniorRankingType=ITF&take=6000&isOrderAscending=true`,
-        { waitUntil: "networkidle2", timeout: 60000 }
-      );
+      // Masters
+      url = `https://www.itftennis.com/tennis/api/PlayerRankApi/GetPlayerRankings?circuitCode=${category}&playerTypeCode=M&matchTypeCode=S&ageCategoryCode=V30&seniorRankingType=ITF&take=6000&isOrderAscending=true`;
     } else if (category === "BT") {
-      await page.goto(
-        `https://www.itftennis.com/tennis/api/PlayerRankApi/GetPlayerRankings?circuitCode=${keyMappings[circuit]}&playerTypeCode=M&ageCategoryCode=&take=6000&isOrderAscending=true`,
-        { waitUntil: "networkidle2", timeout: 60000 }
-      );
+      // Beach
+      ({ BeachGender } = req.body);
+      if (!BeachGender) {
+        return res.status(400).json({
+          status: false,
+          message: "Gender is required",
+        });
+      }
+      url = `https://www.itftennis.com/tennis/api/PlayerRankApi/GetPlayerRankings?circuitCode=${category}&playerTypeCode=${BeachGender}&ageCategoryCode=&take=6000&isOrderAscending=true`;
     } else if (category === "WCT") {
-      await page.goto(
-        `https://www.itftennis.com/tennis/api/PlayerRankApi/GetPlayerRankings?circuitCode=${keyMappings[circuit]}&playerTypeCode=M&matchTypeCode=S&ageCategoryCode=&take=6000&isOrderAscending=true`,
-        { waitUntil: "networkidle2", timeout: 60000 }
-      );
-    } else {
-      await page.goto(
-        `https://www.itftennis.com/tennis/api/PlayerRankApi/GetPlayerRankings?circuitCode=${keyMappings[circuit]}&playerTypeCode=B&ageCategoryCode=&take=6000&isOrderAscending=true`,
-        { waitUntil: "networkidle2", timeout: 60000 }
-      );
+      // WheelChair
+      url = `https://www.itftennis.com/tennis/api/PlayerRankApi/GetPlayerRankings?circuitCode=${category}&playerTypeCode=M&matchTypeCode=S&ageCategoryCode=&take=6000&isOrderAscending=true`;
+    } else if (category === "JT") {
+      // Case for Juniors Rank (JT)
+      ({ JuniorsGender, JuniorsTournament } = req.body);
+      if (!JuniorsGender || !JuniorsTournament) {
+        return res.status(400).json({
+          status: false,
+          message: "Please send JuniorsGender and JuniorsTournament",
+        });
+      }
+      url = `https://www.itftennis.com/tennis/api/PlayerRankApi/GetPlayerRankings?circuitCode=${category}&playerTypeCode=${JuniorsGender}&ageCategoryCode=&juniorRankingType=${JuniorsTournament}&take=6000&isOrderAscending=true`;
     }
+
+    await page.goto(url, { waitUntil: "networkidle2", timeout: 90000 });
 
     let data = await page.evaluate(() => document.body.innerText);
     data = JSON.parse(data);
@@ -57,7 +67,6 @@ exports.ITFRanksSave = catchAsync(async (req, res, next) => {
     await browser.close();
 
     const parts = data?.rankDate.split(" ");
-
     const formattedDate = new Date(
       Date.UTC(
         parseInt(parts[2]),
@@ -67,23 +76,35 @@ exports.ITFRanksSave = catchAsync(async (req, res, next) => {
     );
 
     if (!data?.items || !Array.isArray(data.items)) {
-      return res
-        .status(400)
-        .json({ status: false, message: "Invalid data structure" });
+      return res.status(400).json({ status: false, message: "Invalid data structure" });
     }
 
     // Prepare bulk operations
-    const bulkOps = data.items.map((player) => ({
-      updateOne: {
-        filter: {
-          playerId: player.playerId,
-          category: category,
-          date: formattedDate,
+    const bulkOps = data.items.map((player) => {
+      let playerData = { ...player, category, date: formattedDate };
+      
+      if (category === "JT") {
+        playerData.JuniorsGender = JuniorsGender;
+        playerData.JuniorsTournament = JuniorsTournament;
+      }
+      else if(category === "BT"){
+        playerData.BeachGender = BeachGender;
+      }
+
+      return {
+        updateOne: {
+          filter: {
+            playerId: player.playerId,
+            category: category,
+            date: formattedDate,
+            JuniorsTournament:JuniorsTournament,
+            BeachGender:BeachGender,
+          },
+          update: { $setOnInsert: playerData },
+          upsert: true, // Insert if not found, ignore if already exists
         },
-        update: { $setOnInsert: { ...player, category, date: formattedDate } }, // Only insert if it doesn't exist
-        upsert: true, // Insert if not found, ignore if already exists
-      },
-    }));
+      };
+    });
 
     const response = await Ranks.bulkWrite(bulkOps);
 
@@ -106,38 +127,44 @@ exports.RanksGet = catchAsync(async (req, res, next) => {
   //   try {
   //     await Ranks.syncIndexes(); // Ensures missing indexes are created
   //     console.log("Indexes synced successfully!");
+  //     res.status(200).json({
+  //       status:true,
+  //       message:"Indexes synced successfully"
+  //     })
   //   } catch (error) {
   //     console.error("Error syncing indexes:", error);
   //   }
   // })();
   try {
-    const category = req.params.category;
-    const page = parseInt(req.params.page) || 1;
-    const limit=100; //static value 
+    let { category, page, juniorsGender, JuniorsTournament, BeachGender } = req.query;
+    console.log("juniorsGender",juniorsGender);
+
+    page = parseInt(page) || 1;  
+    const limit = 100;
     const skip = (page - 1) * limit;
 
-    const total = await Ranks.countDocuments({ category });
-
-    const data = await Ranks.find({ category })
-      .sort({ rank: 1 }) 
-      .skip(skip)
-      .limit(100);
-
-    if (!data.length) {
-      return res.status(200).json({
-        status: false,
-        message: "No data found",
-        ranks: [],
-        total,
-        page,
-        totalPages: Math.ceil(total / limit),
-      });
+    const filter = {};
+    if (category) filter.category = category;
+    if (juniorsGender && juniorsGender !== "null" && juniorsGender !== "undefined" && juniorsGender !== "") {
+      filter.JuniorsGender = juniorsGender;
+    }
+    if (JuniorsTournament && JuniorsTournament !== "null" && JuniorsTournament !== "undefined" && JuniorsTournament !== "") {
+      filter.JuniorsTournament = JuniorsTournament;
+    }
+    if (BeachGender && BeachGender !== "null" && BeachGender !== "undefined" && BeachGender !== "") {
+      filter.BeachGender = BeachGender;
     }
 
-    res.status(200).json({
+    const total = await Ranks.countDocuments(filter);
+    const data = await Ranks.find(filter)
+      .sort({ rank: 1 })
+      .skip(skip)
+      .limit(limit);
+
+    return res.status(200).json({
       status: true,
-      message: "Ranks retrieved successfully!",
-      ranks:data,
+      message: data.length ? "Ranks retrieved successfully!" : "No data found",
+      ranks: data,
       total,
       page,
       totalPages: Math.ceil(total / limit),

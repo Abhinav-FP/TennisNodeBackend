@@ -92,10 +92,25 @@ const rankSchema = new mongoose.Schema({
     type: Date,
     required: [true, "Please send a valid date"],
   },
+  JuniorsGender: {
+    type:String,
+    default:null,
+    enum: ['B', 'G'],
+  },
+  JuniorsTournament: {
+    type:String,
+    default:null,
+    enum: ['itf', 'chengu', 'year'],
+  },
+  BeachGender: {
+    type:String,
+    default:null,
+    enum: ['B', 'G'],
+  }
 });
 
 // ✅ Add the unique compound index here
-rankSchema.index({ playerId: 1, category: 1, date: 1 }, { unique: true });
+rankSchema.index({ playerId: 1, category: 1, date: 1, JuniorsTournament: 1, BeachGender: 1}, { unique: true });
 
 const Ranks = mongoose.model("Ranks", rankSchema);
 
