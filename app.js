@@ -38,7 +38,7 @@ app.use(errorHandler);
 
 app.get("/", (req, res) => {
   res.json({
-    msg: 'hi',
+    msg: 'hello',
     status: 200,
   });
 });
