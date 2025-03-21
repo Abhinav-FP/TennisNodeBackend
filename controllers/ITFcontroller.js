@@ -201,12 +201,19 @@ exports.RanksGet = catchAsync(async (req, res, next) => {
 
 exports.ITFCalendarSave = catchAsync(async (req, res, next) => {
   try {
+    const circuit = req?.body?.category?.toUpperCase();
+    if (!circuit || !keyMappings[circuit]) {
+      return res.status(400).json({
+        status: false,
+        message: "Invalid category",
+      });
+    }
     const browser = await puppeteer.launch({ headless: "new" });
     const page = await browser.newPage();
 
     await page.goto(
-      "https://www.itftennis.com/tennis/api/TournamentApi/GetCalendar?circuitCode=WT&searchString=&skip=0&take=304&nationCodes=&zoneCodes=&dateFrom=2025-01-01&dateTo=2025-12-31&indoorOutdoor=&categories=&isOrderAscending=true&orderField=startDate&surfaceCodes=",
-      { waitUntil: "networkidle2", timeout: 60000 }
+      `https://www.itftennis.com/tennis/api/TournamentApi/GetCalendar?circuitCode=${keyMappings[circuit]}&searchString=&skip=0&take=250&nationCodes=&zoneCodes=&dateFrom=2025-01-01&dateTo=2025-12-31&indoorOutdoor=&categories=&isOrderAscending=true&orderField=startDate&surfaceCodes=`,
+      { waitUntil: "networkidle2", timeout: 90000 }
     );
 
     let data = await page.evaluate(() => document.body.innerText);
@@ -214,8 +221,6 @@ exports.ITFCalendarSave = catchAsync(async (req, res, next) => {
 
     await browser.close();
 
-    // const response=await Ranks.insertMany(data.items);
-    // console.log("response",response);
 
     return res.status(200).json({
       status: true,
