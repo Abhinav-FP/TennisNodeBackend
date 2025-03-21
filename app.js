@@ -44,10 +44,12 @@ app.get("/", (req, res) => {
 });
 
 app.listen(port, () => {
+  logger.info("Code Started");
   console.log(`Server listening at http://localhost:${port}`);
 });
 
 cron.schedule("0 6 * * *", async () => {
+  logger.info("Running cron job 1st url");
   console.log("Running scheduled job at 6 AM...");
   
   try {
