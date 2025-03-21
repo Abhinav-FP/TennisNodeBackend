@@ -230,3 +230,34 @@ exports.ITFCalendarSave = catchAsync(async (req, res, next) => {
     });
   }
 });
+
+// exports.RanksUniqueGet = catchAsync(async (req, res, next) => {
+//   try {
+//     const data = await Ranks.aggregate([
+//       {
+//         $match: { category: { $exists: true, $ne: null } } // Ensure category exists
+//       },
+//       {
+//         $group: {
+//           _id: "$category", // Group by category
+//           doc: { $first: "$$ROOT" } // Pick the lowest-ranked document per category
+//         }
+//       },
+//       {
+//         $replaceRoot: { newRoot: "$doc" } // Restore original document format
+//       },
+//     ]).allowDiskUse(true); // ✅ Enables external sorting when needed
+
+//     return res.status(200).json({
+//       status: true,
+//       message: "Ranks retrieved successfully!",
+//       ranks: data,
+//     });
+//   } catch (err) {
+//     return res.status(500).json({
+//       status: false,
+//       message: "An unknown error occurred. Please try again later.",
+//       error: err.message,
+//     });
+//   }
+// });

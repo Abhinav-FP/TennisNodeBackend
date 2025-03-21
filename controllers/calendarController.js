@@ -90,15 +90,15 @@ function addDataField(data) {
       if (key !== "WEEK") {
         const { text, link } = weekEntry[key];
 
-        if (text && link) {
-          const textArray = text.split(", ").map((t) => t.trim());
-          const linkArray = link.split(", ").map((l) => l.trim());
+        if (text || (text && link)) {
+          const textArray = text ? text.split(", ").map((t) => t.trim()) : [];
+          const linkArray = link ? link.split(", ").map((l) => l.trim()) : [];
 
-          // Ensure lengths are equal before creating the data array
-          const length = Math.min(textArray.length, linkArray.length);
+          // Ensure the length of data entries matches the longer array
+          const length = Math.max(textArray.length, linkArray.length);
           const dataArray = Array.from({ length }, (_, i) => ({
-            link: linkArray[i],
-            text: textArray[i],
+            link: linkArray[i] || "", // Use an empty string if link is missing
+            text: textArray[i] || "", // Use an empty string if text is missing
           }));
 
           updatedWeekEntry[key] = { ...weekEntry[key], data: dataArray };
@@ -244,6 +244,7 @@ async function getCalendarData(currentYear) {
     const mergedData = mergeWeeks(normalisedData);
     // return mergedData;
     const updatedData=processTournamentData(mergedData);
+    // return updatedData;
     const data=addDataField(updatedData)
 
     // Return the JSON data
