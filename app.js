@@ -38,7 +38,7 @@ app.use(errorHandler);
 
 app.get("/", (req, res) => {
   res.json({
-    msg: 'hello',
+    msg: 'hi',
     status: 200,
   });
 });
@@ -48,7 +48,7 @@ app.listen(port, () => {
   console.log(`Server listening at http://localhost:${port}`);
 });
 
-cron.schedule("0 6 * * *", async () => {
+cron.schedule("0 6,18 * * *", async () => {
   logger.info("Running cron job 1st url");
   console.log("Running scheduled job at 6 AM...");
   
