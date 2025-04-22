@@ -38,7 +38,7 @@ app.use(errorHandler);
 
 app.get("/", (req, res) => {
   res.json({
-    msg: 'hi',
+    msg: 'hello',
     status: 200,
   });
 });
@@ -55,18 +55,18 @@ cron.schedule("0 6,18 * * *", async () => {
   try {
     const response1 = await axios.get("https://control.tenniskhelo.com/api/save-aita-calender-data");
     logger.info("Running cron job 1st url");
-    console.log("First URL response:", response1.data);
+    logger.info("First URL response:", response1.data);
   } catch (error) {
-    console.error("Error hitting first URL:", error.message);
+    logger.info("Error hitting first URL:", error.message);
   }
 
-  try {
-    const response2 = await axios.get("https://control.tenniskhelo.com/api/run/aita-job");
-    logger.info("Running cron job 2nd url");
-    console.log("Second URL response:", response2.data);
-  } catch (error) {
-    console.error("Error hitting second URL:", error.message);
-  }
+  // try {
+  //   const response2 = await axios.get("https://control.tenniskhelo.com/api/run/aita-job");
+  //   logger.info("Running cron job 2nd url");
+  //   console.log("Second URL response:", response2.data);
+  // } catch (error) {
+  //   console.error("Error hitting second URL:", error.message);
+  // }
 });
 
 
