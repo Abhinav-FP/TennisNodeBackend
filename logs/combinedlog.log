@@ -31,3 +31,17 @@
 {"level":"info","message":"Running cron job 1st url","timestamp":"2025-03-26T12:30:00.613Z"}
 {"level":"info","message":"Code Started","timestamp":"2025-03-26T12:53:13.349Z"}
 {"level":"info","message":"Code Started","timestamp":"2025-03-27T04:56:53.664Z"}
+{"level":"info","message":"Code Started","timestamp":"2025-04-01T07:19:05.884Z"}
+{"level":"info","message":"Code Started","timestamp":"2025-04-21T09:55:20.403Z"}
+{"level":"info","message":"Code Started","timestamp":"2025-04-21T10:14:09.537Z"}
+{"level":"info","message":"Running cron job 1st url","timestamp":"2025-04-21T12:30:00.121Z"}
+{"level":"info","message":"Running cron job 1st url","timestamp":"2025-04-21T12:30:04.093Z"}
+{"level":"info","message":"Code Started","timestamp":"2025-04-21T12:31:49.454Z"}
+{"level":"info","message":"Code Started","timestamp":"2025-04-22T06:19:28.216Z"}
+{"level":"info","message":"Code Started","timestamp":"2025-04-22T06:38:18.964Z"}
+{"level":"info","message":"Code Started","timestamp":"2025-04-22T06:38:37.450Z"}
+{"level":"error","message":"Error: Expected double-quoted property name in JSON at position 48","timestamp":"2025-04-22T06:42:54.253Z"}
+{"level":"info","message":"Code Started","timestamp":"2025-04-22T07:00:39.372Z"}
+{"level":"info","message":"Code Started","timestamp":"2025-04-22T07:02:30.767Z"}
+{"level":"info","message":"Code Started","timestamp":"2025-04-22T07:02:39.494Z"}
+{"level":"info","message":"Code Started","timestamp":"2025-04-22T07:03:06.896Z"}

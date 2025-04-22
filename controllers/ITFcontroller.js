@@ -22,8 +22,12 @@ exports.RanksSave = catchAsync(async (req, res, next) => {
       });
     }
     
-    const browser = await puppeteer.launch({ headless: "new" });
+    const browser = await puppeteer.launch({
+      headless: "new", // or true/false depending on your use case
+      args: ['--no-sandbox', '--disable-setuid-sandbox']
+    });
     const page = await browser.newPage();
+
     const category = keyMappings[circuit];
 
     let url = "";
@@ -35,13 +39,13 @@ exports.RanksSave = catchAsync(async (req, res, next) => {
     } else if (category === "VT") {
       // Masters
       ({ Gender, TournamentType, Age, MatchType } = req.body);
-      if (!Gender || !TournamentType || !Age || !MatchType) {
+      if (!Gender || !Age || !MatchType) {
         return res.status(400).json({
           status: false,
-          message: "Please send Gender, Age, Tournament type and Match type",
+          message: "Please send Gender, Age and Match type",
         });
       }
-      url = `https://www.itftennis.com/tennis/api/PlayerRankApi/GetPlayerRankings?circuitCode=${category}&playerTypeCode=${Gender}&matchTypeCode=${MatchType}&ageCategoryCode=${Age}&seniorRankingType=${TournamentType}&take=6000&isOrderAscending=true`;
+      url = `https://www.itftennis.com/tennis/api/PlayerRankApi/GetPlayerRankings?circuitCode=${category}&playerTypeCode=${Gender}&matchTypeCode=${MatchType}&ageCategoryCode=${Age}&seniorRankingType=${TournamentType || "ITF"}&take=6000&isOrderAscending=true`;
     } else if (category === "BT") {
       // Beach
       ({ Gender } = req.body);
@@ -81,59 +85,61 @@ exports.RanksSave = catchAsync(async (req, res, next) => {
 
     await browser.close();
 
-    // return res.status(200).json({
-    //   status:true,
-    //   message:"Data retrieved successfully",
-    //   data:data,
-    // })
-
-    const parts = data?.rankDate.split(" ");
-    const formattedDate = new Date(
-      Date.UTC(
-        parseInt(parts[2]),
-        new Date(parts[1] + " 1, 2000").getMonth(),
-        parseInt(parts[0])
-      )
-    );
-
-    if (!data?.items || !Array.isArray(data.items)) {
-      return res.status(400).json({ status: false, message: "Invalid data structure" });
-    }
-
-    // Prepare bulk operations
-    const bulkOps = data.items.map((player) => {
-      let playerData = { ...player, category, date: formattedDate };
-      
-      if (Gender) playerData.Gender = Gender;
-      if (TournamentType) playerData.TournamentType = TournamentType;
-      if (Age) playerData.Age = Age;
-      if (MatchType) playerData.MatchType = MatchType;
-
-      return {
-        updateOne: {
-          filter: {
-            playerId: player.playerId,
-            category: category,
-            date: formattedDate,
-            Gender:Gender,
-            TournamentType:TournamentType,
-            Age:Age,
-            MatchType:MatchType
-          },
-          update: { $setOnInsert: playerData },
-          upsert: true, // Insert if not found, ignore if already exists
-        },
-      };
-    });
-
-    const response = await Ranks.bulkWrite(bulkOps);
-
     return res.status(200).json({
-      status: true,
-      message: "Data Stored Successfully",
-      insertedCount: response.upsertedCount,
-    });
+      status:true,
+      message:"Data retrieved successfully",
+      data:data,
+    })
+
+    // Code for saving in mongodb
+    // const parts = data?.rankDate.split(" ");
+    // const formattedDate = new Date(
+    //   Date.UTC(
+    //     parseInt(parts[2]),
+    //     new Date(parts[1] + " 1, 2000").getMonth(),
+    //     parseInt(parts[0])
+    //   )
+    // );
+
+    // if (!data?.items || !Array.isArray(data.items)) {
+    //   return res.status(400).json({ status: false, message: "Invalid data structure" });
+    // }
+
+    // // Prepare bulk operations
+    // const bulkOps = data.items.map((player) => {
+    //   let playerData = { ...player, category, date: formattedDate };
+      
+    //   if (Gender) playerData.Gender = Gender;
+    //   if (TournamentType) playerData.TournamentType = TournamentType;
+    //   if (Age) playerData.Age = Age;
+    //   if (MatchType) playerData.MatchType = MatchType;
+
+    //   return {
+    //     updateOne: {
+    //       filter: {
+    //         playerId: player.playerId,
+    //         category: category,
+    //         date: formattedDate,
+    //         Gender:Gender,
+    //         TournamentType:TournamentType,
+    //         Age:Age,
+    //         MatchType:MatchType
+    //       },
+    //       update: { $setOnInsert: playerData },
+    //       upsert: true, // Insert if not found, ignore if already exists
+    //     },
+    //   };
+    // });
+
+    // const response = await Ranks.bulkWrite(bulkOps);
+
+    // return res.status(200).json({
+    //   status: true,
+    //   message: "Data Stored Successfully",
+    //   insertedCount: response.upsertedCount,
+    // });
   } catch (error) {
+    console.log("error",error);
     return res.status(500).json({
       status: false,
       message: "An error occurred.",
