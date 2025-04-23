@@ -85,6 +85,12 @@ exports.RanksSave = catchAsync(async (req, res, next) => {
 
     await browser.close();
 
+    if (category) data.category = circuit;
+    if (Gender) data.Gender = Gender;
+    if (TournamentType) data.TournamentType = TournamentType;
+    if (Age) data.Age = Age;
+    if (MatchType) data.MatchType = MatchType;
+
     return res.status(200).json({
       status:true,
       message:"Data retrieved successfully",
