@@ -69,5 +69,99 @@ cron.schedule("0 6,18 * * *", async () => {
   // }
 });
 
+const urls = [
+  "https://dev-control.tenniskhelo.com/api/upload-itf-rank-manually?category=MASTERS&tournament_type=&gender=m&match_type=s&age=v35",
+  "https://dev-control.tenniskhelo.com/api/upload-itf-rank-manually?category=MASTERS&tournament_type=&gender=m&match_type=s&age=v40",
+  "https://dev-control.tenniskhelo.com/api/upload-itf-rank-manually?category=MASTERS&tournament_type=&gender=m&match_type=s&age=v45",
+  "https://dev-control.tenniskhelo.com/api/upload-itf-rank-manually?category=MASTERS&tournament_type=&gender=m&match_type=s&age=v50",
+  "https://dev-control.tenniskhelo.com/api/upload-itf-rank-manually?category=MASTERS&tournament_type=&gender=m&match_type=s&age=v55",
+  "https://dev-control.tenniskhelo.com/api/upload-itf-rank-manually?category=MASTERS&tournament_type=&gender=m&match_type=s&age=v60",
+  "https://dev-control.tenniskhelo.com/api/upload-itf-rank-manually?category=MASTERS&tournament_type=&gender=m&match_type=s&age=v65",
+  "https://dev-control.tenniskhelo.com/api/upload-itf-rank-manually?category=MASTERS&tournament_type=&gender=m&match_type=s&age=v70",
+  "https://dev-control.tenniskhelo.com/api/upload-itf-rank-manually?category=MASTERS&tournament_type=&gender=m&match_type=s&age=v75",
+  "https://dev-control.tenniskhelo.com/api/upload-itf-rank-manually?category=MASTERS&tournament_type=&gender=m&match_type=s&age=v80",
+  "https://dev-control.tenniskhelo.com/api/upload-itf-rank-manually?category=MASTERS&tournament_type=&gender=m&match_type=s&age=v85",
+  "https://dev-control.tenniskhelo.com/api/upload-itf-rank-manually?category=MASTERS&tournament_type=&gender=m&match_type=s&age=v90",
+  "https://dev-control.tenniskhelo.com/api/upload-itf-rank-manually?category=MASTERS&tournament_type=&gender=m&match_type=d&age=v35",
+  "https://dev-control.tenniskhelo.com/api/upload-itf-rank-manually?category=MASTERS&tournament_type=&gender=m&match_type=d&age=v40",
+  "https://dev-control.tenniskhelo.com/api/upload-itf-rank-manually?category=MASTERS&tournament_type=&gender=m&match_type=d&age=v45",
+  "https://dev-control.tenniskhelo.com/api/upload-itf-rank-manually?category=MASTERS&tournament_type=&gender=m&match_type=d&age=v50",
+  "https://dev-control.tenniskhelo.com/api/upload-itf-rank-manually?category=MASTERS&tournament_type=&gender=m&match_type=d&age=v55",
+  "https://dev-control.tenniskhelo.com/api/upload-itf-rank-manually?category=MASTERS&tournament_type=&gender=m&match_type=d&age=v60",
+  "https://dev-control.tenniskhelo.com/api/upload-itf-rank-manually?category=MASTERS&tournament_type=&gender=m&match_type=d&age=v65",
+  "https://dev-control.tenniskhelo.com/api/upload-itf-rank-manually?category=MASTERS&tournament_type=&gender=m&match_type=d&age=v70",
+  "https://dev-control.tenniskhelo.com/api/upload-itf-rank-manually?category=MASTERS&tournament_type=&gender=m&match_type=d&age=v75",
+  "https://dev-control.tenniskhelo.com/api/upload-itf-rank-manually?category=MASTERS&tournament_type=&gender=m&match_type=d&age=v80",
+  "https://dev-control.tenniskhelo.com/api/upload-itf-rank-manually?category=MASTERS&tournament_type=&gender=m&match_type=d&age=v85",
+  "https://dev-control.tenniskhelo.com/api/upload-itf-rank-manually?category=MASTERS&tournament_type=&gender=m&match_type=d&age=v90",
+  "https://dev-control.tenniskhelo.com/api/upload-itf-rank-manually?category=MASTERS&tournament_type=&gender=m&match_type=mx&age=v35",
+  "https://dev-control.tenniskhelo.com/api/upload-itf-rank-manually?category=MASTERS&tournament_type=&gender=m&match_type=mx&age=v40",
+  "https://dev-control.tenniskhelo.com/api/upload-itf-rank-manually?category=MASTERS&tournament_type=&gender=m&match_type=mx&age=v45",
+  "https://dev-control.tenniskhelo.com/api/upload-itf-rank-manually?category=MASTERS&tournament_type=&gender=m&match_type=mx&age=v50",
+  "https://dev-control.tenniskhelo.com/api/upload-itf-rank-manually?category=MASTERS&tournament_type=&gender=m&match_type=mx&age=v55",
+  "https://dev-control.tenniskhelo.com/api/upload-itf-rank-manually?category=MASTERS&tournament_type=&gender=m&match_type=mx&age=v60",
+  "https://dev-control.tenniskhelo.com/api/upload-itf-rank-manually?category=MASTERS&tournament_type=&gender=m&match_type=mx&age=v65",
+  "https://dev-control.tenniskhelo.com/api/upload-itf-rank-manually?category=MASTERS&tournament_type=&gender=m&match_type=mx&age=v70",
+  "https://dev-control.tenniskhelo.com/api/upload-itf-rank-manually?category=MASTERS&tournament_type=&gender=m&match_type=mx&age=v75",
+  "https://dev-control.tenniskhelo.com/api/upload-itf-rank-manually?category=MASTERS&tournament_type=&gender=m&match_type=mx&age=v80",
+  "https://dev-control.tenniskhelo.com/api/upload-itf-rank-manually?category=MASTERS&tournament_type=&gender=m&match_type=mx&age=v85",
+  "https://dev-control.tenniskhelo.com/api/upload-itf-rank-manually?category=MASTERS&tournament_type=&gender=m&match_type=mx&age=v90",
+  "https://dev-control.tenniskhelo.com/api/upload-itf-rank-manually?category=MASTERS&tournament_type=&gender=w&match_type=s&age=v35",
+  "https://dev-control.tenniskhelo.com/api/upload-itf-rank-manually?category=MASTERS&tournament_type=&gender=w&match_type=s&age=v40",
+  "https://dev-control.tenniskhelo.com/api/upload-itf-rank-manually?category=MASTERS&tournament_type=&gender=w&match_type=s&age=v45",
+  "https://dev-control.tenniskhelo.com/api/upload-itf-rank-manually?category=MASTERS&tournament_type=&gender=w&match_type=s&age=v50",
+  "https://dev-control.tenniskhelo.com/api/upload-itf-rank-manually?category=MASTERS&tournament_type=&gender=w&match_type=s&age=v55",
+  "https://dev-control.tenniskhelo.com/api/upload-itf-rank-manually?category=MASTERS&tournament_type=&gender=w&match_type=s&age=v60",
+  "https://dev-control.tenniskhelo.com/api/upload-itf-rank-manually?category=MASTERS&tournament_type=&gender=w&match_type=s&age=v65",
+  "https://dev-control.tenniskhelo.com/api/upload-itf-rank-manually?category=MASTERS&tournament_type=&gender=w&match_type=s&age=v70",
+  "https://dev-control.tenniskhelo.com/api/upload-itf-rank-manually?category=MASTERS&tournament_type=&gender=w&match_type=s&age=v75",
+  "https://dev-control.tenniskhelo.com/api/upload-itf-rank-manually?category=MASTERS&tournament_type=&gender=w&match_type=s&age=v80",
+  "https://dev-control.tenniskhelo.com/api/upload-itf-rank-manually?category=MASTERS&tournament_type=&gender=w&match_type=s&age=v85",
+  "https://dev-control.tenniskhelo.com/api/upload-itf-rank-manually?category=MASTERS&tournament_type=&gender=w&match_type=s&age=v90",
+  "https://dev-control.tenniskhelo.com/api/upload-itf-rank-manually?category=MASTERS&tournament_type=&gender=w&match_type=d&age=v35",
+  "https://dev-control.tenniskhelo.com/api/upload-itf-rank-manually?category=MASTERS&tournament_type=&gender=w&match_type=d&age=v40",
+  "https://dev-control.tenniskhelo.com/api/upload-itf-rank-manually?category=MASTERS&tournament_type=&gender=w&match_type=d&age=v45",
+  "https://dev-control.tenniskhelo.com/api/upload-itf-rank-manually?category=MASTERS&tournament_type=&gender=w&match_type=d&age=v50",
+  "https://dev-control.tenniskhelo.com/api/upload-itf-rank-manually?category=MASTERS&tournament_type=&gender=w&match_type=d&age=v55",
+  "https://dev-control.tenniskhelo.com/api/upload-itf-rank-manually?category=MASTERS&tournament_type=&gender=w&match_type=d&age=v60",
+  "https://dev-control.tenniskhelo.com/api/upload-itf-rank-manually?category=MASTERS&tournament_type=&gender=w&match_type=d&age=v65",
+  "https://dev-control.tenniskhelo.com/api/upload-itf-rank-manually?category=MASTERS&tournament_type=&gender=w&match_type=d&age=v70",
+  "https://dev-control.tenniskhelo.com/api/upload-itf-rank-manually?category=MASTERS&tournament_type=&gender=w&match_type=d&age=v75",
+  "https://dev-control.tenniskhelo.com/api/upload-itf-rank-manually?category=MASTERS&tournament_type=&gender=w&match_type=d&age=v80",
+  "https://dev-control.tenniskhelo.com/api/upload-itf-rank-manually?category=MASTERS&tournament_type=&gender=w&match_type=d&age=v85",
+  "https://dev-control.tenniskhelo.com/api/upload-itf-rank-manually?category=MASTERS&tournament_type=&gender=w&match_type=d&age=v90",
+  "https://dev-control.tenniskhelo.com/api/upload-itf-rank-manually?category=MASTERS&tournament_type=&gender=w&match_type=mx&age=v35",
+  "https://dev-control.tenniskhelo.com/api/upload-itf-rank-manually?category=MASTERS&tournament_type=&gender=w&match_type=mx&age=v40",
+  "https://dev-control.tenniskhelo.com/api/upload-itf-rank-manually?category=MASTERS&tournament_type=&gender=w&match_type=mx&age=v45",
+  "https://dev-control.tenniskhelo.com/api/upload-itf-rank-manually?category=MASTERS&tournament_type=&gender=w&match_type=mx&age=v50",
+  "https://dev-control.tenniskhelo.com/api/upload-itf-rank-manually?category=MASTERS&tournament_type=&gender=w&match_type=mx&age=v55",
+  "https://dev-control.tenniskhelo.com/api/upload-itf-rank-manually?category=MASTERS&tournament_type=&gender=w&match_type=mx&age=v60",
+  "https://dev-control.tenniskhelo.com/api/upload-itf-rank-manually?category=MASTERS&tournament_type=&gender=w&match_type=mx&age=v65",
+  "https://dev-control.tenniskhelo.com/api/upload-itf-rank-manually?category=MASTERS&tournament_type=&gender=w&match_type=mx&age=v70",
+  "https://dev-control.tenniskhelo.com/api/upload-itf-rank-manually?category=MASTERS&tournament_type=&gender=w&match_type=mx&age=v75",
+  "https://dev-control.tenniskhelo.com/api/upload-itf-rank-manually?category=MASTERS&tournament_type=&gender=w&match_type=mx&age=v80",
+  "https://dev-control.tenniskhelo.com/api/upload-itf-rank-manually?category=MASTERS&tournament_type=&gender=w&match_type=mx&age=v85",
+  "https://dev-control.tenniskhelo.com/api/upload-itf-rank-manually?category=MASTERS&tournament_type=&gender=w&match_type=mx&age=v90"
+];
+
+let currentIndex = 0; 
+
+cron.schedule('*/1 * * * *', async () => {
+  const urlToHit = urls[currentIndex];
+  logger.info(`Hitting URL #${currentIndex + 1}: ${urlToHit}`);
+  console.log(`Hitting URL #${currentIndex + 1}: ${urlToHit}`);
+
+  try {
+    const response = axios.get(urlToHit);
+    // logger.info(`Status: ${response.status}`);
+    // console.log(`Status: ${response.status}`);
+  } catch (err) {
+    logger.error(`Error hitting URL #${currentIndex + 1}:`, err.message);
+    console.log(`Error hitting URL #${currentIndex + 1}:`, err.message);
+  } finally {
+    currentIndex = (currentIndex + 1) % urls.length;
+    console.log(`Updating the index now to ${currentIndex}`);
+  }
+});
 
 module.exports = app;
