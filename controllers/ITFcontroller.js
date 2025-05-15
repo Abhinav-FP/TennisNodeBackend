@@ -2,6 +2,8 @@ const Ranks = require("../db/ranks");
 const Calendar = require("../db/calendar");
 const catchAsync = require("../utils/catchAsync");
 const puppeteer = require("puppeteer");
+const axios = require("axios");
+const cheerio = require("cheerio");
 
 const keyMappings = {
   MENS: "MT",
@@ -12,6 +14,39 @@ const keyMappings = {
   WHEELCHAIR: "WCT",
 };
 
+async function fetchEmailFromPage(url) {
+  const headers = {
+    Cookie:
+      "_ga=GA1.1.496155385.1746695660; _ga_FNL59NFQ13=GS2.1.s1746695660$o1$g0$t1746695660$j0$l0$h0; ASP.NET_SessionId=j3sunkabn2qlmhai4f3rha2f; st=l=2057&exp=46150.4682780903&c=1&cp=19",
+    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)", // optional but helps avoid blocks
+  };
+
+  try {
+    const response = await axios.get(url, { headers });
+    const html = response.data;
+
+    const $ = cheerio.load(html);
+
+     // Find <a href^="mailto:"> that contains a <span class="nav-link__value"> and text (not empty)
+     const emailElement = $('a[href^="mailto:"] span.nav-link__value')
+     .filter((i, el) => $(el).text().trim().length > 0)
+     .first();
+
+   const email = emailElement.text().trim();
+
+   if (email) {
+    //  console.log('Found email:', email);
+     return email;
+   } else {
+     console.log('Targeted email not found.');
+     return null;
+   }
+  } catch (error) {
+    console.error("Error fetching or parsing the page:", error.message);
+    return null;
+  }
+}
+
 exports.RanksSave = catchAsync(async (req, res, next) => {
   try {
     const circuit = req?.body?.category?.toUpperCase();
@@ -21,17 +56,20 @@ exports.RanksSave = catchAsync(async (req, res, next) => {
         message: "Invalid category",
       });
     }
-    
+
     const browser = await puppeteer.launch({
       headless: "new", // or true/false depending on your use case
-      args: ['--no-sandbox', '--disable-setuid-sandbox']
+      args: ["--no-sandbox", "--disable-setuid-sandbox"],
     });
     const page = await browser.newPage();
 
     const category = keyMappings[circuit];
 
     let url = "";
-    let Gender = null, TournamentType = null, Age=null, MatchType=null;
+    let Gender = null,
+      TournamentType = null,
+      Age = null,
+      MatchType = null;
 
     if (category === "MT" || category === "WT") {
       // Men and woman category data
@@ -45,7 +83,9 @@ exports.RanksSave = catchAsync(async (req, res, next) => {
           message: "Please send Gender, Age and Match type",
         });
       }
-      url = `https://www.itftennis.com/tennis/api/PlayerRankApi/GetPlayerRankings?circuitCode=${category}&playerTypeCode=${Gender}&matchTypeCode=${MatchType}&ageCategoryCode=${Age}&seniorRankingType=${TournamentType || "ITF"}&take=6000&isOrderAscending=true`;
+      url = `https://www.itftennis.com/tennis/api/PlayerRankApi/GetPlayerRankings?circuitCode=${category}&playerTypeCode=${Gender}&matchTypeCode=${MatchType}&ageCategoryCode=${Age}&seniorRankingType=${
+        TournamentType || "ITF"
+      }&take=6000&isOrderAscending=true`;
     } else if (category === "BT") {
       // Beach
       ({ Gender } = req.body);
@@ -92,60 +132,62 @@ exports.RanksSave = catchAsync(async (req, res, next) => {
     if (MatchType) data.MatchType = MatchType;
 
     return res.status(200).json({
-      status:true,
-      message:"Data retrieved successfully",
-      data:data,
-    })
+      status: true,
+      message: "Data retrieved successfully",
+      data: data,
+    });
 
     // Code for saving in mongodb
-    // const parts = data?.rankDate.split(" ");
-    // const formattedDate = new Date(
-    //   Date.UTC(
-    //     parseInt(parts[2]),
-    //     new Date(parts[1] + " 1, 2000").getMonth(),
-    //     parseInt(parts[0])
-    //   )
-    // );
+    const parts = data?.rankDate.split(" ");
+    const formattedDate = new Date(
+      Date.UTC(
+        parseInt(parts[2]),
+        new Date(parts[1] + " 1, 2000").getMonth(),
+        parseInt(parts[0])
+      )
+    );
 
-    // if (!data?.items || !Array.isArray(data.items)) {
-    //   return res.status(400).json({ status: false, message: "Invalid data structure" });
-    // }
+    if (!data?.items || !Array.isArray(data.items)) {
+      return res
+        .status(400)
+        .json({ status: false, message: "Invalid data structure" });
+    }
 
-    // // Prepare bulk operations
-    // const bulkOps = data.items.map((player) => {
-    //   let playerData = { ...player, category, date: formattedDate };
-      
-    //   if (Gender) playerData.Gender = Gender;
-    //   if (TournamentType) playerData.TournamentType = TournamentType;
-    //   if (Age) playerData.Age = Age;
-    //   if (MatchType) playerData.MatchType = MatchType;
+    // Prepare bulk operations
+    const bulkOps = data.items.map((player) => {
+      let playerData = { ...player, category, date: formattedDate };
 
-    //   return {
-    //     updateOne: {
-    //       filter: {
-    //         playerId: player.playerId,
-    //         category: category,
-    //         date: formattedDate,
-    //         Gender:Gender,
-    //         TournamentType:TournamentType,
-    //         Age:Age,
-    //         MatchType:MatchType
-    //       },
-    //       update: { $setOnInsert: playerData },
-    //       upsert: true, // Insert if not found, ignore if already exists
-    //     },
-    //   };
-    // });
+      if (Gender) playerData.Gender = Gender;
+      if (TournamentType) playerData.TournamentType = TournamentType;
+      if (Age) playerData.Age = Age;
+      if (MatchType) playerData.MatchType = MatchType;
 
-    // const response = await Ranks.bulkWrite(bulkOps);
+      return {
+        updateOne: {
+          filter: {
+            playerId: player.playerId,
+            category: category,
+            date: formattedDate,
+            Gender: Gender,
+            TournamentType: TournamentType,
+            Age: Age,
+            MatchType: MatchType,
+          },
+          update: { $setOnInsert: playerData },
+          upsert: true, // Insert if not found, ignore if already exists
+        },
+      };
+    });
 
-    // return res.status(200).json({
-    //   status: true,
-    //   message: "Data Stored Successfully",
-    //   insertedCount: response.upsertedCount,
-    // });
+    const response = await Ranks.bulkWrite(bulkOps);
+
+    return res.status(200).json({
+      status: true,
+      message: "Data Stored Successfully",
+      insertedCount: response.upsertedCount,
+    });
   } catch (error) {
-    console.log("error",error);
+    console.log("error", error);
     return res.status(500).json({
       status: false,
       message: "An error occurred.",
@@ -170,22 +212,37 @@ exports.RanksGet = catchAsync(async (req, res, next) => {
   try {
     let { category, page, TournamentType, Age, Gender, MatchType } = req.query;
 
-    page = parseInt(page) || 1;  
+    page = parseInt(page) || 1;
     const limit = 100;
     const skip = (page - 1) * limit;
 
     const filter = {};
     if (category) filter.category = category;
-    if (TournamentType && TournamentType !== "null" && TournamentType !== "undefined" && TournamentType !== "") {
+    if (
+      TournamentType &&
+      TournamentType !== "null" &&
+      TournamentType !== "undefined" &&
+      TournamentType !== ""
+    ) {
       filter.TournamentType = TournamentType;
     }
     if (Age && Age !== "null" && Age !== "undefined" && Age !== "") {
       filter.Age = Age;
     }
-    if (Gender && Gender !== "null" && Gender !== "undefined" && Gender !== "") {
+    if (
+      Gender &&
+      Gender !== "null" &&
+      Gender !== "undefined" &&
+      Gender !== ""
+    ) {
       filter.Gender = Gender;
     }
-    if (MatchType && MatchType !== "null" && MatchType !== "undefined" && MatchType !== "") {
+    if (
+      MatchType &&
+      MatchType !== "null" &&
+      MatchType !== "undefined" &&
+      MatchType !== ""
+    ) {
       filter.MatchType = MatchType;
     }
 
@@ -231,26 +288,28 @@ exports.CalendarSave = catchAsync(async (req, res, next) => {
 
     let data = await page.evaluate(() => document.body.innerText);
     data = JSON.parse(data);
-    console.log("totalItems",data?.totalItems);
-    let totalItems= data?.totalItems || 0;
-    if(totalItems>250){
-      let totalpages=Math.ceil(totalItems/250);
-      for(let i=1;i<totalpages; i++){
-        let skip=250*i;
-        console.log("skip",skip);
+    console.log("totalItems", data?.totalItems);
+    let totalItems = data?.totalItems || 0;
+    if (totalItems > 250) {
+      let totalpages = Math.ceil(totalItems / 250);
+      for (let i = 1; i < totalpages; i++) {
+        let skip = 250 * i;
+        console.log("skip", skip);
         await page.goto(
           `https://www.itftennis.com/tennis/api/TournamentApi/GetCalendar?circuitCode=${keyMappings[circuit]}&searchString=&skip=${skip}&take=250&nationCodes=&zoneCodes=&dateFrom=2025-01-01&dateTo=2025-12-31&indoorOutdoor=&categories=&isOrderAscending=true&orderField=startDate&surfaceCodes=`,
           { waitUntil: "networkidle2", timeout: 90000 }
         );
         let data1 = await page.evaluate(() => document.body.innerText);
         data1 = JSON.parse(data1);
-        data.items=[...data.items,...data1.items];
+        data.items = [...data.items, ...data1.items];
       }
     }
     await browser.close();
 
     if (!data?.items || !Array.isArray(data.items)) {
-      return res.status(400).json({ status: false, message: "Invalid data structure" });
+      return res
+        .status(400)
+        .json({ status: false, message: "Invalid data structure" });
     }
     const bulkOps = data.items.map((player) => {
       return {
@@ -284,7 +343,7 @@ exports.CalendarGet = catchAsync(async (req, res, next) => {
   try {
     let { page, category } = req.query;
 
-    page = parseInt(page) || 1;  
+    page = parseInt(page) || 1;
     const limit = 100;
     const skip = (page - 1) * limit;
 
@@ -292,14 +351,15 @@ exports.CalendarGet = catchAsync(async (req, res, next) => {
     if (category) filter.tennisCategoryCode = category;
 
     const total = await Calendar.countDocuments(filter);
-    const data = await Calendar.find(filter)
-      .sort({ startDate: 1 })
-      // .skip(skip)
-      // .limit(limit);
+    const data = await Calendar.find(filter).sort({ startDate: 1 });
+    // .skip(skip)
+    // .limit(limit);
 
     return res.status(200).json({
       status: true,
-      message: data.length ? "Tournaments retrieved successfully!" : "No data found",
+      message: data.length
+        ? "Tournaments retrieved successfully!"
+        : "No data found",
       tournaments: data,
       total,
       page,
@@ -313,7 +373,6 @@ exports.CalendarGet = catchAsync(async (req, res, next) => {
     });
   }
 });
-
 
 // exports.RanksUniqueGet = catchAsync(async (req, res, next) => {
 //   try {

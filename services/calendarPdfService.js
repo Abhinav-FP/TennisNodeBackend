@@ -181,7 +181,7 @@ exports.processPdf = (url) => {
       rows.push(value);
     });
     reader.on("end", () => {
-      logger.info("Finished processing PDF");
+      // logger.info("Finished processing PDF");
       if (rows.length === 0) {
         return reject(new Error("No data found in PDF"));
       }
@@ -315,6 +315,7 @@ exports.processPdf = (url) => {
       });
     });
     reader.on("error", (err) => {
+      logger.info(url);
       console.log(`Error processing PDF: ${err.message}`);
       reject(new Error("Error processing PDF"));
     });
