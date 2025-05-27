@@ -168,38 +168,38 @@ const urls = [
   "https://control.tenniskhelo.com/api/upload-itf-rank-manually?category=WHEELCHAIR&gender=G&match_type=S",
 ];
 
-// let currentIndex = 0;
-// let pauseUntil = null; // Timestamp when the pause ends
+let currentIndex = 0;
+let pauseUntil = null; // Timestamp when the pause ends
 
-// cron.schedule('*/2 * * * *', async () => {
-//   const now = Date.now();
+cron.schedule('*/10 * * * *', async () => {
+  const now = Date.now();
 
-//   if (pauseUntil && now < pauseUntil) {
-//     const remainingMinutes = Math.ceil((pauseUntil - now) / 60000);
-//     console.log(`Paused. Skipping execution. Resumes in ${remainingMinutes} min.`);
-//     return;
-//   }
+  if (pauseUntil && now < pauseUntil) {
+    const remainingMinutes = Math.ceil((pauseUntil - now) / 60000);
+    console.log(`Paused. Skipping execution. Resumes in ${remainingMinutes} min.`);
+    return;
+  }
 
-//   const urlToHit = urls[currentIndex];
-//   console.log(`Hitting URL #${currentIndex + 1}: ${urlToHit}`);
+  const urlToHit = urls[currentIndex];
+  console.log(`Hitting URL #${currentIndex + 1}: ${urlToHit}`);
 
-//   try {
-//     await axios.get(urlToHit);
-//     // logger.info(`Successfully hit URL #${currentIndex + 1}`);
-//   } catch (err) {
-//     // logger.error(`Error hitting URL #${currentIndex + 1}: ${err.message}`);
-//   } finally {
-//     currentIndex++;
-//     // if (currentIndex >= urls.length) {
-//       if ((currentIndex + 1) % urls.length === 0){
-//       // All URLs hit once, start 6-hour pause
-//       pauseUntil = Date.now() + 12 * 60 * 60 * 1000; // 12 hours in ms
-//       currentIndex = 0;
-//       console.log(`All URLs processed. Pausing for 6 hours.`);
-//     } else {
-//       console.log(`Updating the index now to ${currentIndex}`);
-//     }
-//   }
-// });
+  try {
+    await axios.get(urlToHit);
+    // logger.info(`Successfully hit URL #${currentIndex + 1}`);
+  } catch (err) {
+    // logger.error(`Error hitting URL #${currentIndex + 1}: ${err.message}`);
+  } finally {
+    currentIndex++;
+    // if (currentIndex >= urls.length) {
+      if ((currentIndex + 1) % urls.length === 0){
+      // All URLs hit once, start 6-hour pause
+      pauseUntil = Date.now() + 12 * 60 * 60 * 1000; // 12 hours in ms
+      currentIndex = 0;
+      console.log(`All URLs processed. Pausing for 6 hours.`);
+    } else {
+      console.log(`Updating the index now to ${currentIndex}`);
+    }
+  }
+});
 
 module.exports = app;

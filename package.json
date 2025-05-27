@@ -36,6 +36,8 @@
     "pdf-data-parser": "^1.2.10",
     "pdfjs-dist": "^4.3.136",
     "puppeteer": "^24.1.0",
+    "puppeteer-extra": "^3.3.6",
+    "puppeteer-extra-plugin-stealth": "^2.11.2",
     "serverless-http": "^3.2.0",
     "vercel": "^39.3.0",
     "winston": "^3.13.0"

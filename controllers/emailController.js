@@ -4,7 +4,11 @@ const cheerio = require("cheerio");
 const puppeteer = require("puppeteer");
 const Emails = require("../db/emails");
 const Calendar = require("../db/calendar");
+const AtpEmails = require('../db/atpEmails');
 const calendarPdfService = require("../services/calendarPdfService");
+const puppeteerExtra = require('puppeteer-extra');
+const StealthPlugin = require('puppeteer-extra-plugin-stealth');
+puppeteerExtra.use(StealthPlugin());
 
 function mergeWeeks(data) {
   const mergedData = {};
@@ -283,13 +287,14 @@ const FactSheetLink = async (id) => {
 
     // Existing regex patterns
     const regex1 = /<a\s+[^>]*href="([^"]*storage\/data\/factsheet[^"]*)"/i;
-    const regex2 = /<h4[^>]*>\s*Download\s*-\s*<a[^>]*href="([^"]+)"[^>]*>Fact\s*Sheet\s*<\/a>\s*<\/h4>/i;
+    const regex2 =
+      /<h4[^>]*>\s*Download\s*-\s*<a[^>]*href="([^"]+)"[^>]*>Fact\s*Sheet\s*<\/a>\s*<\/h4>/i;
 
     // Match using the existing regex patterns
     const match1 = html.match(regex1);
     const match2 = html.match(regex2);
-     if (match1) {
-        return match1?.[1] || match2?.[1];
+    if (match1) {
+      return match1?.[1] || match2?.[1];
     }
     if (match2) {
       return match1?.[1] || match2?.[1];
@@ -385,7 +390,6 @@ exports.addFactsheet = catchAsync(async (req, res) => {
       updatedCount: updatedEntries.length,
       data: updatedEntries,
     });
-
   } catch (error) {
     console.error("Error updating factsheets:", error);
     return res.status(500).json({
@@ -406,15 +410,17 @@ exports.addEmail = catchAsync(async (req, res) => {
     }
     const updatePromises = data.map(async (entry) => {
       // Skip if factsheet starts with "https://www.itftennis.com"
-      if (entry.factsheet &&
-        ( entry.factsheet.startsWith("https://www.itftennis.com") || 
-          entry.factsheet.startsWith("https://www.atptour.com") || 
-          entry.factsheet.startsWith("https://www.atf.hitcourt.com")
-        )
-        ) {
-         return null;
+      if (
+        entry.factsheet &&
+        (entry.factsheet.startsWith("https://www.itftennis.com") ||
+          entry.factsheet.startsWith("https://www.atptour.com") ||
+          entry.factsheet.startsWith("https://www.atf.hitcourt.com"))
+      ) {
+        return null;
       }
-      const factsheetValue = await calendarPdfService.processPdf(entry.factsheet);
+      const factsheetValue = await calendarPdfService.processPdf(
+        entry.factsheet
+      );
       return Emails.findByIdAndUpdate(
         entry._id,
         { email: factsheetValue?.basic?.EMAIL_ID || "" },
@@ -439,7 +445,7 @@ exports.addEmail = catchAsync(async (req, res) => {
 
 exports.getEmail = catchAsync(async (req, res) => {
   try {
-    const data = await Emails.find({ type:"AITA" }).select("-_id -__v");
+    const data = await Emails.find({ type: "AITA" }).select("-_id -__v");
     if (!data || data.length === 0) {
       return res.status(200).json({
         status: false,
@@ -470,7 +476,7 @@ exports.saveITFCalendar = catchAsync(async (req, res) => {
       startDate: {
         $gte: today,
         $lte: oneMonthFromToday,
-      }
+      },
     }).sort({ startDate: 1 });
 
     if (!data || data.length === 0) {
@@ -536,15 +542,11 @@ exports.itfAddEmail = catchAsync(async (req, res) => {
         });
 
         if (email) {
-          await Emails.updateOne(
-            { link: entry.link },
-            { $set: { email } }
-          );
+          await Emails.updateOne({ link: entry.link }, { $set: { email } });
           console.log(`Updated email for ${entry.name}: ${email}`);
         } else {
           console.log(`No email found for ${entry.name}`);
         }
-
       } catch (err) {
         console.error(`Error processing ${entry.name}: ${err.message}`);
       }
@@ -567,17 +569,155 @@ exports.itfAddEmail = catchAsync(async (req, res) => {
 
 exports.itfGetEmail = catchAsync(async (req, res) => {
   try {
-    const data = await Emails.find({ type:"ITF" }).select("-_id -__v");
+    const data = await Emails.find({ type: "ITF" }).select("-_id -__v");
     if (!data || data.length === 0) {
       return res.status(200).json({
         status: false,
         message: "No data found",
       });
     }
-    
-    const updatedData = data.map(item => ({
+
+    const updatedData = data.map((item) => ({
       ...item.toObject(),
-      link: `https://www.itftennis.com${item.link}`
+      link: `https://www.itftennis.com${item.link}`,
+    }));
+
+    return res.status(200).json({
+      status: true,
+      message: "Data retrieved successfully",
+      data: updatedData,
+    });
+  } catch (error) {
+    console.error("Error updating factsheets:", error);
+    return res.status(500).json({
+      status: false,
+      message: "Internal Server Error",
+    });
+  }
+});
+
+exports.saveATPCalendar = catchAsync(async (req, res) => {
+  try {
+    const url = "https://www.atptour.com/en/-/tournaments/calendar/tour";
+
+    const browser = await puppeteerExtra.launch({
+      headless: true,
+      args: ['--no-sandbox', '--disable-setuid-sandbox'],
+    });
+
+    const page = await browser.newPage();
+
+    await page.setUserAgent('PostmanRuntime/7.44.0');
+    await page.setExtraHTTPHeaders({
+      'Cache-Control': 'no-cache',
+      'Accept': '*/*',
+      'Accept-Encoding': 'gzip, deflate, br',
+      'Connection': 'keep-alive',
+    });
+
+    await page.setCookie({
+      name: '__cf_bm',
+      value: '<your_cookie_value>',
+      domain: '.atptour.com',
+      path: '/',
+      httpOnly: true,
+      secure: true,
+    });
+
+    await page.goto(url, {
+      waitUntil: 'networkidle0',
+      timeout: 90000,
+    });
+
+    const html = await page.content();
+    await browser.close();
+
+    const match = html.match(/<pre[^>]*>(.*?)<\/pre>/s);
+    if (!match || !match[1]) {
+      throw new Error("JSON not found in <pre> tag");
+    }
+
+    const jsonData = JSON.parse(match[1]);
+    const events = jsonData?.TournamentDates || [];
+    // console.log("Sample event:", events[0]);
+
+    await AtpEmails.deleteMany({}); // caution: this deletes all
+
+    // Insert each event
+   const formatted = [];
+
+  events.forEach(event => {
+    if (Array.isArray(event.Tournaments)) {
+      event.Tournaments.forEach(t => {
+        formatted.push({
+          tournamentId: t.Id,
+          name: t.Name,
+          location: t.Location,
+          formattedDate: t.FormattedDate,
+          isLive: t.IsLive,
+          isPastEvent: t.IsPastEvent,
+          scoresUrl: t.ScoresUrl,
+          drawsUrl: t.DrawsUrl,
+          tournamentSiteUrl: t.TournamentSiteUrl,
+          scheduleUrl: t.ScheduleUrl,
+          type: t.Type,
+          singlesDrawPrintUrl: t.SinglesDrawPrintUrl,
+          doublesDrawPrintUrl: t.DoublesDrawPrintUrl,
+          qualySinglesDrawPrintUrl: t.QualySinglesDrawPrintUrl,
+          schedulePrintUrl: t.SchedulePrintUrl,
+          countryFlagUrl: t.CountryFlagUrl,
+          badgeUrl: t.BadgeUrl,
+          tournamentOverviewUrl: t.TournamentOverviewUrl,
+          ticketHotline: t.TicketHotline || null,
+          ticketsUrl: t.TicketsUrl,
+          ticketsPackageUrl: t.TicketsPackageUrl || null,
+          phoneNumber: t.PhoneNumber || "",
+          email: t.Email || null,
+          eventTypeDetail: t.EventTypeDetail,
+          totalFinancialCommitment: t.TotalFinancialCommitment,
+          prizeMoneyDetails: t.PrizeMoneyDetails,
+          surface: t.Surface,
+          indoorOutdoor: t.IndoorOutdoor,
+          sglDrawSize: t.SglDrawSize,
+          dblDrawSize: t.DblDrawSize,
+          eventType: t.EventType,
+          challengerCategory: t.ChallengerCategory || null,
+        });
+      });
+    }
+  });
+
+    await AtpEmails.insertMany(formatted);
+
+    return res.status(200).json({
+      status: true,
+      message: "ATP calendar data saved successfully.",
+      data: formatted,
+    });
+  } catch (error) {
+    console.error("Error saving ATP calendar:", error);
+    return res.status(500).json({
+      status: false,
+      message: "Internal Server Error",
+    });
+  }
+});
+
+exports.ATPGetEmail = catchAsync(async (req, res) => {
+  try {
+    const data = await AtpEmails.find()
+    .select("tournamentId name location formattedDate tournamentSiteUrl scheduleUrl tournamentOverviewUrl phoneNumber email prizeMoneyDetails surface eventType -_id");
+
+    if (!data || data.length === 0) {
+      return res.status(200).json({
+        status: false,
+        message: "No data found",
+      });
+    }
+    const updatedData = data.map((item) => ({
+      ...item.toObject(),
+      scheduleUrl: `https://www.atptour.com${item.scheduleUrl}`,
+      tournamentOverviewUrl: `https://www.atptour.com${item.tournamentOverviewUrl}`,
     }));
 
     return res.status(200).json({

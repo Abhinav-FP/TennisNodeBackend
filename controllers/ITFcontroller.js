@@ -14,39 +14,6 @@ const keyMappings = {
   WHEELCHAIR: "WCT",
 };
 
-async function fetchEmailFromPage(url) {
-  const headers = {
-    Cookie:
-      "_ga=GA1.1.496155385.1746695660; _ga_FNL59NFQ13=GS2.1.s1746695660$o1$g0$t1746695660$j0$l0$h0; ASP.NET_SessionId=j3sunkabn2qlmhai4f3rha2f; st=l=2057&exp=46150.4682780903&c=1&cp=19",
-    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)", // optional but helps avoid blocks
-  };
-
-  try {
-    const response = await axios.get(url, { headers });
-    const html = response.data;
-
-    const $ = cheerio.load(html);
-
-     // Find <a href^="mailto:"> that contains a <span class="nav-link__value"> and text (not empty)
-     const emailElement = $('a[href^="mailto:"] span.nav-link__value')
-     .filter((i, el) => $(el).text().trim().length > 0)
-     .first();
-
-   const email = emailElement.text().trim();
-
-   if (email) {
-    //  console.log('Found email:', email);
-     return email;
-   } else {
-     console.log('Targeted email not found.');
-     return null;
-   }
-  } catch (error) {
-    console.error("Error fetching or parsing the page:", error.message);
-    return null;
-  }
-}
-
 exports.RanksSave = catchAsync(async (req, res, next) => {
   try {
     const circuit = req?.body?.category?.toUpperCase();
@@ -278,7 +245,10 @@ exports.CalendarSave = catchAsync(async (req, res, next) => {
         message: "Invalid category",
       });
     }
-    const browser = await puppeteer.launch({ headless: "new" });
+    const browser = await puppeteer.launch({
+      headless: "new",
+      args: ["--no-sandbox", "--disable-setuid-sandbox"],
+    });
     const page = await browser.newPage();
 
     await page.goto(
@@ -288,13 +258,13 @@ exports.CalendarSave = catchAsync(async (req, res, next) => {
 
     let data = await page.evaluate(() => document.body.innerText);
     data = JSON.parse(data);
-    console.log("totalItems", data?.totalItems);
+    // console.log("totalItems", data?.totalItems);
     let totalItems = data?.totalItems || 0;
     if (totalItems > 250) {
       let totalpages = Math.ceil(totalItems / 250);
       for (let i = 1; i < totalpages; i++) {
         let skip = 250 * i;
-        console.log("skip", skip);
+        // console.log("skip", skip);
         await page.goto(
           `https://www.itftennis.com/tennis/api/TournamentApi/GetCalendar?circuitCode=${keyMappings[circuit]}&searchString=&skip=${skip}&take=250&nationCodes=&zoneCodes=&dateFrom=2025-01-01&dateTo=2025-12-31&indoorOutdoor=&categories=&isOrderAscending=true&orderField=startDate&surfaceCodes=`,
           { waitUntil: "networkidle2", timeout: 90000 }
@@ -304,6 +274,7 @@ exports.CalendarSave = catchAsync(async (req, res, next) => {
         data.items = [...data.items, ...data1.items];
       }
     }
+
     await browser.close();
 
     if (!data?.items || !Array.isArray(data.items)) {
@@ -311,25 +282,31 @@ exports.CalendarSave = catchAsync(async (req, res, next) => {
         .status(400)
         .json({ status: false, message: "Invalid data structure" });
     }
-    const bulkOps = data.items.map((player) => {
-      return {
-        updateOne: {
-          filter: {
-            tournamentKey: player.tournamentKey,
-          },
-          update: { $setOnInsert: player },
-          upsert: true, // Insert if not found, ignore if already exists
-        },
-      };
-    });
-
-    const response = await Calendar.bulkWrite(bulkOps);
-
     return res.status(200).json({
       status: true,
-      message: "Data Stored Successfully",
-      insertedCount: response.upsertedCount,
+      message: "Calendar fetched successfully",
+      totalItems: data.items.length,
+      items: data.items,
     });
+    // const bulkOps = data.items.map((player) => {
+    //   return {
+    //     updateOne: {
+    //       filter: {
+    //         tournamentKey: player.tournamentKey,
+    //       },
+    //       update: { $setOnInsert: player },
+    //       upsert: true, // Insert if not found, ignore if already exists
+    //     },
+    //   };
+    // });
+
+    // const response = await Calendar.bulkWrite(bulkOps);
+
+    // return res.status(200).json({
+    //   status: true,
+    //   message: "Data Stored Successfully",
+    //   insertedCount: response.upsertedCount,
+    // });
   } catch (error) {
     return res.status(500).json({
       status: false,
