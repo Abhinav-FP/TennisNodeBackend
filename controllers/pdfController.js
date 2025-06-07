@@ -222,6 +222,9 @@ exports.automaticPdfExtraction = async (req, res) => {
         let validIncrease = await isValidUrl(url);
       }
     }
+    if(category == "W" && sub_category == "S"){
+      url = `https://aitatennis.com/management/upload/ranking/52025-06-25_${category}${link_subcategory}.pdf`;
+    }
     logger.info(`Received request to process PDF from URL: ${url}`);
     const result = await pdfService.processPdf(url, sub_category, category);
     res.status(200).json({
