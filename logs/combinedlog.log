@@ -169,3 +169,23 @@
 {"level":"info","message":"Code Started","timestamp":"2025-05-27T05:33:36.313Z"}
 {"level":"info","message":"Code Started","timestamp":"2025-05-27T05:33:59.599Z"}
 {"level":"info","message":"Code Started","timestamp":"2025-05-27T05:35:22.177Z"}
+{"level":"info","message":"Code Started","timestamp":"2025-05-27T12:30:24.155Z"}
+{"level":"info","message":"Code Started","timestamp":"2025-06-07T05:57:44.860Z"}
+{"level":"info","message":"Code Started","timestamp":"2025-06-07T05:58:05.938Z"}
+{"level":"info","message":"Code Started","timestamp":"2025-06-07T05:58:21.383Z"}
+{"level":"info","message":"Code Started","timestamp":"2025-06-07T06:03:29.224Z"}
+{"level":"info","message":"Code Started","timestamp":"2025-06-07T06:03:36.663Z"}
+{"level":"info","message":"Code Started","timestamp":"2025-06-07T06:10:14.768Z"}
+{"level":"info","message":"Code Started","timestamp":"2025-06-07T06:30:45.194Z"}
+{"level":"info","message":"Received request to process PDF from URL: https://aitatennis.com/management/upload/ranking/2025-05-25_GU-16.pdf","timestamp":"2025-06-07T06:31:07.009Z"}
+{"level":"info","message":"Finished processing PDF","timestamp":"2025-06-07T06:31:09.807Z"}
+{"level":"info","message":"Code Started","timestamp":"2025-06-07T06:31:21.008Z"}
+{"level":"info","message":"Received request to process PDF from URL: https://aitatennis.com/management/upload/ranking/[object Promise]_GU-16.pdf","timestamp":"2025-06-07T06:31:34.592Z"}
+{"level":"error","message":"Request failed: Ranks not Available","timestamp":"2025-06-07T06:31:34.935Z"}
+{"level":"info","message":"Code Started","timestamp":"2025-06-07T06:32:00.619Z"}
+{"level":"info","message":"Received request to process PDF from URL: https://aitatennis.com/management/upload/ranking/2025-05-25_GU-16.pdf","timestamp":"2025-06-07T06:32:04.705Z"}
+{"level":"info","message":"Finished processing PDF","timestamp":"2025-06-07T06:32:06.866Z"}
+{"level":"info","message":"Received request to process PDF from URL: https://aitatennis.com/management/upload/ranking/2025-05-25_GU-14.pdf","timestamp":"2025-06-07T06:33:38.307Z"}
+{"level":"info","message":"Finished processing PDF","timestamp":"2025-06-07T06:33:40.196Z"}
+{"level":"info","message":"Received request to process PDF from URL: https://aitatennis.com/management/upload/ranking/2025-05-26_BU-14.pdf","timestamp":"2025-06-07T06:35:23.862Z"}
+{"level":"info","message":"Finished processing PDF","timestamp":"2025-06-07T06:35:26.411Z"}

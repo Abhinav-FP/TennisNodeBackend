@@ -4,6 +4,35 @@ const logger = require("../utils/logger");
 const fs = require("fs").promises;
 const Key = require("../db/key");
 
+const isValidUrl = async (url) => {
+  try {
+    const response = await axios.head(url);
+    return response.status === 200;
+  } catch (err) {
+    // console.log("err",err)
+    return false;
+  }
+};
+
+const shiftDate = async(dateStr, direction = "increase") => {
+  const date = new Date(dateStr);
+  
+  if (direction === "increase") {
+    date.setDate(date.getDate() + 1);
+  } else if (direction === "decrease") {
+    date.setDate(date.getDate() - 1);
+  } else {
+    throw new Error("Invalid direction. Use 'increase' or 'decrease'.");
+  }
+
+  // Format back to YYYY-MM-DD
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+
+  return `${year}-${month}-${day}`;
+}
+
 exports.extractPdfToJson = async (req, res) => {
   try {
     const { url, sub_category, category } = req.body;
@@ -161,7 +190,7 @@ const result = jsonObject[type];
 
 exports.automaticPdfExtraction = async (req, res) => {
   try {
-    console.log("API Key:", req.headers["tk-api-key"]);
+    // console.log("API Key:", req.headers["tk-api-key"]);
     const apikey= req.headers["tk-api-key"];
     const data=await Key.findOne({});
     if(apikey!=data?.value)
@@ -178,7 +207,21 @@ exports.automaticPdfExtraction = async (req, res) => {
       .json({ status: "false", message: "All fields are required!" });
     }
     const link_subcategory=sub_category.toUpperCase().replace("_","-");
-    const url = `https://aitatennis.com/management/upload/ranking/${date}_${category}${link_subcategory}.pdf`;
+    let url = `https://aitatennis.com/management/upload/ranking/${date}_${category}${link_subcategory}.pdf`;
+    let valid = await isValidUrl(url);
+    // If 1st url is false
+    if(!valid){
+      let dateDecrease=await shiftDate(date,"decrease");
+      console.log("dateDecrease",dateDecrease);
+      url = `https://aitatennis.com/management/upload/ranking/${dateDecrease}_${category}${link_subcategory}.pdf`;
+      let validDecrease = await isValidUrl(url);
+      if(!validDecrease){
+        let dateIncrease=await shiftDate(date,"increase");
+        console.log("dateIncrease",dateIncrease);
+        url = `https://aitatennis.com/management/upload/ranking/${dateIncrease}_${category}${link_subcategory}.pdf`;
+        let validIncrease = await isValidUrl(url);
+      }
+    }
     logger.info(`Received request to process PDF from URL: ${url}`);
     const result = await pdfService.processPdf(url, sub_category, category);
     res.status(200).json({
