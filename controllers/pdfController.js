@@ -219,10 +219,9 @@ exports.automaticPdfExtraction = async (req, res) => {
         let dateIncrease=await shiftDate(date,"increase");
         console.log("dateIncrease",dateIncrease);
         url = `https://aitatennis.com/management/upload/ranking/${dateIncrease}_${category}${link_subcategory}.pdf`;
-        let validIncrease = await isValidUrl(url);
       }
     }
-    if(category == "W" && sub_category == "S" && date == "2025-05-26"){
+    if(category.toUpperCase() == "W" && sub_category.toUpperCase() == "S" && date == "2025-05-26"){
       url = `https://aitatennis.com/management/upload/ranking/52025-06-25_${category}${link_subcategory}.pdf`;
     }
     logger.info(`Received request to process PDF from URL: ${url}`);
