@@ -433,6 +433,30 @@ exports.extractcalendarData = async (req, res) => {
   }
 };
 
+const transformRanks = (data) => {
+  const rankRegex = /^RANK AS ON (\d{2}-\d{2}-\d{4})$/;
+
+  for (const drawType in data) {
+    data[drawType] = data[drawType].map((entry) => {
+      const newEntry = { ...entry };
+
+      for (const key in newEntry) {
+        const match = key.match(rankRegex);
+        if (match) {
+          const date = match[1];
+          newEntry["RANK"] = newEntry[key];
+          newEntry["RANK_AS_ON"] = date;
+          delete newEntry[key];
+        }
+      }
+
+      return newEntry;
+    });
+  }
+
+  return data;
+};
+
 exports.getAcceptanceList = async (req, res) => {
   try {
     const {link} = req.body;
@@ -483,10 +507,11 @@ exports.getAcceptanceList = async (req, res) => {
       // Add the parsed table to the result using table name as key
       result[tableName] = tableData;
     });
+    const updatedResult = transformRanks(result);
     return  res.status(200).json({
       status: true,
       message: "Extracting data success!",
-      data: result, // Include the extracted data in the response
+      data: updatedResult,
     });
   } catch (err) {
     // Log the error and send the error response
