@@ -1,5 +1,5 @@
 const express = require("express");
-const { saveData, addFactsheet, addEmail, getEmail, saveITFCalendar, itfAddEmail, itfGetEmail, saveATPCalendar, ATPGetEmail } = require("../controllers/emailController");
+const { saveData, addFactsheet, addEmail, getEmail, saveITFCalendar, itfAddEmail, itfGetEmail, saveATPCalendar, ATPGetEmail, saveBNIData } = require("../controllers/emailController");
 
 const router = express.Router();
 // Hit the AITA routes in this order-
