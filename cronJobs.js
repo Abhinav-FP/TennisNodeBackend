@@ -1,7 +1,6 @@
 const axios = require("axios");
 const cron = require("node-cron");
 const logger = require("./utils/logger");
-const { RanksSave } = require('./controllers/ITFcontroller');
 
 function getQueryParams(url) {
   const params = {};
@@ -138,52 +137,92 @@ const urls = [
   "https://control.tenniskhelo.com/api/upload-itf-rank-manually?category=WHEELCHAIR&gender=G&match_type=S",
 ];
 
-let currentIndex = 0;
-let pauseUntil = null;
+// let currentIndex = 0;
+// let pauseUntil = null;
 
-// cron.schedule('*/30 * * * * *', async () => {
-cron.schedule('*/5 * * * *', async () => {
-  const now = Date.now();
+// // cron.schedule('*/30 * * * * *', async () => {
+// cron.schedule('*/5 * * * *', async () => {
+//   const now = Date.now();
 
-  if (pauseUntil && now < pauseUntil) {
-    const remainingMinutes = Math.ceil((pauseUntil - now) / 60000);
-    console.log(`Paused. Skipping execution. Resumes in ${remainingMinutes} min.`);
-    return;
-  }
+//   if (pauseUntil && now < pauseUntil) {
+//     const remainingMinutes = Math.ceil((pauseUntil - now) / 60000);
+//     console.log(`Paused. Skipping execution. Resumes in ${remainingMinutes} min.`);
+//     return;
+//   }
 
-  const urlToHit = urls[currentIndex];
-  console.log(`Hitting URL #${currentIndex + 1}: ${urlToHit}`);
+//   const urlToHit = urls[currentIndex];
+//   console.log(`Hitting URL #${currentIndex + 1}: ${urlToHit}`);
 
-  try {
-    const queryParams = getQueryParams(urlToHit);
-    // console.log(queryParams);
-    const data = await axios.post('https://aita.tenniskhelo.com/ITF/save-ranks', {
-        'category' :  queryParams?.category,
-        'TournamentType' : queryParams?.tournament_type,
-        'Gender' :  queryParams?.gender,
-        'MatchType' : queryParams?.match_type,
-        'Age' : queryParams?.age,
-    });
-    // console.log(data?.data);
-    const response = await axios.post(urlToHit, data?.data);
-    // console.log("response",response?.data);
-    logger.info(`Successfully hit URL #${currentIndex + 1}`);
-  } catch (err) {
-    logger.error(`Error hitting URL #${currentIndex + 1}: ${err.message}`);
-    // console.log("err",err);
-    console.log(`Error hitting URL #${currentIndex + 1}: ${err.message}`);
-  } finally {
-    currentIndex++;
-      if ((currentIndex + 1) % urls.length === 0){
-      pauseUntil = Date.now() + 12 * 60 * 60 * 1000; 
-      currentIndex = 0;
-      console.log(`All URLs processed. Pausing for 6 hours.`);
-    } else {
-      console.log(`Updating the index now to ${currentIndex}`);
+//   try {
+//     const queryParams = getQueryParams(urlToHit);
+//     // console.log(queryParams);
+//     const data = await axios.post('https://aita.tenniskhelo.com/ITF/save-ranks', {
+//         'category' :  queryParams?.category,
+//         'TournamentType' : queryParams?.tournament_type,
+//         'Gender' :  queryParams?.gender,
+//         'MatchType' : queryParams?.match_type,
+//         'Age' : queryParams?.age,
+//     });
+//     // console.log(data?.data);
+//     const response = await axios.post(urlToHit, data?.data);
+//     // console.log("response",response?.data);
+//     logger.info(`Successfully hit URL #${currentIndex + 1}`);
+//   } catch (err) {
+//     logger.error(`Error hitting URL #${currentIndex + 1}: ${err.message}`);
+//     // console.log("err",err);
+//     console.log(`Error hitting URL #${currentIndex + 1}: ${err.message}`);
+//   } finally {
+//     currentIndex++;
+//       if ((currentIndex + 1) % urls.length === 0){
+//       pauseUntil = Date.now() + 12 * 60 * 60 * 1000; 
+//       currentIndex = 0;
+//       console.log(`All URLs processed. Pausing for 6 hours.`);
+//     } else {
+//       console.log(`Updating the index now to ${currentIndex}`);
+//     }
+//   }
+// });
+
+// Run every day at midnight (00:00)
+cron.schedule('0 0 * * *', () => {
+//   console.log(`[${new Date().toLocaleString()}] Starting ITF rank update process`);
+  logger.info(`[${new Date().toLocaleString()}] Starting ITF rank update process`);
+
+  let currentIndex = 0;
+
+  const interval = setInterval(async () => {
+    if (currentIndex >= urls.length) {
+      clearInterval(interval);
+      logger.info(`[${new Date().toLocaleString()}] All URLs processed. Interval stopped.`);
+      return;
     }
-  }
-});
 
+    const urlToHit = urls[currentIndex];
+    logger.info(`[${new Date().toLocaleString()}] Hitting URL #${currentIndex + 1}: ${urlToHit}`);
+    // console.log(`[${new Date().toLocaleString()}] Hitting URL #${currentIndex + 1}: ${urlToHit}`);
+
+    try {
+      const queryParams = getQueryParams(urlToHit);
+
+      const data = await axios.post('https://aita.tenniskhelo.com/ITF/save-ranks', {
+        'category': queryParams?.category,
+        'TournamentType': queryParams?.tournament_type,
+        'Gender': queryParams?.gender,
+        'MatchType': queryParams?.match_type,
+        'Age': queryParams?.age,
+      });
+
+      await axios.post(urlToHit, data?.data);
+      logger.info(`Successfully hit URL #${currentIndex + 1}`);
+    //   console.log(`Successfully hit URL #${currentIndex + 1}`);
+    } catch (err) {
+      logger.error(`Error hitting URL #${currentIndex + 1}: ${err.message}`);
+    //   console.log(`Error hitting URL #${currentIndex + 1}: ${err.message}`);
+    } finally {
+      currentIndex++;
+    }
+  }, 5 * 60 * 1000); // 5 minutes in ms
+});
 
 // Acceptance list api
 const tournamentList = [
