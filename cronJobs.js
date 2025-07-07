@@ -1,6 +1,35 @@
 const axios = require("axios");
 const cron = require("node-cron");
 const logger = require("./utils/logger");
+const nodemailer = require('nodemailer');
+
+const transporter = nodemailer.createTransport({
+  host: process.env.MAIL_HOST,
+  port: parseInt(process.env.MAIL_PORT),
+  secure: process.env.MAIL_ENCRYPTION === 'ssl', // true for 465
+  auth: {
+    user: process.env.MAIL_USERNAME,
+    pass: process.env.MAIL_PASSWORD,
+  },
+});
+
+const sendMail = async (subject, text) => {
+  try {
+    await transporter.sendMail({
+      from: `"${process.env.MAIL_FROM_NAME}" <${process.env.MAIL_FROM_ADDRESS}>`,
+       to: "a.mathur@internetbusinesssolutionsindia.com, naveen@internetbusinesssolutionsindia.com",
+      subject,
+      text,
+    });
+    console.log("Email sent successful");
+    logger.info("Email sent successful");
+  } catch (error) {
+    console.log('Failed to send email:', error);
+    logger.error('Failed to send email:', error);
+  }
+};
+
+
 
 function getQueryParams(url) {
   const params = {};
@@ -184,9 +213,19 @@ const urls = [
 // });
 
 // Run every day at midnight (00:00)
-cron.schedule('0 0 * * *', () => {
-//   console.log(`[${new Date().toLocaleString()}] Starting ITF rank update process`);
+// cron.schedule('0 0 * * *', async() => {
+ cron.schedule('27 11 * * *', async () => {
   logger.info(`[${new Date().toLocaleString()}] Starting ITF rank update process`);
+//   console.log(`[${new Date().toLocaleString()}] Starting ITF rank update process`);
+  try{
+      await sendMail(
+          'ITF Rank Update Job Started',
+          `The ITF rank update cron job started.`
+        );
+    }catch(error){
+        console.log("Error in sending email: ", error);
+        logger.error("Error in sending email: ", error);
+    }
 
   let currentIndex = 0;
 
