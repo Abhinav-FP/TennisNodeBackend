@@ -105,6 +105,6 @@ app.listen(port, () => {
   console.log(`Server listening at http://localhost:${port}`);
 });
 
-require('./cronJobs')();
+require('./cronJobs');
 
 module.exports = app;

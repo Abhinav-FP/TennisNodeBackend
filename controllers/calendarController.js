@@ -290,7 +290,7 @@ function countTextOccurrences(textEntries) {
 exports.getData = async (req, res) => {
   try {
     // Get the calendar data
-    const currentYear = new Date()?.getFullYear();
+    const currentYear = req.query.year || new Date()?.getFullYear();
     const data = await getCalendarData(currentYear);
 
     // Send the response with the extracted data
