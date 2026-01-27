@@ -25,7 +25,7 @@ function mergeWeeks(data) {
       "Dec",
     ];
     const monthIndex = monthNames.indexOf(month.trim()) + 1;
-    const year = "2025"; // Assuming all are from 2025 as per the example.
+    const year = "2026"; // Assuming all are from 2026 as per the example.
     return `${monthIndex.toString().padStart(2, "0")}-${day.padStart(
       2,
       "0"
